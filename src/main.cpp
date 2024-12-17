@@ -1,62 +1,44 @@
-#include <iostream>
-#include <random>
-#include <SFML/Graphics.hpp>
+#include "imgui.h"
+#include "imgui-SFML.h"
 
-int main()
-{
-    auto window = sf::RenderWindow({1920u, 1080u}, "Boid-Simulation");
-    window.setFramerateLimit(144);
-    sf::CircleShape boid(80.f, 3);
-    boid.setFillColor(sf::Color(100, 250, 50));
-    boid.setScale(0.5f, 0.5f);
-    boid.setPosition(200.f, 200.f);
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
 
-    sf::Clock clock;
-    sf::Time lastDirChange{ sf::Time::Zero };
-    const float UPDATE_INTERVAL = 0.50;
+int main() {
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "ImGui + SFML = <3");
+    window.setFramerateLimit(60);
+    if(!ImGui::SFML::Init(window)) return -1;
 
-    int vx { 1 };
-    int vy { 1 };
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
 
-    while (window.isOpen())
-    {
-        sf::Time timeElapsed = clock.getElapsedTime();
-        // std::cout << timeElapsed.asSeconds() << std::endl;
-
-        if (timeElapsed.asSeconds() - lastDirChange.asSeconds() > 2.0) {
-            // obtain a random number from hardware
-            std::random_device rd; 
-            // seed the generator
-            std::mt19937 gen(rd()); 
-            // define the range inclusivle
-            std::uniform_int_distribution<> distr(-1, 1); 
-
-            // random value between -1 and 1 as movement offset
-            vx = distr(gen);
-            vy = distr(gen);
-
-            std::cout << vx << std::endl;
-            std::cout << vy << std::endl;
-
-            lastDirChange = timeElapsed;
-        }
-
-        boid.move(vx *  UPDATE_INTERVAL, vy *  UPDATE_INTERVAL);
-        sf::Vector2f position = boid.getPosition();
-        // std::cout << position.x << std::endl;
-        // std::cout << position.y << std::endl;
-
-
-        for (auto event = sf::Event(); window.pollEvent(event);)
+    sf::Clock deltaClock;
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event))
         {
+            ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed)
             {
                 window.close();
             }
         }
 
+        ImGui::SFML::Update(window, deltaClock.restart());
+
+        ImGui::ShowDemoWindow();
+
+        ImGui::Begin("Hello, world!");
+        ImGui::Button("Look at this pretty button");
+        ImGui::End();
+
         window.clear();
-        window.draw(boid);
+        window.draw(shape);
+        ImGui::SFML::Render(window);
         window.display();
     }
+
+    ImGui::SFML::Shutdown();
 }
