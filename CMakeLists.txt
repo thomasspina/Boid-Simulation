@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.31)
 project(Boid-Simulation LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -11,11 +11,30 @@ FetchContent_Declare(SFML
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM)
-FetchContent_MakeAvailable(SFML)
+FetchContent_Declare(imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG master
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+
+FetchContent_MakeAvailable(SFML imgui)
+set(IMGUI_DIR ${imgui_SOURCE_DIR})
+set(IMGUI_SFML_FIND_SFML OFF)
+
+
+FetchContent_Declare(ImGui-SFML
+    GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
+    GIT_TAG 2.6.x
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(ImGui-SFML)
+
 
 add_executable(Boid-Simulation src/main.cpp)
-target_link_libraries(Boid-Simulation PRIVATE sfml-graphics)
-target_compile_features(Boid-Simulation PRIVATE cxx_std_17)
+target_link_libraries(Boid-Simulation PRIVATE ImGui-SFML::ImGui-SFML)
+target_compile_features(Boid-Simulation PRIVATE cxx_std_23)
 
 if(WIN32)
     add_custom_command(
