@@ -11,6 +11,6 @@ private:
 public:
     Boid();
 
-    void update(sf::Time deltaTime);
+    void update(const sf::Time& deltaTime);
     void setVelocity(const sf::Vector2f& velocity);
 };
