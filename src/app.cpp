@@ -45,7 +45,6 @@ int App::run() {
         // render boids
         for (auto boid : *boids.getBoids()) {
             window.draw(*boid);
-            std::cout << boid->getPosition().x << ", " << boid->getPosition().y << std::endl;
         }
 
         ImGui::SFML::Render(window);
