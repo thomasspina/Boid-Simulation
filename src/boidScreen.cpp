@@ -17,8 +17,8 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 
     // set random boid velocity
     for(auto boid : *boids) {
-        // TODO: change the 10.f speed to a var
-        //boid->setVelocity(vec2::vecFromDegree(rand() % 360) * 10.f);
+        // TODO: change the 100.f speed to a speed constant
+        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * 500.f);
     }
 
     // set random boid position
@@ -30,5 +30,25 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 void BoidScreen::update(const sf::Time& dt) {
     for(auto boid : *boids) {
         boid->update(dt);
+
+        // wrap boid around screen
+        if(boid->getPosition().x < 0) {
+            boid->setPosition(windowPointer->getSize().x, boid->getPosition().y);
+        } else if(boid->getPosition().x > windowPointer->getSize().x) {
+            boid->setPosition(0, boid->getPosition().y);
+        }
+
+        if(boid->getPosition().y < 0) {
+            boid->setPosition(boid->getPosition().x, windowPointer->getSize().y);
+        } else if(boid->getPosition().y > windowPointer->getSize().y) {
+            boid->setPosition(boid->getPosition().x, 0);
+        }
     }
+}
+
+BoidScreen::~BoidScreen() {
+    for(auto boid : *boids) {
+        delete boid;
+    }
+    delete boids;
 }

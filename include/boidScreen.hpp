@@ -13,6 +13,7 @@ private:
 
 public:
     BoidScreen(sf::RenderWindow* windowPointer);
+    ~BoidScreen();
     void update(const sf::Time& dt);
 
     const std::vector<Boid*>* const getBoids() const { return boids; }
