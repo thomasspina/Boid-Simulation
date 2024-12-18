@@ -2,8 +2,9 @@
 
 #include "boid.hpp"
 #include "constants.hpp"
+#include "utils.hpp"
 
-BoidScreen::BoidScreen() {
+BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
     // seed random number generator
     srand(time(0));
 
@@ -16,12 +17,13 @@ BoidScreen::BoidScreen() {
 
     // set random boid velocity
     for(auto boid : *boids) {
-        boid->setVelocity({static_cast<float>((rand() % 200) - 100), static_cast<float>((rand() % 200) - 100)});
+        // TODO: change the 10.f speed to a var
+        //boid->setVelocity(vec2::vecFromDegree(rand() % 360) * 10.f);
     }
 
     // set random boid position
     for(auto boid : *boids) {
-        boid->setPosition({static_cast<float>(rand() % SCREEN_WIDTH + 1), static_cast<float>(rand() % SCREEN_HEIGHT + 1)});
+        boid->setPosition(rand() % windowPointer->getSize().x, rand() % windowPointer->getSize().y);
     }
 }
 

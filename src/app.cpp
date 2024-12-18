@@ -19,7 +19,7 @@ int App::run() {
     if(!ImGui::SFML::Init(window)) return -1;
 
     // Initialize boid screen where all boids will be rendered
-    BoidScreen boids = BoidScreen();
+    BoidScreen boids = BoidScreen(&window);
 
     sf::Clock dtC;
 
@@ -46,6 +46,8 @@ int App::run() {
         for (auto boid : *boids.getBoids()) {
             window.draw(*boid);
         }
+
+
 
         ImGui::SFML::Render(window);
         window.display();

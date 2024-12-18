@@ -1,14 +1,14 @@
 #pragma once
-#include <math.h>
+
 #include <SFML/Graphics.hpp>
 
 
 namespace vec2 {
-    float angleRadians(const sf::Vector2f& vec) {
-        return atan2(vec.y, -vec.x);
-    }
+    float angleRadians(const sf::Vector2f& vec);
 
-    float angleDegrees(const sf::Vector2f& vec) {
-        return angleRadians(vec) * 180 / M_PI;
-    }
+    float angleDegrees(const sf::Vector2f& vec);
+
+    sf::Vector2f vecFromRadian(const float rads);
+
+    sf::Vector2f vecFromDegree(const float deg);
 }

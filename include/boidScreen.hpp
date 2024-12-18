@@ -1,14 +1,18 @@
 #pragma once
 
 #include <vector>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include "boid.hpp"
 
 class BoidScreen {
 private:
     std::vector<Boid*>* boids;
+
+    sf::RenderWindow* windowPointer;
+
 public:
-    BoidScreen();
+    BoidScreen(sf::RenderWindow* windowPointer);
     void update(const sf::Time& dt);
 
     const std::vector<Boid*>* const getBoids() const { return boids; }
