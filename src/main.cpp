@@ -6,16 +6,19 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include "boid.hpp"
+
 int main() {
-    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "ImGui + SFML = <3");
+    sf::RenderWindow window(sf::VideoMode({1920u, 1080u}), "Boids");
     window.setFramerateLimit(60);
     if(!ImGui::SFML::Init(window)) return -1;
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    auto boidPtr = std::make_unique<Boid>();
 
     sf::Clock deltaClock;
     while (window.isOpen()) {
+
+        // Handle UI events
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -26,16 +29,14 @@ int main() {
             }
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
+        boidPtr->update(deltaClock.getElapsedTime());
 
+        ImGui::SFML::Update(window, deltaClock.restart());
         ImGui::ShowDemoWindow();
 
-        ImGui::Begin("Hello, world!");
-        ImGui::Button("Look at this pretty button");
-        ImGui::End();
-
+        // update frame
         window.clear();
-        window.draw(shape);
+        window.draw(*(boidPtr.get()));
         ImGui::SFML::Render(window);
         window.display();
     }

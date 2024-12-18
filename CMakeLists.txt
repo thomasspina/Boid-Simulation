@@ -22,7 +22,6 @@ FetchContent_MakeAvailable(SFML imgui)
 set(IMGUI_DIR ${imgui_SOURCE_DIR})
 set(IMGUI_SFML_FIND_SFML OFF)
 
-
 FetchContent_Declare(ImGui-SFML
     GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
     GIT_TAG 2.6.x
@@ -31,9 +30,17 @@ FetchContent_Declare(ImGui-SFML
     SYSTEM)
 FetchContent_MakeAvailable(ImGui-SFML)
 
+file(GLOB HEADERS include/*.hpp)
+file(GLOB SOURCES src/*.cpp)
+add_executable(Boid-Simulation ${HEADERS} ${SOURCES})
 
-add_executable(Boid-Simulation src/main.cpp)
 target_link_libraries(Boid-Simulation PRIVATE ImGui-SFML::ImGui-SFML)
+target_include_directories(Boid-Simulation 
+    PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
 target_compile_features(Boid-Simulation PRIVATE cxx_std_23)
 
 if(WIN32)
