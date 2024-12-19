@@ -47,8 +47,6 @@ int App::run() {
             window.draw(*boid);
         }
 
-
-
         ImGui::SFML::Render(window);
         window.display();
     }

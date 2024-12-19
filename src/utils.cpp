@@ -3,7 +3,7 @@
 #include <math.h>
 
 float vec2::angleRadians(const sf::Vector2f& vec) {
-    return atan2(vec.y, -vec.x);
+    return atan2(vec.x, -vec.y);
 }
 
 float vec2::angleDegrees(const sf::Vector2f& vec) {
