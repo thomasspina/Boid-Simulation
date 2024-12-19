@@ -27,6 +27,13 @@ void Boid::setBoundPos(const float x, const float y) {
     this->boundary.setPosition(x, y);
 }
 
+void Boid::setIdNumber(int id) {
+    this->idNumber = id;
+}
+    
+int Boid::getIdNumber() {
+    return this->idNumber;
+}
 
 void Boid::update(const sf::Time& deltaTime) {
     auto newPos = velocity * deltaTime.asSeconds();
@@ -40,6 +47,6 @@ void Boid::setVelocity(const sf::Vector2f& velocity) {
 }
 
 // check whether a neighbor boid is within the current boid's boundary
-bool Boid::isWithinBoundary(sf::Vector2f& neighborVector) {
+bool Boid::isWithinBoundary(const sf::Vector2f& neighborVector) {
     return vec2::distanceBetweenPoints(this->getPosition(), neighborVector) <= BOID_DEFAULT_BOUNDARY_RADIUS;
 }

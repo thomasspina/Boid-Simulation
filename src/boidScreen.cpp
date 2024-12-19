@@ -3,7 +3,7 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
-#include <map>
+#include <iostream>
 
 BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
     // seed random number generator
@@ -13,7 +13,9 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 
     // create default number of boids
     for(int i = 0; i < DEFAULT_NUM_BOIDS; i++) {
-        boids->push_back(new Boid());
+        Boid* newBoid = new Boid();
+        newBoid->setIdNumber(i);
+        boids->push_back(newBoid);
     }
 
     // set random boid velocity
@@ -33,12 +35,18 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 }
 
 void BoidScreen::update(const sf::Time& dt) {
-    // std::map<
+    for (size_t i=0; i < boids->size(); i++) {
+        Boid* boid = (*boids)[i];
 
-    for(auto boid : *boids) {
+        // Temporary solution to test boundary TODO: Implement grid for spatial partition to improve performance
+        for (size_t j=i+1; j < boids->size(); j++) {
+            Boid* otherBoid = (*boids)[j];
+            if (boid->isWithinBoundary(otherBoid->getPosition())) {
+                std::cout << boid->getIdNumber() << " crossed " << otherBoid->getIdNumber() << "\n";
+            }
+        }
+
         boid->update(dt);
-
-        // for (auto )
 
         float xPos = boid->getPosition().x;
         float yPos = boid->getPosition().y;
