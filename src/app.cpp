@@ -15,7 +15,7 @@
 int App::run() {
     // Initialize window
     sf::RenderWindow window(sf::VideoMode({SCREEN_WIDTH, SCREEN_HEIGHT}), SCREEN_TITLE);
-    window.setFramerateLimit(SCREEN_FPS);
+    window.setFramerateLimit(SCREEN_FPS); 
     if(!ImGui::SFML::Init(window)) return -1;
 
     // Initialize boid screen where all boids will be rendered
@@ -25,22 +25,26 @@ int App::run() {
 
     // Main loop
     while (window.isOpen()) {
+        // retrieve current frame elapsed time
+        auto currDeltaTime = dtC.restart();
+
         // reset delta time clock
-        ImGui::SFML::Update(window, dtC.restart());
+        ImGui::SFML::Update(window, currDeltaTime);
+
         window.clear();
 
         sf::Event event;
         while (window.pollEvent(event)) {
-            ImGui::SFML::ProcessEvent(window, event);
+            // ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed) { 
                 window.close(); 
             }
         }
 
-        ImGui::ShowDemoWindow(); // TODO: remove demo window
+        // ImGui::ShowDemoWindow(); // TODO: remove demo window
 
         // update boids
-        boids.update(dtC.getElapsedTime());
+        boids.update(currDeltaTime);
 
         // render boids
         for (auto boid : *boids.getBoids()) {

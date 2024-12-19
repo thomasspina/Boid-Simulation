@@ -1,13 +1,13 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
+#include <iostream> // TODO remove
 
 Boid::Boid() : sf::CircleShape(BOID_DEFAULT_RADIUS, 3) {
     setFillColor(BOID_DEFAULT_COLOR);
 }
 
 void Boid::update(const sf::Time& deltaTime) {
-     
     this->move(velocity * deltaTime.asSeconds());
 }
 

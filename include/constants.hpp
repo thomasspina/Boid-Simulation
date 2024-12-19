@@ -3,7 +3,7 @@
 #define SCREEN_WIDTH 1920u
 #define SCREEN_HEIGHT 1080u
 #define SCREEN_TITLE "Boid Sim"
-#define SCREEN_FPS 60
+#define SCREEN_FPS 120
 
 #define DEFAULT_NUM_BOIDS 10
 
