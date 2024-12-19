@@ -18,12 +18,17 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
     // set random boid velocity
     for(auto boid : *boids) {
         // TODO: change the 100.f speed to a speed constant
-        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * 500.f);
+        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * 200.f);
     }
 
     // set random boid position
     for(auto boid : *boids) {
-        boid->setPosition(rand() % windowPointer->getSize().x, rand() % windowPointer->getSize().y);
+        float xPos = rand() % windowPointer->getSize().x;
+        float yPos = rand() % windowPointer->getSize().y;
+
+        boid->setPosition(xPos, yPos);
+        boid->boundary.setPosition(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
+
     }
 }
 
@@ -31,18 +36,28 @@ void BoidScreen::update(const sf::Time& dt) {
     for(auto boid : *boids) {
         boid->update(dt);
 
+        float xPos = boid->getPosition().x;
+        float yPos = boid->getPosition().y;
+
         // wrap boid around screen
         if(boid->getPosition().x < 0) {
-            boid->setPosition(windowPointer->getSize().x, boid->getPosition().y);
+            xPos = windowPointer->getSize().x;
+            yPos = boid->getPosition().y;
         } else if(boid->getPosition().x > windowPointer->getSize().x) {
-            boid->setPosition(0, boid->getPosition().y);
+            xPos = 0;
+            yPos = boid->getPosition().y;
         }
 
         if(boid->getPosition().y < 0) {
-            boid->setPosition(boid->getPosition().x, windowPointer->getSize().y);
+            xPos = boid->getPosition().x;
+            yPos = windowPointer->getSize().y;
         } else if(boid->getPosition().y > windowPointer->getSize().y) {
-            boid->setPosition(boid->getPosition().x, 0);
+            xPos = boid->getPosition().x;
+            yPos = 0;
         }
+
+        boid->setPosition(xPos, yPos);
+        boid->boundary.setPosition(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
     }
 }
 

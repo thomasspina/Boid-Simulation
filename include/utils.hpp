@@ -11,4 +11,6 @@ namespace vec2 {
     sf::Vector2f vecFromRadian(const float rads);
 
     sf::Vector2f vecFromDegree(const float deg);
+
+    float distanceBetweenPoints(const sf::Vector2f& v1, sf::Vector2f& v2);
 }

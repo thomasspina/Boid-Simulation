@@ -46,9 +46,11 @@ int App::run() {
         // update boids
         boids.update(currDeltaTime);
 
-        // render boids
+        // render boids and their boundaries
         for (auto boid : *boids.getBoids()) {
             window.draw(*boid);
+
+            window.draw(boid->boundary);
         }
 
         ImGui::SFML::Render(window);

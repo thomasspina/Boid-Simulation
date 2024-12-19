@@ -17,3 +17,7 @@ sf::Vector2f vec2::vecFromRadian(const float rads) {
 sf::Vector2f vec2::vecFromDegree(const float deg) {
     return vecFromRadian(deg * 180.f / (float) M_PI);
 }
+
+float vec2::distanceBetweenPoints(const sf::Vector2f& v1, sf::Vector2f& v2) {
+    return sqrt((v2.x - v1.x)*(v2.x - v1.x) + (v2.y - v1.y)*(v2.y - v1.y));
+}
