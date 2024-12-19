@@ -3,6 +3,7 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
+#include <map>
 
 BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
     // seed random number generator
@@ -27,14 +28,17 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
         float yPos = rand() % windowPointer->getSize().y;
 
         boid->setPosition(xPos, yPos);
-        boid->boundary.setPosition(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
-
+        boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
     }
 }
 
 void BoidScreen::update(const sf::Time& dt) {
+    // std::map<
+
     for(auto boid : *boids) {
         boid->update(dt);
+
+        // for (auto )
 
         float xPos = boid->getPosition().x;
         float yPos = boid->getPosition().y;
@@ -57,7 +61,7 @@ void BoidScreen::update(const sf::Time& dt) {
         }
 
         boid->setPosition(xPos, yPos);
-        boid->boundary.setPosition(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
+        boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
     }
 }
 

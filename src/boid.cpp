@@ -19,6 +19,15 @@ void Boid::initiateBoundary() {
     this->boundary.setOutlineThickness(BOID_DEFAULT_BOUNDARY_OUTLINE_THICKNESS);
 }
 
+sf::CircleShape Boid::getBoundary() {
+    return this->boundary;
+}
+
+void Boid::setBoundPos(const float x, const float y) {
+    this->boundary.setPosition(x, y);
+}
+
+
 void Boid::update(const sf::Time& deltaTime) {
     auto newPos = velocity * deltaTime.asSeconds();
     this->move(newPos);

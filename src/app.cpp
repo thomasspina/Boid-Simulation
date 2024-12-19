@@ -50,7 +50,7 @@ int App::run() {
         for (auto boid : *boids.getBoids()) {
             window.draw(*boid);
 
-            window.draw(boid->boundary);
+            window.draw(boid->getBoundary());
         }
 
         ImGui::SFML::Render(window);
