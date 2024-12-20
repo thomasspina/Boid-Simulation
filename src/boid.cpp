@@ -1,7 +1,8 @@
+#include <iostream> // TODO remove
+
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
-#include <iostream> // TODO remove
 
 Boid::Boid() : sf::CircleShape(BOID_DEFAULT_RADIUS, 3) {
     setFillColor(BOID_DEFAULT_COLOR);
@@ -46,7 +47,11 @@ void Boid::setVelocity(const sf::Vector2f& velocity) {
     this->velocity = velocity;
 }
 
+sf::Vector2f& Boid::getVelocity() {
+    return this->velocity;
+}
+
 // check whether a neighbor boid is within the current boid's boundary
-bool Boid::isWithinBoundary(const sf::Vector2f& neighborVector) {
-    return vec2::distanceBetweenPoints(this->getPosition(), neighborVector) <= BOID_DEFAULT_BOUNDARY_RADIUS;
+bool Boid::isWithinBoundary(const sf::Vector2f& neighborVector, float radius) {
+    return vec2::distanceBetweenPoints(this->getPosition(), neighborVector) <= radius;
 }

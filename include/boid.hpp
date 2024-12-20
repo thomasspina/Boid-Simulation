@@ -21,5 +21,6 @@ public:
 
     void update(const sf::Time& deltaTime);
     void setVelocity(const sf::Vector2f& velocity);
-    bool isWithinBoundary(const sf::Vector2f& neighborVector);
+    sf::Vector2f& getVelocity();
+    bool isWithinBoundary(const sf::Vector2f& neighborVector, float radius);
 };
