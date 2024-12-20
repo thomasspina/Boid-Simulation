@@ -31,10 +31,12 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
         float yPos = rand() % windowPointer->getSize().y;
 
         boid->setPosition(xPos, yPos);
-        boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
+        // boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
+        boid->setBoundPos(xPos, yPos);
     }
 }
 
+// TODO: Move all flock behavior to separate class
 void BoidScreen::update(const sf::Time& dt) {
     for (size_t i=0; i < boids->size(); i++) {
         Boid* boid = (*boids)[i];
@@ -50,7 +52,7 @@ void BoidScreen::update(const sf::Time& dt) {
         for (size_t j=i+1; j < boids->size(); j++) {
             Boid* nborBoid = (*boids)[j];
 
-            // Set velocity of crossed boids to the average
+            // Set velocity of crossed boids to the average of neighboring boids (Alignment)
             if (boid->isWithinBoundary(nborBoid->getPosition(), BOID_DEFAULT_BOUNDARY_RADIUS)) {
                 nborCount += 1;
                 velocityXSum += nborBoid->getVelocity().x;
@@ -58,6 +60,7 @@ void BoidScreen::update(const sf::Time& dt) {
 
                 // std::cout << boid->getIdNumber() << " crossed " << nborBoid->getIdNumber() << "\n"; // TODO delete
 
+                // Calculate repulsion vector for neighboring boids too close (Separation)
                 if (boid->isWithinBoundary(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
                     repulseCount += 1;
                     sf::Vector2f positionDiff = boid->getPosition() - nborBoid->getPosition();
@@ -72,7 +75,10 @@ void BoidScreen::update(const sf::Time& dt) {
         if (nborCount != 0) {
             float averageRepulsionX = repulsionXSum / repulseCount;
             float averageRepulsionY = repulsionYSum / repulseCount;
-            float repulseNormalizer = vec2::distanceFormula(averageRepulsionX, 0, averageRepulsionY, 0);
+            // float repulseNormalizer = vec2::distanceFormula(averageRepulsionX, 0, averageRepulsionY, 0); TODO Remove after done testing unit vector
+
+
+            // boid->setVelocity(sf::Vector2(velocityXSum / nborCount,  velocityYSum / nborCount));
 
             // boid->setVelocity(sf::Vector2(averageRepulsionX/repulseNormalizer, averageRepulsionY/repulseNormalizer));
             if (repulseCount != 0) {
@@ -105,7 +111,8 @@ void BoidScreen::update(const sf::Time& dt) {
         }
 
         boid->setPosition(xPos, yPos);
-        boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
+        boid->setBoundPos(xPos, yPos);
+        // boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
     }
 }
 

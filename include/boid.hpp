@@ -1,10 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/ConvexShape.hpp>
+
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-class Boid : public sf::CircleShape {
+class Boid : public sf::ConvexShape {
 private:
     sf::Vector2f velocity = {0.f, 0.f};
     sf::CircleShape boundary;

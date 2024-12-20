@@ -4,11 +4,19 @@
 #include "constants.hpp"
 #include "utils.hpp"
 
-Boid::Boid() : sf::CircleShape(BOID_DEFAULT_RADIUS, 3) {
+Boid::Boid() : sf::ConvexShape(3) {
+    setPoint(0, sf::Vector2f(BOID_DEFAULT_RADIUS, 0.f));
+    setPoint(1, sf::Vector2f(BOID_DEFAULT_RADIUS / 2, BOID_DEFAULT_RADIUS * 2));
+    setPoint(2, sf::Vector2f(BOID_DEFAULT_RADIUS * 1.5f, BOID_DEFAULT_RADIUS * 2));
+
     setFillColor(BOID_DEFAULT_COLOR);
 
+    // TODO create centroid calculation in util
+    float centroidX = (BOID_DEFAULT_RADIUS + BOID_DEFAULT_RADIUS / 2 + BOID_DEFAULT_RADIUS * 1.5f) / 3;
+    float centroidY = (0.f + BOID_DEFAULT_RADIUS * 2 + BOID_DEFAULT_RADIUS * 2) / 3;
+
     // centers origin point to middle of boid instead of (0,0)
-    this->setOrigin(BOID_DEFAULT_RADIUS, BOID_DEFAULT_RADIUS);
+    this->setOrigin(centroidX, centroidY);
 
     initiateBoundary();
 }
@@ -18,6 +26,7 @@ void Boid::initiateBoundary() {
     this->boundary.setFillColor(BOID_DEFAULT_BOUNDARY_COLOR);
     this->boundary.setOutlineColor(BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR);
     this->boundary.setOutlineThickness(BOID_DEFAULT_BOUNDARY_OUTLINE_THICKNESS);
+    this->boundary.setOrigin(BOID_DEFAULT_BOUNDARY_RADIUS, BOID_DEFAULT_BOUNDARY_RADIUS);
 }
 
 sf::CircleShape Boid::getBoundary() {

@@ -22,7 +22,7 @@ int App::run() {
     BoidScreen boids = BoidScreen(&window);
 
     sf::Clock dtC;
-
+    
     // Main loop
     while (window.isOpen()) {
         // retrieve current frame elapsed time
