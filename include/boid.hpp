@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream> // TODO remove
+
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/ConvexShape.hpp>
 

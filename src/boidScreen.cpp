@@ -5,6 +5,7 @@
 #include "utils.hpp"
 #include <iostream>
 #include <algorithm>
+#include "flockingBehavior.hpp"
 
 BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
     // seed random number generator
@@ -40,53 +41,8 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 void BoidScreen::update(const sf::Time& dt) {
     for (size_t i=0; i < boids->size(); i++) {
         Boid* boid = (*boids)[i];
-        int nborCount = 0;
-        float velocityXSum = 0.f;
-        float velocityYSum = 0.f;
-
-        int repulseCount = 0;
-        float repulsionXSum = 0.f;
-        float repulsionYSum = 0.f;
-
-        // Temporary solution to test boundary TODO: Implement grid for spatial partition to improve performance
-        for (size_t j=i+1; j < boids->size(); j++) {
-            Boid* nborBoid = (*boids)[j];
-
-            // Set velocity of crossed boids to the average of neighboring boids (Alignment)
-            if (boid->isWithinBoundary(nborBoid->getPosition(), BOID_DEFAULT_BOUNDARY_RADIUS)) {
-                nborCount += 1;
-                velocityXSum += nborBoid->getVelocity().x;
-                velocityYSum += nborBoid->getVelocity().y;
-
-                // std::cout << boid->getIdNumber() << " crossed " << nborBoid->getIdNumber() << "\n"; // TODO delete
-
-                // Calculate repulsion vector for neighboring boids too close (Separation)
-                if (boid->isWithinBoundary(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
-                    repulseCount += 1;
-                    sf::Vector2f positionDiff = boid->getPosition() - nborBoid->getPosition();
-                    float distanceBetween = std::max(1.0f, vec2::distanceBetweenPoints(boid->getVelocity(), nborBoid->getVelocity()));
-                    
-                    repulsionXSum += positionDiff.x / distanceBetween;
-                    repulsionYSum += positionDiff.y / distanceBetween;
-                }    
-            }
-        }
-
-        if (nborCount != 0) {
-            float averageRepulsionX = repulsionXSum / repulseCount;
-            float averageRepulsionY = repulsionYSum / repulseCount;
-            // float repulseNormalizer = vec2::distanceFormula(averageRepulsionX, 0, averageRepulsionY, 0); TODO Remove after done testing unit vector
-
-
-            // boid->setVelocity(sf::Vector2(velocityXSum / nborCount,  velocityYSum / nborCount));
-
-            // boid->setVelocity(sf::Vector2(averageRepulsionX/repulseNormalizer, averageRepulsionY/repulseNormalizer));
-            if (repulseCount != 0) {
-                boid->setVelocity(sf::Vector2(velocityXSum / nborCount + averageRepulsionX,  velocityYSum / nborCount + averageRepulsionY));
-            } else {
-                boid->setVelocity(sf::Vector2(velocityXSum / nborCount,  velocityYSum / nborCount));
-            }
-        }
+        
+        flockingBehavior::applyFlockingLogic(boid, boids);
 
         boid->update(dt);
 

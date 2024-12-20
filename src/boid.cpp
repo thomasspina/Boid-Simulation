@@ -1,5 +1,3 @@
-#include <iostream> // TODO remove
-
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"

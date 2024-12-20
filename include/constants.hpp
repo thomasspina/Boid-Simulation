@@ -5,11 +5,11 @@
 #define SCREEN_TITLE "Boid Sim"
 #define SCREEN_FPS 120
 
-#define DEFAULT_NUM_BOIDS 25
+#define DEFAULT_NUM_BOIDS 70
 
 #define BOID_DEFAULT_RADIUS 15.f
 #define BOID_DEFAULT_COLOR sf::Color::Green
-#define BOID_DEFAUL_SPEED 200.f
+#define BOID_DEFAUL_SPEED 400.f
 
 #define BOID_DEFAULT_BOUNDARY_RADIUS (BOID_DEFAULT_RADIUS + 30.f)
 #define BOID_DEFAULT_BOUNDARY_COLOR sf::Color(0, 0, 0, 0) // Remove last zero for visibility

@@ -1,8 +1,14 @@
 #pragma once
 
+#include <vector>
+#include "boid.hpp"
+#include <algorithm>
+
+
 class flockingBehavior {
 public:
-    void separation();
-    void alignment();
-    void cohesion();
+    static void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
+    // void separation(Boid* boid);
+    // void alignment();
+    // void cohesion();
 };
