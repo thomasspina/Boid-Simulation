@@ -21,10 +21,10 @@ public:
     void setBoundPos(const float x, const float y);
 
     void setIdNumber(int id);
-    int getIdNumber();
+    int const getIdNumber();
 
     void update(const sf::Time& deltaTime);
     void setVelocity(const sf::Vector2f& velocity);
-    sf::Vector2f& getVelocity();
-    bool isWithinBoundary(const sf::Vector2f& neighborVector, float radius);
+    sf::Vector2f const getVelocity();
+    bool const isWithinBoundary(const sf::Vector2f& neighborVector, const float radius);
 };
