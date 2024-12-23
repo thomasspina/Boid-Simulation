@@ -125,8 +125,6 @@ int App::run() {
 
         drawUI();
 
-        
-
         /// RENDER WINDOW 
 
         window.clear();

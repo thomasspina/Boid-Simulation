@@ -10,8 +10,6 @@ private:
     float memoryHistory[MEMORY_HISTORY_SIZE] = {0};
     int memoryOffset = 0;
 
-
-
     double getMemoryUsage() const;
     void drawPerformanceUI();
     void drawUI();

@@ -22,7 +22,6 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 
     // set random boid velocity
     for(auto boid : *boids) {
-        // TODO: change the 100.f speed to a speed constant
         boid->setVelocity(vec2::vecFromDegree(rand() % 360) * BOID_DEFAUL_SPEED);
     }
 

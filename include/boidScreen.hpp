@@ -4,9 +4,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "boid.hpp"
+#include "constants.hpp"
 
 class BoidScreen {
 private:
+    int numBoids = DEFAULT_NUM_BOIDS;
     std::vector<Boid*>* boids;
 
     sf::RenderWindow* windowPointer;
