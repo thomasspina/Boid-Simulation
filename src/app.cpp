@@ -12,11 +12,39 @@
 #include "constants.hpp"
 #include "boidScreen.hpp"
 
+void App::drawPerformanceUI() {
+    float currentFPS = ImGui::GetIO().Framerate;
+        
+    // Update FPS history
+    fpsHistory[fpsOffset] = currentFPS;
+    fpsOffset = (fpsOffset + 1) % FPS_HISTORY_SIZE;
+    
+    ImGui::Text("Frames Per Second (FPS) : %.1f", currentFPS);
+    ImGui::Text("Application average %.3f ms/frame", 1000.0f / currentFPS);
+    ImGui::PlotLines("FPS", 
+        fpsHistory, 
+        FPS_HISTORY_SIZE, 
+        fpsOffset,
+        "", 
+        0.0f,           
+        SCREEN_FPS + 10.0f,         
+        ImVec2(0, 30)
+    );
+
+    ImGui::Separator();
+
+    
+}
 
 void App::drawUI() {
-    ImGui::Begin("Boid Settings");
+    ImGui::Begin("Boid Menu");
 
-    ImGui::Text("Boid Settings");
+    ImGui::SetWindowPos(ImVec2(1000, 20), ImGuiCond_Once);
+    ImGui::SetWindowSize(ImVec2(320, 700), ImGuiCond_Once);
+
+    if (ImGui::CollapsingHeader("Performance")) {
+        drawPerformanceUI();
+    }
 
     ImGui::End();
 }
@@ -37,14 +65,9 @@ int App::run() {
         // retrieve current frame elapsed time
         auto currDeltaTime = dtC.restart();
 
-        // reset delta time clock
-        ImGui::SFML::Update(window, currDeltaTime);
-
-        window.clear();
-
         sf::Event event;
         while (window.pollEvent(event)) {
-            // ImGui::SFML::ProcessEvent(window, event);
+            ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed) { 
                 window.close(); 
             }
@@ -52,6 +75,20 @@ int App::run() {
 
         // update boids
         boids.update(currDeltaTime);
+
+        // reset delta time clock
+        ImGui::SFML::Update(window, currDeltaTime);
+
+
+        /// DRAW MENU
+
+        drawUI();
+
+        
+
+        /// RENDER WINDOW 
+
+        window.clear();
 
         // render boids and their boundaries
         for (auto boid : *boids.getBoids()) {
