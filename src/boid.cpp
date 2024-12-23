@@ -27,7 +27,7 @@ void Boid::initiateBoundary() {
     this->boundary.setOrigin(BOID_DEFAULT_BOUNDARY_RADIUS, BOID_DEFAULT_BOUNDARY_RADIUS);
 }
 
-sf::CircleShape Boid::getBoundary() {
+const sf::CircleShape& Boid::getBoundary() const {
     return this->boundary;
 }
 
@@ -39,7 +39,7 @@ void Boid::setIdNumber(int id) {
     this->idNumber = id;
 }
     
-int Boid::getIdNumber() {
+int Boid::getIdNumber() const {
     return this->idNumber;
 }
 
@@ -54,11 +54,11 @@ void Boid::setVelocity(const sf::Vector2f& velocity) {
     this->velocity = velocity;
 }
 
-sf::Vector2f& Boid::getVelocity() {
+const sf::Vector2f& Boid::getVelocity() const {
     return this->velocity;
 }
 
 // check whether a neighbor boid is within the current boid's boundary
-bool Boid::isWithinBoundary(const sf::Vector2f& neighborVector, float radius) {
+bool Boid::isWithinBoundary(const sf::Vector2f& neighborVector, float radius) const {
     return vec2::distanceBetweenPoints(this->getPosition(), neighborVector) <= radius;
 }

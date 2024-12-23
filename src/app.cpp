@@ -12,6 +12,15 @@
 #include "constants.hpp"
 #include "boidScreen.hpp"
 
+
+void App::drawUI() {
+    ImGui::Begin("Boid Settings");
+
+    ImGui::Text("Boid Settings");
+
+    ImGui::End();
+}
+
 int App::run() {
     // Initialize window
     sf::RenderWindow window(sf::VideoMode({SCREEN_WIDTH, SCREEN_HEIGHT}), SCREEN_TITLE);
@@ -40,8 +49,6 @@ int App::run() {
                 window.close(); 
             }
         }
-
-        // ImGui::ShowDemoWindow(); // TODO: remove demo window
 
         // update boids
         boids.update(currDeltaTime);
