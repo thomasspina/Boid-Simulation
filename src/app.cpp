@@ -1,6 +1,12 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
+#ifdef _WIN32
+    #include <psapi.h>
+#elif __APPLE__
+    #include <mach/mach.h>
+#endif
+
 #include <iostream> // TODO: remove this. This is for debugging
 
 #include <SFML/Graphics/CircleShape.hpp>
@@ -11,6 +17,24 @@
 #include "app.hpp"
 #include "constants.hpp"
 #include "boidScreen.hpp"
+
+
+double App::getMemoryUsage() const {
+    #if defined(_WIN32)
+        PROCESS_MEMORY_COUNTERS_EX pmc;
+        GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
+        
+        return static_cast<float>(pmc.WorkingSetSize) / (1024.0f * 1024.0f); // convert to megabytes
+    #elif defined(__APPLE__)
+        struct task_basic_info t_info;
+        mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
+
+        if (KERN_SUCCESS != task_info(mach_task_self(), TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count))
+            return 0.0;
+
+        return static_cast<float>(t_info.resident_size) / (1024.0f * 1024.0f); // convert to megabytes
+    #endif
+}
 
 void App::drawPerformanceUI() {
     float currentFPS = ImGui::GetIO().Framerate;
@@ -33,7 +57,7 @@ void App::drawPerformanceUI() {
 
     ImGui::Separator();
 
-    
+    ImGui::Text("Memory Usage: %.2f MB", getMemoryUsage());
 }
 
 void App::drawUI() {

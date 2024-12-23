@@ -6,7 +6,7 @@ private:
     float fpsHistory[FPS_HISTORY_SIZE] = {0};
     int fpsOffset = 0;
 
-
+    double getMemoryUsage() const;
     void drawPerformanceUI();
     void drawUI();
 public:
