@@ -7,8 +7,6 @@
     #include <mach/mach.h>
 #endif
 
-#include <iostream> // TODO: remove this. This is for debugging
-
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -66,6 +64,7 @@ void App::drawPerformanceUI() {
     memoryHistory[memoryOffset] = currentMemory;
     memoryOffset = (memoryOffset + 1) % MEMORY_HISTORY_SIZE;
 
+    // draw memory info
     ImGui::Text("Memory Usage: %.2f MB", currentMemory);
     ImGui::PlotLines("RAM", 
         memoryHistory, 
