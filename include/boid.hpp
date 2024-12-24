@@ -13,12 +13,16 @@ private:
     sf::Vector2f velocity = {0.f, 0.f};
     sf::CircleShape boundary;
     int idNumber;
+    float speed;
 public:
     Boid();
 
     void initiateBoundary();
     const sf::CircleShape& getBoundary() const;
     void setBoundPos(const float x, const float y);
+
+    void setSpeed(float speed);
+    float getSpeed() const;
 
     void setIdNumber(int id);
     int getIdNumber() const;

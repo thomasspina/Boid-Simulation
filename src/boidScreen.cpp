@@ -22,7 +22,10 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 
     // set random boid velocity
     for(auto boid : *boids) {
-        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * BOID_DEFAULT_SPEED);
+        sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
+        // float new_speed = vec2::distanceFormula(random_dir.x, 0, random_dir.y, 0);
+        boid->setVelocity(random_dir * boid->getSpeed());
+        // std::cout << new_speed << "/n";
     }
 
     // std::set<std::pair<int, int>> existingCoord;

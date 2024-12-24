@@ -15,17 +15,12 @@ Boid::Boid() : sf::ConvexShape(3) {
 
     // centers origin point to middle of boid instead of (0,0)
     this->setOrigin(centroidX, centroidY);
+    this->setSpeed(BOID_DEFAULT_SPEED);
 
     initiateBoundary();
 }
 
 void Boid::initiateBoundary() {
-    // sf::CircleShape(FLOCK_DEFAULT_SEPARATION_RADIUS);
-    // setFillColor(BOID_DEFAULT_BOUNDARY_COLOR);
-    // setOutlineColor(BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR);
-    // setOutlineThickness(BOID_DEFAULT_BOUNDARY_OUTLINE_THICKNESS);
-    // setOrigin(FLOCK_DEFAULT_SEPARATION_RADIUS, FLOCK_DEFAULT_SEPARATION_RADIUS);
-
     this->boundary = sf::CircleShape(BOID_DEFAULT_BOUNDARY_RADIUS);
     this->boundary.setFillColor(BOID_DEFAULT_BOUNDARY_COLOR);
     this->boundary.setOutlineColor(BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR);
@@ -41,6 +36,14 @@ void Boid::setBoundPos(const float x, const float y) {
     this->boundary.setPosition(x, y);
 }
 
+void Boid::setSpeed(float speed) {
+    this->speed = speed;
+}
+    
+float Boid::getSpeed() const {
+    return this->speed;
+}
+
 void Boid::setIdNumber(int id) {
     this->idNumber = id;
 }
@@ -50,6 +53,18 @@ int Boid::getIdNumber() const {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
+    speed = vec2::distanceFormula(velocity.x, 0, velocity.y, 0);
+
+    if (speed > BOID_DEFAULT_MAX_SPEED) {
+        velocity.x = (velocity.x/speed)*BOID_DEFAULT_MAX_SPEED;
+        velocity.y = (velocity.y/speed)*BOID_DEFAULT_MAX_SPEED;
+    }
+
+    if (speed < BOID_DEFAULT_MIN_SPEED) {
+         velocity.x = (velocity.x/speed)*BOID_DEFAULT_MIN_SPEED;
+        velocity.y = (velocity.y/speed)*BOID_DEFAULT_MIN_SPEED;
+    }
+
     auto newPos = velocity * deltaTime.asSeconds();
     this->move(newPos);
     this->boundary.move(newPos);
