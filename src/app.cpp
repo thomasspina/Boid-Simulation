@@ -2,6 +2,7 @@
 #include "imgui-SFML.h"
 
 #ifdef _WIN32
+    #include <windows.h>
     #include <psapi.h>
 #elif __APPLE__
     #include <mach/mach.h>
