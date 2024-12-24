@@ -3,8 +3,6 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
-#include <iostream>
-#include <set>
 #include "flockingBehavior.hpp"
 
 BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
@@ -15,38 +13,23 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 
     // create default number of boids
     for(int i = 0; i < DEFAULT_NUM_BOIDS; i++) {
-        Boid* newBoid = new Boid();
-        newBoid->setIdNumber(i);
-        boids->push_back(newBoid);
-    }
-
-    // set random boid velocity
-    for(auto boid : *boids) {
-        sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
-        // float new_speed = vec2::distanceFormula(random_dir.x, 0, random_dir.y, 0);
-        boid->setVelocity(random_dir * boid->getSpeed());
-        // std::cout << new_speed << "/n";
-    }
-
-    // std::set<std::pair<int, int>> existingCoord;
-
-    // set random boid position
-    for(auto boid : *boids) {
-        float xPos = rand() % windowPointer->getSize().x;
-        float yPos = rand() % windowPointer->getSize().y;
-
-        // do {
-        //     xPos = rand() % windowPointer->getSize().x;
-        //     yPos = rand() % windowPointer->getSize().y;
-        // } while (existingCoord.find({xPos, yPos}) != existingCoord.end());
-
-
-        boid->setPosition(xPos, yPos);
-        boid->setBoundPos(xPos, yPos);
+        createBoid();
     }
 }
 
-// TODO: Move all flock behavior to separate class
+void BoidScreen::setRandomBoidVelocity(Boid* boid) {
+    sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
+    boid->setVelocity(random_dir * boid->getSpeed());
+}
+
+void BoidScreen::setRandomBoidPosition(Boid* boid) {
+    float xPos = rand() % windowPointer->getSize().x;
+    float yPos = rand() % windowPointer->getSize().y;
+
+    boid->setPosition(xPos, yPos);
+    boid->setBoundPos(xPos, yPos);
+}
+
 void BoidScreen::update(const sf::Time& dt) {
     for (size_t i=0; i < boids->size(); i++) {
         Boid* boid = (*boids)[i];
@@ -55,10 +38,15 @@ void BoidScreen::update(const sf::Time& dt) {
 
         boid->update(dt);
 
+        wrapAroundScreen(boid);
+    }
+}
+
+void BoidScreen::wrapAroundScreen(Boid* boid) {
         float xPos = boid->getPosition().x;
         float yPos = boid->getPosition().y;
 
-        // wrap boid around screen
+        // set x if boid is out of bounds
         if(boid->getPosition().x < 0) {
             xPos = windowPointer->getSize().x;
             yPos = boid->getPosition().y;
@@ -67,6 +55,7 @@ void BoidScreen::update(const sf::Time& dt) {
             yPos = boid->getPosition().y;
         }
 
+        // set y if boid is out of bounds
         if(boid->getPosition().y < 0) {
             xPos = boid->getPosition().x;
             yPos = windowPointer->getSize().y;
@@ -77,6 +66,33 @@ void BoidScreen::update(const sf::Time& dt) {
 
         boid->setPosition(xPos, yPos);
         boid->setBoundPos(xPos, yPos);
+}
+
+void BoidScreen::createBoid() {
+    Boid* newBoid = new Boid();
+    newBoid->setIdNumber(this->boids->size());
+    this->boids->push_back(newBoid);
+
+    // set random boid velocity
+    setRandomBoidVelocity(newBoid);
+
+    // set random boid position
+    setRandomBoidPosition(newBoid);
+}
+
+void BoidScreen::setNumBoids(const int newNumBoids) {
+    int numBoids = this->boids->size();
+
+    // delete boids if new number of boids is less than current number
+    for (int i = numBoids; i > newNumBoids; i--) {
+        delete this->boids->back();
+        this->boids->pop_back();
+    }
+
+    // create new boids if new number of boids is greater than current number
+    for (int i = numBoids; i <= newNumBoids; i++) {
+        //std::cout << this->numBoids << std::endl;
+        createBoid();
     }
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "boidScreen.hpp"
+
 class App {
 private: 
     static const int FPS_HISTORY_SIZE = 600;
@@ -12,7 +14,8 @@ private:
 
     double getMemoryUsage() const;
     void drawPerformanceUI();
-    void drawUI();
+    void drawConfigUI(BoidScreen& boidScreen);
+    void drawUI(BoidScreen& boidScreen);
 public:
     App() = default;
     int run();
