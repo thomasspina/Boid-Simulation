@@ -20,6 +20,12 @@ Boid::Boid() : sf::ConvexShape(3) {
 }
 
 void Boid::initiateBoundary() {
+    // sf::CircleShape(FLOCK_DEFAULT_SEPARATION_RADIUS);
+    // setFillColor(BOID_DEFAULT_BOUNDARY_COLOR);
+    // setOutlineColor(BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR);
+    // setOutlineThickness(BOID_DEFAULT_BOUNDARY_OUTLINE_THICKNESS);
+    // setOrigin(FLOCK_DEFAULT_SEPARATION_RADIUS, FLOCK_DEFAULT_SEPARATION_RADIUS);
+
     this->boundary = sf::CircleShape(BOID_DEFAULT_BOUNDARY_RADIUS);
     this->boundary.setFillColor(BOID_DEFAULT_BOUNDARY_COLOR);
     this->boundary.setOutlineColor(BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR);

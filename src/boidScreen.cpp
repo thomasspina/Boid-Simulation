@@ -4,7 +4,7 @@
 #include "constants.hpp"
 #include "utils.hpp"
 #include <iostream>
-#include <algorithm>
+#include <set>
 #include "flockingBehavior.hpp"
 
 BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
@@ -22,16 +22,23 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 
     // set random boid velocity
     for(auto boid : *boids) {
-        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * BOID_DEFAUL_SPEED);
+        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * BOID_DEFAULT_SPEED);
     }
+
+    // std::set<std::pair<int, int>> existingCoord;
 
     // set random boid position
     for(auto boid : *boids) {
         float xPos = rand() % windowPointer->getSize().x;
         float yPos = rand() % windowPointer->getSize().y;
 
+        // do {
+        //     xPos = rand() % windowPointer->getSize().x;
+        //     yPos = rand() % windowPointer->getSize().y;
+        // } while (existingCoord.find({xPos, yPos}) != existingCoord.end());
+
+
         boid->setPosition(xPos, yPos);
-        // boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
         boid->setBoundPos(xPos, yPos);
     }
 }
@@ -67,7 +74,6 @@ void BoidScreen::update(const sf::Time& dt) {
 
         boid->setPosition(xPos, yPos);
         boid->setBoundPos(xPos, yPos);
-        // boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
     }
 }
 
