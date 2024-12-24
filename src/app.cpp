@@ -102,7 +102,7 @@ int App::run() {
 
     sf::Clock dtC;
     
-    // Main loop
+    // main loop
     while (window.isOpen()) {
         // retrieve current frame elapsed time
         auto currDeltaTime = dtC.restart();
@@ -134,7 +134,7 @@ int App::run() {
         for (auto boid : *boids.getBoids()) {
             window.draw(*boid);
 
-            window.draw(boid->getBoundary());
+            // window.draw(boid->getBoundary()); TODO: why need to draw boundary?
         }
 
         ImGui::SFML::Render(window);

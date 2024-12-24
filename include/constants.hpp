@@ -7,7 +7,7 @@
 
 #define AVG_MEMORY_USAGE 50.0f // TODO: is there a better way of getting this value?
 
-#define DEFAULT_NUM_BOIDS 100
+#define DEFAULT_NUM_BOIDS 70
 
 #define BOID_DEFAULT_RADIUS 15.f
 #define BOID_DEFAULT_COLOR sf::Color::Green

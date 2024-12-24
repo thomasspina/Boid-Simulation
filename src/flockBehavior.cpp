@@ -4,7 +4,7 @@
 #include "flockingBehavior.hpp"
 #include "utils.hpp"
 
-// TODO separate in different respective methods
+// TODO: separate in different respective methods
 void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
     int nborCount = 0;
     float velocityXSum = 0.f;
@@ -58,7 +58,7 @@ void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
 
 
     if (nborCount > 0) {
-        std::cout << repulsionXSum << " " << repulsionYSum << "\n";
+        // std::cout << repulsionXSum << " " << repulsionYSum << "\n";
         float new_X = currBoid->getVelocity().x + repulsionXSum * FLOCK_DEFAULT_AVOID_FACTOR;
         float new_Y = currBoid->getVelocity().y + repulsionYSum * FLOCK_DEFAULT_AVOID_FACTOR;
 
