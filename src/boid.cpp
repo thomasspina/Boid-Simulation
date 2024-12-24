@@ -9,7 +9,7 @@ Boid::Boid() : sf::ConvexShape(3) {
 
     setFillColor(BOID_DEFAULT_COLOR);
 
-    // TODO create centroid calculation in util
+    // TODO: create centroid calculation in util
     float centroidX = (BOID_DEFAULT_RADIUS + BOID_DEFAULT_RADIUS / 2 + BOID_DEFAULT_RADIUS * 1.5f) / 3;
     float centroidY = (0.f + BOID_DEFAULT_RADIUS * 2 + BOID_DEFAULT_RADIUS * 2) / 3;
 
@@ -26,6 +26,14 @@ void Boid::initiateBoundary() {
     this->boundary.setOutlineColor(BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR);
     this->boundary.setOutlineThickness(BOID_DEFAULT_BOUNDARY_OUTLINE_THICKNESS);
     this->boundary.setOrigin(BOID_DEFAULT_BOUNDARY_RADIUS, BOID_DEFAULT_BOUNDARY_RADIUS);
+}
+
+float Boid::getRadius() const {
+    return this->boundary.getRadius();
+}
+
+void Boid::setRadius(const float radius) {
+    this->boundary.setRadius(radius);
 }
 
 const sf::CircleShape& Boid::getBoundary() const {

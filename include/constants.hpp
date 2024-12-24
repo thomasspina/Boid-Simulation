@@ -17,6 +17,7 @@
 #define BOID_DEFAULT_MIN_SPEED 250.f
 
 #define BOID_DEFAULT_BOUNDARY_RADIUS (BOID_DEFAULT_RADIUS + 70.f)
+#define BOID_MAXIMUM_BOUNDARY_RADIUS 200.f
 #define BOID_DEFAULT_BOUNDARY_COLOR sf::Color(0, 0, 0, 0) // Remove last zero for visibility
 #define BOID_DEFAULT_BOUNDARY_OUTLINE_COLOR sf::Color(255, 0, 0, 0) // Remove last zero for visibility
 #define BOID_DEFAULT_BOUNDARY_OUTLINE_THICKNESS 1.f

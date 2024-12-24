@@ -83,6 +83,11 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
     if (ImGui::SliderInt("Number of Boids", &numBoids, 1, MAX_NUM_BOIDS)) {
         boidScreen.setNumBoids(numBoids);
     }
+
+    float neighbourhoodRadius = boidScreen.getBoids()->at(0)->getRadius();
+    if (ImGui::SliderFloat("Detection Radius", &neighbourhoodRadius, BOID_DEFAULT_BOUNDARY_RADIUS, BOID_MAXIMUM_BOUNDARY_RADIUS)) {
+        boidScreen.setBoidNeighbourhoodRadius(neighbourhoodRadius);
+    }
 }
 
 void App::drawUI(BoidScreen& boidScreen) {

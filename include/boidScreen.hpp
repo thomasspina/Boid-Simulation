@@ -25,4 +25,5 @@ public:
     const std::vector<Boid*>* const getBoids() const { return boids; }
     void setNumBoids(const int numBoids);
     int getNumBoids() const { return boids->size(); }
+    void setBoidNeighbourhoodRadius(const float radius);
 };

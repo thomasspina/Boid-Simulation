@@ -19,7 +19,7 @@ void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
         Boid* nborBoid = (*boids)[i];
 
             // Set velocity of crossed boids to the average of neighboring boids (Alignment)
-            if (currBoid->isWithinBoundary(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
+            if (currBoid->isWithinBoundary(nborBoid->getPosition(), currBoid->getRadius())) {
                 nborCount += 1;
                 // velocityXSum += nborBoid->getVelocity().x;
                 // velocityYSum += nborBoid->getVelocity().y;

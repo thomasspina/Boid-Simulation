@@ -97,6 +97,12 @@ void BoidScreen::setNumBoids(const int newNumBoids) {
     }
 }
 
+void BoidScreen::setBoidNeighbourhoodRadius(const float radius) {
+    for (auto boid : *boids) {
+        boid->setRadius(radius);
+    }
+}
+
 BoidScreen::~BoidScreen() {
     for(auto boid : *boids) {
         delete boid;

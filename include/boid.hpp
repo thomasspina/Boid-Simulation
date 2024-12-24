@@ -26,6 +26,8 @@ public:
 
     void setIdNumber(int id);
     int getIdNumber() const;
+    float getRadius() const;
+    void setRadius(const float radius);
 
     void update(const sf::Time& deltaTime);
     void setVelocity(const sf::Vector2f& velocity);
