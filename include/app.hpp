@@ -12,6 +12,8 @@ private:
     float memoryHistory[MEMORY_HISTORY_SIZE] = {0};
     int memoryOffset = 0;
 
+    bool drawBoundary = false;
+
     double getMemoryUsage() const;
     void drawPerformanceUI();
     void drawConfigUI(BoidScreen& boidScreen);

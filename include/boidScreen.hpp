@@ -11,8 +11,9 @@ private:
     std::vector<Boid*>* boids;
 
     sf::RenderWindow* windowPointer;
+    float boidNeighbourhoodRadius = BOID_DEFAULT_BOUNDARY_RADIUS;
 
-    void createBoid();
+    Boid* createBoid();
     void wrapAroundScreen(Boid* boid);
 
     void setRandomBoidVelocity(Boid* boid);
@@ -26,4 +27,5 @@ public:
     void setNumBoids(const int numBoids);
     int getNumBoids() const { return boids->size(); }
     void setBoidNeighbourhoodRadius(const float radius);
+    float getBoidNeighbourhoodRadius() const { return boidNeighbourhoodRadius; }
 };

@@ -84,10 +84,12 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
         boidScreen.setNumBoids(numBoids);
     }
 
-    float neighbourhoodRadius = boidScreen.getBoids()->at(0)->getRadius();
+    float neighbourhoodRadius = boidScreen.getBoidNeighbourhoodRadius();
     if (ImGui::SliderFloat("Detection Radius", &neighbourhoodRadius, BOID_DEFAULT_BOUNDARY_RADIUS, BOID_MAXIMUM_BOUNDARY_RADIUS)) {
         boidScreen.setBoidNeighbourhoodRadius(neighbourhoodRadius);
     }
+
+    ImGui::Checkbox("Show Boid Boundary", &drawBoundary);
 }
 
 void App::drawUI(BoidScreen& boidScreen) {
@@ -152,7 +154,10 @@ int App::run() {
         for (auto boid : *boids.getBoids()) {
             window.draw(*boid);
 
-            // window.draw(boid->getBoundary()); TODO: why need to draw boundary?
+            // draw boid boundary if enabled
+            if (drawBoundary) {
+                window.draw(boid->getBoundary());
+            }
         }
 
         ImGui::SFML::Render(window);

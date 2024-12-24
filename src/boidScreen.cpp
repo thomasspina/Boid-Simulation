@@ -69,7 +69,7 @@ void BoidScreen::wrapAroundScreen(Boid* boid) {
         boid->setBoundPos(xPos, yPos);
 }
 
-void BoidScreen::createBoid() {
+Boid* BoidScreen::createBoid() {
     Boid* newBoid = new Boid();
     newBoid->setIdNumber(this->boids->size());
     this->boids->push_back(newBoid);
@@ -79,6 +79,8 @@ void BoidScreen::createBoid() {
 
     // set random boid position
     setRandomBoidPosition(newBoid);
+
+    return newBoid;
 }
 
 void BoidScreen::setNumBoids(const int newNumBoids) {
@@ -92,14 +94,15 @@ void BoidScreen::setNumBoids(const int newNumBoids) {
 
     // create new boids if new number of boids is greater than current number
     for (int i = numBoids; i <= newNumBoids; i++) {
-        //std::cout << this->numBoids << std::endl;
-        createBoid();
+        Boid* newBoid = createBoid();
+        newBoid->setRadius(boidNeighbourhoodRadius);
     }
 }
 
 void BoidScreen::setBoidNeighbourhoodRadius(const float radius) {
+    this->boidNeighbourhoodRadius = radius;
     for (auto boid : *boids) {
-        boid->setRadius(radius);
+        boid->setRadius(boidNeighbourhoodRadius);
     }
 }
 

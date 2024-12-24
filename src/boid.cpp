@@ -34,6 +34,7 @@ float Boid::getRadius() const {
 
 void Boid::setRadius(const float radius) {
     this->boundary.setRadius(radius);
+    this->boundary.setOrigin(radius, radius);
 }
 
 const sf::CircleShape& Boid::getBoundary() const {
