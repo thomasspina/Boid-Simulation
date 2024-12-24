@@ -18,6 +18,7 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 }
 
 void BoidScreen::setRandomBoidVelocity(Boid* boid) {
+    boid->setSpeed(rand() % (int) BOID_DEFAULT_MAX_SPEED);
     sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
     boid->setVelocity(random_dir * boid->getSpeed());
 }
