@@ -50,17 +50,25 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
 
 
         // Apply alignment behavior
-        new_X += (avgVelocityX - currBoid->getVelocity().x) * FLOCK_DEFAULT_MATCHING_FACTOR;
-        new_Y += (avgVelocityY - currBoid->getVelocity().y) * FLOCK_DEFAULT_MATCHING_FACTOR;
+        if (alignmentEnabled) {
+            new_X += (avgVelocityX - currBoid->getVelocity().x) * FLOCK_DEFAULT_MATCHING_FACTOR;
+            new_Y += (avgVelocityY - currBoid->getVelocity().y) * FLOCK_DEFAULT_MATCHING_FACTOR;
+        }
+        
 
         // Apply cohesion behavior
-        new_X += (avgPosX - currBoid->getPosition().x) * FLOCK_DEFAULT_CENTERING_FACTOR;
-        new_Y += (avgPosY - currBoid->getPosition().y) * FLOCK_DEFAULT_CENTERING_FACTOR;
+        if (cohesionEnabled) {
+            new_X += (avgPosX - currBoid->getPosition().x) * FLOCK_DEFAULT_CENTERING_FACTOR;
+            new_Y += (avgPosY - currBoid->getPosition().y) * FLOCK_DEFAULT_CENTERING_FACTOR;
+        }
     }
 
+
     // Apply separation behavior
-    new_X += currBoid->getVelocity().x + repulsionXSum * FLOCK_DEFAULT_AVOID_FACTOR;
-    new_Y += currBoid->getVelocity().y + repulsionYSum * FLOCK_DEFAULT_AVOID_FACTOR;
+    if (separationEnabled) {
+        new_X += currBoid->getVelocity().x + repulsionXSum * FLOCK_DEFAULT_AVOID_FACTOR;
+        new_Y += currBoid->getVelocity().y + repulsionYSum * FLOCK_DEFAULT_AVOID_FACTOR;
+    }
 
     sf::Vector2f newVelocity = sf::Vector2(new_X, new_Y);
 
