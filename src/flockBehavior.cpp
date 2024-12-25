@@ -1,6 +1,7 @@
 #include "constants.hpp"
 #include "flockingBehavior.hpp"
 #include "utils.hpp"
+#include <algorithm>
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
     int nborCount = 0;
@@ -15,17 +16,23 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
     float repulsionXSum = 0.f;
     float repulsionYSum = 0.f;
 
-    for (size_t i=currBoid->getIdNumber(); i < boids->size(); i++) {
+    for (size_t i=0; i < boids->size(); i++) {
         // neighbor currBoid
         Boid* nborBoid = (*boids)[i];
+
+        if (nborBoid->getIdNumber() != currBoid->getIdNumber()) {
 
             // Set velocity of crossed boids to the average of neighboring boids (Alignment)
             if (currBoid->isWithinRadius(nborBoid->getPosition(), currBoid->getNeighbourhoodRadius())) {
 
                 // Calculate repulsion unit vector for neighboring boids within boundary (Separation)
                 if (currBoid->isWithinRadius(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
-                    repulsionXSum += currBoid->getPosition().x - nborBoid->getPosition().x;
-                    repulsionYSum += currBoid->getPosition().y - nborBoid->getPosition().y;
+                    float distance = vec2::distanceBetweenPoints(currBoid->getPosition(), nborBoid->getPosition()) * 0.01f;
+                    // distance = std::min(distance, 1000.0f);
+                    // std::cout << distance << "\n";
+                    // std::cout << nborBoid->getPosition().x << " " << nborBoid->getPosition().x << "\n";
+                    repulsionXSum += (currBoid->getPosition().x - nborBoid->getPosition().x) / distance;
+                    repulsionYSum += (currBoid->getPosition().y - nborBoid->getPosition().y) / distance;
                 } else {
                     nborCount += 1;
                     avgVelocityX += nborBoid->getVelocity().x;
@@ -35,6 +42,7 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
                     avgPosY += nborBoid->getPosition().y;
                 }
             }
+        }
     }
 
 
