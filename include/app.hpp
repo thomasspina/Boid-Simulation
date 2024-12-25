@@ -21,6 +21,7 @@ private:
 
     void drawPerformanceUI();
     void drawConfigUI(BoidScreen& boidScreen);
+    void drawRulesUI(BoidScreen& boidScreen);
     void drawUI(BoidScreen& boidScreen);
 public:
     App() = default;

@@ -13,10 +13,12 @@ private:
     sf::RenderWindow* windowPointer;
     float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
+    bool isWrappingAroundScreen = false;
 
     // private helpers
     Boid* createBoid();
     void wrapAroundScreen(Boid* boid);
+    void deviateBoidFromScreenBoundary(Boid* boid);
 
     void setRandomBoidVelocity(Boid* boid);
     void setRandomBoidPosition(Boid* boid);
@@ -34,4 +36,5 @@ public:
     // setters
     void setNumBoids(const int numBoids);
     void setBoidNeighbourhoodRadius(const float radius);
+    void setWrappingAroundScreen(bool wrap) { this->isWrappingAroundScreen = wrap; }
 };
