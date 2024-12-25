@@ -26,8 +26,8 @@ float vec2::getMagnitude(const sf::Vector2f& vec) {
     return sqrt(vec.x * vec.x + vec.y * vec.y);
 }
 
-void vec2::normalize(sf::Vector2f& vec) {
+sf::Vector2f vec2::normalize(const sf::Vector2f& vec) {
     float length = getMagnitude(vec);
-    vec.x /= length;
-    vec.y /= length;
+
+    return {vec.x / length, vec.y / length};
 }

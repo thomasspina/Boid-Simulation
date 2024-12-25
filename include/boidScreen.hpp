@@ -11,7 +11,7 @@ class BoidScreen {
 private:
     std::vector<Boid*>* boids;
     sf::RenderWindow* windowPointer;
-    float boidNeighbourhoodRadius = BOID_DEFAULT_BOUNDARY_RADIUS;
+    float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
 
     // private helpers

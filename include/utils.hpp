@@ -16,5 +16,5 @@ namespace vec2 {
 
     float getMagnitude(const sf::Vector2f& vec);
 
-    void normalize(sf::Vector2f& vec);
+    sf::Vector2f normalize(const sf::Vector2f& vec);
 }

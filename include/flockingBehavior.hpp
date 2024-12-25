@@ -23,10 +23,6 @@ public:
 
     void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
 
-    void separation(Boid* boid, Boid* neighbor);
-    void alignment(Boid* boid, Boid* neighbor);
-    void cohesion(Boid* boid, Boid* neighbor);
-
     void setSeparationEnabled(bool enabled) { this->separationEnabled = enabled; }
     void setAlignmentEnabled(bool enabled) { this->alignmentEnabled = enabled; }
     void setCohesionEnabled(bool enabled) { this->cohesionEnabled = enabled; }

@@ -102,14 +102,14 @@ void BoidScreen::setNumBoids(const int newNumBoids) {
     // create new boids if new number of boids is greater than current number
     for (int i = numBoids; i <= newNumBoids; i++) {
         Boid* newBoid = createBoid();
-        newBoid->setRadius(boidNeighbourhoodRadius);
+        newBoid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
     }
 }
 
 void BoidScreen::setBoidNeighbourhoodRadius(const float radius) {
     this->boidNeighbourhoodRadius = radius;
     for (auto boid : *boids) {
-        boid->setRadius(boidNeighbourhoodRadius);
+        boid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
     }
 }
 

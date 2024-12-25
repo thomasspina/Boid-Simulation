@@ -20,10 +20,10 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
         Boid* nborBoid = (*boids)[i];
 
             // Set velocity of crossed boids to the average of neighboring boids (Alignment)
-            if (currBoid->isWithinBoundary(nborBoid->getPosition(), currBoid->getRadius())) {
+            if (currBoid->isWithinRadius(nborBoid->getPosition(), currBoid->getNeighbourhoodRadius())) {
 
                 // Calculate repulsion unit vector for neighboring boids within boundary (Separation)
-                if (currBoid->isWithinBoundary(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
+                if (currBoid->isWithinRadius(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
                     repulsionXSum += currBoid->getPosition().x - nborBoid->getPosition().x;
                     repulsionYSum += currBoid->getPosition().y - nborBoid->getPosition().y;
                 } else {
@@ -53,7 +53,7 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
         new_X += (avgVelocityX - currBoid->getVelocity().x) * FLOCK_DEFAULT_MATCHING_FACTOR;
         new_Y += (avgVelocityY - currBoid->getVelocity().y) * FLOCK_DEFAULT_MATCHING_FACTOR;
 
-        // // Apply cohesion behavior
+        // Apply cohesion behavior
         new_X += (avgPosX - currBoid->getPosition().x) * FLOCK_DEFAULT_CENTERING_FACTOR;
         new_Y += (avgPosY - currBoid->getPosition().y) * FLOCK_DEFAULT_CENTERING_FACTOR;
     }
@@ -63,8 +63,6 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
     new_Y += currBoid->getVelocity().y + repulsionYSum * FLOCK_DEFAULT_AVOID_FACTOR;
 
     sf::Vector2f newVelocity = sf::Vector2(new_X, new_Y);
-    vec2::normalize(newVelocity);
-    newVelocity *= currBoid->getSpeed();
 
     currBoid->setVelocity(newVelocity);
 }
