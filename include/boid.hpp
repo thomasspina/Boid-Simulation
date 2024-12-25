@@ -18,19 +18,21 @@ public:
     Boid();
 
     void initiateBoundary();
-    const sf::CircleShape& getBoundary() const;
-    void setBoundPos(const float x, const float y);
-
-    void setSpeed(float speed);
-    float getSpeed() const;
-
-    void setIdNumber(int id);
-    int getIdNumber() const;
-    float getRadius() const;
-    void setRadius(const float radius);
 
     void update(const sf::Time& deltaTime);
-    void setVelocity(const sf::Vector2f& velocity);
-    const sf::Vector2f& getVelocity() const;
     bool isWithinBoundary(const sf::Vector2f& neighborVector, const float radius) const;
+
+    // getters
+    const sf::CircleShape& getBoundary() const { return this->boundary; }
+    float getSpeed() const { return this->speed; }
+    int getIdNumber() const { return this->idNumber; }
+    float getRadius() const { return this->boundary.getRadius(); }
+    const sf::Vector2f& getVelocity() const { return this->velocity; }
+
+    // setters
+    void setBoundPos(const float x, const float y) { this->boundary.setPosition(x, y); }
+    void setSpeed(float speed);
+    void setIdNumber(int id) { this->idNumber = id; }
+    void setRadius(const float radius);
+    void setVelocity(const sf::Vector2f& velocity);
 };

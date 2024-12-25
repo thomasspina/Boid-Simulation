@@ -2,7 +2,7 @@
 
 #define SCREEN_WIDTH 1920u
 #define SCREEN_HEIGHT 1080u
-#define SCREEN_TITLE "Boid Sim"
+#define SCREEN_TITLE "Boid Simulator"
 #define SCREEN_FPS 60u
 
 #define AVG_MEMORY_USAGE 50.0f // TODO: is there a better way of getting this value?

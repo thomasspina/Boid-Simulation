@@ -9,10 +9,10 @@
 class BoidScreen {
 private:
     std::vector<Boid*>* boids;
-
     sf::RenderWindow* windowPointer;
     float boidNeighbourhoodRadius = BOID_DEFAULT_BOUNDARY_RADIUS;
 
+    // private helpers
     Boid* createBoid();
     void wrapAroundScreen(Boid* boid);
 
@@ -21,11 +21,15 @@ private:
 public:
     BoidScreen(sf::RenderWindow* windowPointer);
     ~BoidScreen();
+
     void update(const sf::Time& dt);
 
+    // getters
     const std::vector<Boid*>* const getBoids() const { return boids; }
-    void setNumBoids(const int numBoids);
     int getNumBoids() const { return boids->size(); }
-    void setBoidNeighbourhoodRadius(const float radius);
     float getBoidNeighbourhoodRadius() const { return boidNeighbourhoodRadius; }
+
+    // setters
+    void setNumBoids(const int numBoids);
+    void setBoidNeighbourhoodRadius(const float radius);
 };

@@ -28,39 +28,6 @@ void Boid::initiateBoundary() {
     this->boundary.setOrigin(BOID_DEFAULT_BOUNDARY_RADIUS, BOID_DEFAULT_BOUNDARY_RADIUS);
 }
 
-float Boid::getRadius() const {
-    return this->boundary.getRadius();
-}
-
-void Boid::setRadius(const float radius) {
-    this->boundary.setRadius(radius);
-    this->boundary.setOrigin(radius, radius);
-}
-
-const sf::CircleShape& Boid::getBoundary() const {
-    return this->boundary;
-}
-
-void Boid::setBoundPos(const float x, const float y) {
-    this->boundary.setPosition(x, y);
-}
-
-void Boid::setSpeed(float speed) {
-    this->speed = speed;
-}
-    
-float Boid::getSpeed() const {
-    return this->speed;
-}
-
-void Boid::setIdNumber(int id) {
-    this->idNumber = id;
-}
-    
-int Boid::getIdNumber() const {
-    return this->idNumber;
-}
-
 void Boid::update(const sf::Time& deltaTime) {
     speed = vec2::distanceFormula(velocity.x, 0, velocity.y, 0);
 
@@ -79,16 +46,22 @@ void Boid::update(const sf::Time& deltaTime) {
     this->boundary.move(newPos);
 }
 
-void Boid::setVelocity(const sf::Vector2f& velocity) {
-    this->setRotation(vec2::angleDegrees(velocity)); // sets the front of the boid where it's going 
-    this->velocity = velocity;
-}
-
-const sf::Vector2f& Boid::getVelocity() const {
-    return this->velocity;
-}
-
 // check whether a neighbor boid is within the current boid's boundary
 bool Boid::isWithinBoundary(const sf::Vector2f& neighborVector, float radius) const {
     return vec2::distanceBetweenPoints(this->getPosition(), neighborVector) <= radius;
+}
+
+void Boid::setRadius(const float radius) {
+    this->boundary.setRadius(radius);
+    this->boundary.setOrigin(radius, radius);
+}
+
+void Boid::setSpeed(float speed) {
+    this->speed = speed;
+    this->velocity = vec2::vecFromDegree(this->getRotation()) * speed; // update velocity when speed update
+}
+
+void Boid::setVelocity(const sf::Vector2f& velocity) {
+    this->velocity = velocity;
+    this->setRotation(vec2::angleDegrees(this->velocity)); // sets the front of the boid where it's going   
 }
