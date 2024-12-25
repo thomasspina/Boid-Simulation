@@ -7,8 +7,8 @@
 // TODO: separate in different respective methods
 void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
     int nborCount = 0;
-    float velocityXSum = 0.f;
-    float velocityYSum = 0.f;
+    float avgVelocityX = 0.f;
+    float avgVelocityY = 0.f;
 
     int repulseCount = 0;
     float repulsionXSum = 0.f;
@@ -21,14 +21,15 @@ void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
             // Set velocity of crossed boids to the average of neighboring boids (Alignment)
             if (currBoid->isWithinBoundary(nborBoid->getPosition(), currBoid->getRadius())) {
                 nborCount += 1;
-                // velocityXSum += nborBoid->getVelocity().x;
-                // velocityYSum += nborBoid->getVelocity().y;
+                avgVelocityX += nborBoid->getVelocity().x;
+                avgVelocityY += nborBoid->getVelocity().y;
 
                 // std::cout << currBoid->getIdNumber() << " crossed " << nborBoid->getIdNumber() << "\n"; // TODO delete
 
                 // Calculate repulsion unit vector for neighboring boids within boundary (Separation)
-                repulsionXSum += currBoid->getPosition().x - nborBoid->getPosition().x;
-                repulsionYSum += currBoid->getPosition().y - nborBoid->getPosition().y;
+                if (currBoid->isWithinBoundary(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
+                    repulsionXSum += currBoid->getPosition().x - nborBoid->getPosition().x;
+                    repulsionYSum += currBoid->getPosition().y - nborBoid->getPosition().y;
 
                 // sf::Vector2f vectorDifference = currBoid->getPosition() - nborBoid->getPosition();
                 // float distanceDifference = vec2::distanceBetweenPoints(currBoid->getPosition(), nborBoid->getPosition());
@@ -36,7 +37,7 @@ void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
                 //     sf::Vector2f repulseUV = vectorDifference / distanceDifference;
                 //     repulsionXSum += repulseUV.x;
                 //     repulsionYSum += repulseUV.y;
-                // }
+                }
 
 
                 // float distanceBetween = std::max(1.0f, vec2::distanceBetweenPoints(currBoid->getVelocity(), nborBoid->getVelocity()));
@@ -58,9 +59,16 @@ void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
 
 
     if (nborCount > 0) {
-        // std::cout << repulsionXSum << " " << repulsionYSum << "\n";
+        avgVelocityX = avgVelocityX / nborCount;
+        avgVelocityY = avgVelocityY / nborCount;
+
+        // Apply separation behavior
         float new_X = currBoid->getVelocity().x + repulsionXSum * FLOCK_DEFAULT_AVOID_FACTOR;
         float new_Y = currBoid->getVelocity().y + repulsionYSum * FLOCK_DEFAULT_AVOID_FACTOR;
+
+        // Apply alignment behavior
+        new_X += (avgVelocityX - currBoid->getVelocity().x) * FLOCK_DEFAULT_MATCHING_FACTOR;
+        new_Y += (avgVelocityY - currBoid->getVelocity().y) * FLOCK_DEFAULT_MATCHING_FACTOR;
 
         currBoid->setVelocity(sf::Vector2(new_X, new_Y));
     }
