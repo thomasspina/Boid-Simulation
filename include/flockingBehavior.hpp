@@ -5,10 +5,29 @@
 #include <algorithm>
 
 
-class flockingBehavior {
+// Singleton class to handle flocking behavior
+class FlockingBehavior {
+private: 
+    bool separationEnabled = true;
+    bool alignmentEnabled = true;
+    bool cohesionEnabled = true;
+
+    FlockingBehavior() = default;
+    FlockingBehavior(const FlockingBehavior&) = delete;
+    FlockingBehavior& operator=(const FlockingBehavior&) = delete;
 public:
-    static void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
-    // void separation(Boid* boid);
-    // void alignment();
-    // void cohesion();
+    static FlockingBehavior& getInstance() {
+        static FlockingBehavior instance;
+        return instance;
+    }
+
+    void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
+
+    void separation(Boid* boid, Boid* neighbor);
+    void alignment(Boid* boid, Boid* neighbor);
+    void cohesion(Boid* boid, Boid* neighbor);
+
+    void setSeparationEnabled(bool enabled) { this->separationEnabled = enabled; }
+    void setAlignmentEnabled(bool enabled) { this->alignmentEnabled = enabled; }
+    void setCohesionEnabled(bool enabled) { this->cohesionEnabled = enabled; }
 };

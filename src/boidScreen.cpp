@@ -18,7 +18,14 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
 }
 
 void BoidScreen::setRandomBoidVelocity(Boid* boid) {
-    boid->setSpeed(rand() % (int) BOID_DEFAULT_MAX_SPEED);
+    // TODO: find a better way to generate random speed
+    float randomSpeed = rand() % (int) BOID_DEFAULT_MAX_SPEED;
+    if(randomSpeed < BOID_DEFAULT_MIN_SPEED) {
+        randomSpeed += BOID_DEFAULT_MIN_SPEED;
+    }
+    boid->setSpeed(randomSpeed);
+
+
     sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
     boid->setVelocity(random_dir * boid->getSpeed());
 }
@@ -35,7 +42,7 @@ void BoidScreen::update(const sf::Time& dt) {
     for (size_t i=0; i < boids->size(); i++) {
         Boid* boid = (*boids)[i];
         
-        flockingBehavior::applyFlockingLogic(boid, boids);
+        flockingBehavior.applyFlockingLogic(boid, boids);
 
         boid->update(dt);
 

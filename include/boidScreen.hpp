@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "boid.hpp"
+#include "flockingBehavior.hpp"
 #include "constants.hpp"
 
 class BoidScreen {
@@ -11,6 +12,7 @@ private:
     std::vector<Boid*>* boids;
     sf::RenderWindow* windowPointer;
     float boidNeighbourhoodRadius = BOID_DEFAULT_BOUNDARY_RADIUS;
+    FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
 
     // private helpers
     Boid* createBoid();

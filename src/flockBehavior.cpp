@@ -1,11 +1,8 @@
-#include <iostream>
-
 #include "constants.hpp"
 #include "flockingBehavior.hpp"
 #include "utils.hpp"
 
-// TODO: separate in different respective methods
-void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
+void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
     int nborCount = 0;
 
     float avgVelocityX = 0.f;
@@ -65,5 +62,9 @@ void flockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
     new_X += currBoid->getVelocity().x + repulsionXSum * FLOCK_DEFAULT_AVOID_FACTOR;
     new_Y += currBoid->getVelocity().y + repulsionYSum * FLOCK_DEFAULT_AVOID_FACTOR;
 
-    currBoid->setVelocity(sf::Vector2(new_X, new_Y));
+    sf::Vector2f newVelocity = sf::Vector2(new_X, new_Y);
+    vec2::normalize(newVelocity);
+    newVelocity *= currBoid->getSpeed();
+
+    currBoid->setVelocity(newVelocity);
 }

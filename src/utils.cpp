@@ -18,11 +18,16 @@ sf::Vector2f vec2::vecFromDegree(const float deg) {
     return vecFromRadian(deg * 180.f / (float) M_PI);
 }
 
-float vec2::distanceFormula(const float x1, const float x2, const float y1, const float y2) {
-    return sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
+float vec2::distanceBetweenPoints(const sf::Vector2f& v1, const sf::Vector2f& v2) {
+    return sqrt((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
 }
 
-float vec2::distanceBetweenPoints(const sf::Vector2f& v1, const sf::Vector2f& v2) {
-    return distanceFormula(v1.x, v2.x, v1.y, v2.y);
-    // return sqrt((v2.x - v1.x)*(v2.x - v1.x) + (v2.y - v1.y)*(v2.y - v1.y));
+float vec2::getMagnitude(const sf::Vector2f& vec) {
+    return sqrt(vec.x * vec.x + vec.y * vec.y);
+}
+
+void vec2::normalize(sf::Vector2f& vec) {
+    float length = getMagnitude(vec);
+    vec.x /= length;
+    vec.y /= length;
 }

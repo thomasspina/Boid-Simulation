@@ -29,19 +29,7 @@ void Boid::initiateBoundary() {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
-    speed = vec2::distanceFormula(velocity.x, 0, velocity.y, 0);
-
-    if (speed > BOID_DEFAULT_MAX_SPEED) {
-        velocity.x = (velocity.x/speed)*BOID_DEFAULT_MAX_SPEED;
-        velocity.y = (velocity.y/speed)*BOID_DEFAULT_MAX_SPEED;
-    }
-
-    if (speed < BOID_DEFAULT_MIN_SPEED) {
-         velocity.x = (velocity.x/speed)*BOID_DEFAULT_MIN_SPEED;
-        velocity.y = (velocity.y/speed)*BOID_DEFAULT_MIN_SPEED;
-    }
-
-    auto newPos = velocity * deltaTime.asSeconds();
+    sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
     this->move(newPos);
     this->boundary.move(newPos);
 }

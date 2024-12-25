@@ -12,7 +12,9 @@ namespace vec2 {
 
     sf::Vector2f vecFromDegree(const float deg);
 
-    float distanceFormula(float x1, float x2, float y1, float y2);
-
     float distanceBetweenPoints(const sf::Vector2f& v1, const sf::Vector2f& v2);
+
+    float getMagnitude(const sf::Vector2f& vec);
+
+    void normalize(sf::Vector2f& vec);
 }
