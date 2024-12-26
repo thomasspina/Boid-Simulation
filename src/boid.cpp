@@ -1,7 +1,6 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
-#include <random>
 
 Boid::Boid() : sf::ConvexShape(3) {
     setPoint(0, sf::Vector2f(BOID_DEFAULT_RADIUS, 0.f));
@@ -29,6 +28,17 @@ void Boid::initNeighbourhoodBoundary() {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
+    sf::Vector2f wanderForce = applyWanderLogic();
+
+    // Apply wander vector
+    setVelocity(velocity += wanderForce * deltaTime.asSeconds());
+
+    sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
+    this->move(newPos);
+    this->neighbourhoodBoundary.move(newPos);
+}
+
+sf::Vector2f Boid::applyWanderLogic() {
     sf::Vector2f normalized = vec2::normalize(velocity);
 
     // Project a displacement circle in the boid direction
@@ -43,12 +53,7 @@ void Boid::update(const sf::Time& deltaTime) {
     // Combine circle center and displacement to get final wander force
     sf::Vector2f wanderForce = circleCenter + displacement;
 
-    // Apply wander vector
-    setVelocity(velocity += wanderForce * BOID_WANDER_FORCE_FACTOR * deltaTime.asSeconds());
-
-    sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
-    this->move(newPos);
-    this->neighbourhoodBoundary.move(newPos);
+    return wanderForce * BOID_WANDER_FORCE_FACTOR;
 }
 
 // check whether a neighbor boid is within the current boid's boundary

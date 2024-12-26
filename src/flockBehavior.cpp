@@ -1,8 +1,6 @@
 #include "constants.hpp"
 #include "flockingBehavior.hpp"
 #include "utils.hpp"
-#include <algorithm>
-#include <utility> 
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
     int nborCount = 0;
@@ -51,7 +49,7 @@ std::pair<float, float> FlockingBehavior::applySeparationLogic(Boid* currBoid, s
         }
     }
 
-    return std::make_pair(repulsionXSum, repulsionYSum);
+    return {repulsionXSum, repulsionYSum};
 }
 
 std::pair<float, float> FlockingBehavior::applyAlignmentLogic(Boid* currBoid, std::vector<Boid*>* boids, int& nborCount) {
@@ -75,7 +73,7 @@ std::pair<float, float> FlockingBehavior::applyAlignmentLogic(Boid* currBoid, st
         }
     }
 
-    return std::make_pair(avgVelocityX / nborCount, avgVelocityY / nborCount);
+    return {avgVelocityX / nborCount, avgVelocityY / nborCount};
 }
 
 std::pair<float, float> FlockingBehavior::applyCohesionLogic(Boid* currBoid, std::vector<Boid*>* boids, int& nborCount) {
@@ -96,6 +94,6 @@ std::pair<float, float> FlockingBehavior::applyCohesionLogic(Boid* currBoid, std
             }
         }
     }
-    return std::make_pair(avgPosX / nborCount, avgPosY / nborCount);
+    return {avgPosX / nborCount, avgPosY / nborCount};
 }
 

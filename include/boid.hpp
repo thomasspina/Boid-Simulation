@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream> // TODO remove
+#include <random>
 
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/ConvexShape.hpp>
@@ -14,14 +15,14 @@ private:
     sf::CircleShape neighbourhoodBoundary;
     int idNumber;
     float speed = 0.f;
-     float wanderAngle = 0.0f;
+    float wanderAngle = 0.f;
 public:
     Boid();
 
     void initNeighbourhoodBoundary();
-
     void update(const sf::Time& deltaTime);
     bool isWithinRadius(const sf::Vector2f& neighborVector, const float radius) const;
+    sf::Vector2f applyWanderLogic();
 
     // getters
     const sf::CircleShape& getBoundary() const { return this->neighbourhoodBoundary; }

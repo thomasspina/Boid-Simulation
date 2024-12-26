@@ -42,7 +42,7 @@ void BoidScreen::update(const sf::Time& dt) {
     for (size_t i=0; i < boids->size(); i++) {
         Boid* boid = (*boids)[i];
         
-        // flockingBehavior.applyFlockingLogic(boid, boids);
+        flockingBehavior.applyFlockingLogic(boid, boids);
 
         boid->update(dt);
 
