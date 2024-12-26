@@ -85,11 +85,19 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
     }
 
     float neighbourhoodRadius = boidScreen.getBoidNeighbourhoodRadius();
-    if (ImGui::SliderFloat("Detection Radius", &neighbourhoodRadius, BOID_DEFAULT_NEIGHBOURHOOD_RADIUS, BOID_MAXIMUM_NEIGHBOURHOOD_RADIUS)) {
+    if (ImGui::SliderFloat("Neighbourhood", &neighbourhoodRadius, BOID_DEFAULT_NEIGHBOURHOOD_RADIUS, BOID_MAXIMUM_NEIGHBOURHOOD_RADIUS)) {
         boidScreen.setBoidNeighbourhoodRadius(neighbourhoodRadius);
     }
+    ImGui::Checkbox("Show Boid Neighbourhood", &drawBoundary);
+   
+    bool avoidScreenBoundaries = boidScreen.getIsAvoidingScreenEdges();
+    if (ImGui::Checkbox("Avoid Screen Boundary", &avoidScreenBoundaries)) {
+        boidScreen.setAvoidScreenEdges(avoidScreenBoundaries);
+    }
+}
 
-    ImGui::Checkbox("Show Boid Boundary", &drawBoundary);
+void App::drawRulesUI() {
+    
 }
 
 void App::drawUI(BoidScreen& boidScreen) {
@@ -106,6 +114,11 @@ void App::drawUI(BoidScreen& boidScreen) {
     ImGui::SetNextItemOpen(true, ImGuiCond_Once); // open menu by default
     if (ImGui::CollapsingHeader("Configuration")) {
         drawConfigUI(boidScreen);
+    }
+
+    ImGui::SetNextItemOpen(true, ImGuiCond_Once); // open menu by default
+    if (ImGui::CollapsingHeader("Rules")) {
+        drawRulesUI();
     }
 
     ImGui::End();
