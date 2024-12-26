@@ -31,3 +31,15 @@ sf::Vector2f vec2::normalize(const sf::Vector2f& vec) {
 
     return {vec.x / length, vec.y / length};
 }
+
+float vec2::centroid(float p1, float p2, float p3) {
+    return (p1 + p2 + p3) / 3;
+}
+
+sf::Color vec2::HexToColour(uint32_t hexValue) {
+    return sf::Color(
+        (hexValue >> 16) & 0xFF,  // Extract red
+        (hexValue >> 8) & 0xFF,   // Extract green
+        hexValue & 0xFF          // Extract blue
+    );
+}

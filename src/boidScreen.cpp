@@ -8,13 +8,18 @@
 Boid* BoidScreen::createBoid() {
     Boid* newBoid = new Boid();
     newBoid->setIdNumber(this->boids->size());
-    this->boids->push_back(newBoid);
+
+    int randColor = rand() % colors.size();
+
+    newBoid->setFillColor(vec2::HexToColour(colors[randColor]));
 
     // set random boid velocity
     setRandomBoidVelocity(newBoid);
 
     // set random boid position
     setRandomBoidPosition(newBoid);
+
+    this->boids->push_back(newBoid);
 
     return newBoid;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include <cstdint>
 
 namespace vec2 {
     float angleRadians(const sf::Vector2f& vec);
@@ -17,4 +17,8 @@ namespace vec2 {
     float getMagnitude(const sf::Vector2f& vec);
 
     sf::Vector2f normalize(const sf::Vector2f& vec);
+
+    float centroid(float p1, float p2, float p3);
+
+    sf::Color HexToColour(uint32_t hexValue);
 }

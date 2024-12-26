@@ -2,14 +2,28 @@
 
 #include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <cstdint>
 
 #include "boid.hpp"
 #include "flockingBehavior.hpp"
 #include "constants.hpp"
 
 class BoidScreen {
+
 private:
     std::vector<Boid*>* boids;
+    std::vector<uint32_t> colors = {
+        0xb3f7ff, 
+        0xeffafe, 
+        0xdbd1ed, 
+        0xcfabff
+    };
+    // std::vector<sf::Color> colors = {
+    //     sf::Color(0xc22860), 
+    //     sf::Color(0xae2357), 
+    //     sf::Color(0x750809), 
+    //     sf::Color(0xffedd5)
+    // };
     sf::RenderWindow* windowPointer;
     float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
@@ -22,6 +36,7 @@ private:
 
     void setRandomBoidVelocity(Boid* boid);
     void setRandomBoidPosition(Boid* boid);
+
 public:
     BoidScreen(sf::RenderWindow* windowPointer);
     ~BoidScreen();
