@@ -13,7 +13,7 @@ private:
     sf::RenderWindow* windowPointer;
     float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
-    bool isWrappingAroundScreen = false;
+    bool isAvoidingScreenEdges = false;
 
     // private helpers
     Boid* createBoid();
@@ -32,9 +32,10 @@ public:
     const std::vector<Boid*>* const getBoids() const { return boids; }
     int getNumBoids() const { return boids->size(); }
     float getBoidNeighbourhoodRadius() const { return boidNeighbourhoodRadius; }
+    bool getIsAvoidingScreenEdges() const { return isAvoidingScreenEdges; }
 
     // setters
     void setNumBoids(const int numBoids);
     void setBoidNeighbourhoodRadius(const float radius);
-    void setWrappingAroundScreen(bool wrap) { this->isWrappingAroundScreen = wrap; }
+    void setAvoidScreenEdges(bool avoid) { this->isAvoidingScreenEdges = avoid; }
 };

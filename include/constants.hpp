@@ -5,13 +5,13 @@
 #define SCREEN_TITLE "Boid Simulator"
 #define SCREEN_FPS 60u
 
-#define BOID_SCREEN_DEVIATION_MARGIN 50.f
-#define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.5f
+#define BOID_SCREEN_DEVIATION_MARGIN 110.f
+#define BOID_SCREEN_DEVIATION_TURN_FACTOR 25.f
 
 #define AVG_MEMORY_USAGE 50.0f // TODO: is there a better way of getting this value?
 
-#define DEFAULT_NUM_BOIDS 30
-#define MAX_NUM_BOIDS 100
+#define DEFAULT_NUM_BOIDS 60
+#define MAX_NUM_BOIDS 800
 
 #define BOID_DEFAULT_RADIUS 5.f // Radius to create boid shape
 #define BOID_DEFAULT_COLOR sf::Color::Green

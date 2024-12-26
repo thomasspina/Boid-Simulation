@@ -67,7 +67,7 @@ void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
     
     // check bottom margin
     else if (yPos > windowPointer->getSize().y - BOID_SCREEN_DEVIATION_MARGIN) 
-        vy = boid->getVelocity().y + BOID_SCREEN_DEVIATION_TURN_FACTOR;
+        vy = boid->getVelocity().y - BOID_SCREEN_DEVIATION_TURN_FACTOR;
 
     boid->setVelocity({vx, vy});
 }
@@ -120,7 +120,7 @@ void BoidScreen::update(const sf::Time& dt) {
 
         boid->update(dt);
         
-        if (isWrappingAroundScreen)
+        if (!isAvoidingScreenEdges)
             wrapAroundScreen(boid);
         else
             deviateBoidFromScreenBoundary(boid);
