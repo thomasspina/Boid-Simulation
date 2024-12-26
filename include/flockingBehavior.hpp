@@ -22,6 +22,7 @@ public:
     }
 
     void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
+    std::pair<float, float> applySeparationLogic(Boid* boid, std::vector<Boid*>* boids);
 
     void setSeparationEnabled(bool enabled) { this->separationEnabled = enabled; }
     void setAlignmentEnabled(bool enabled) { this->alignmentEnabled = enabled; }
