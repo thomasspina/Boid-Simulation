@@ -1,6 +1,7 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
+#include <random>
 
 Boid::Boid() : sf::ConvexShape(3) {
     setPoint(0, sf::Vector2f(BOID_DEFAULT_RADIUS, 0.f));
@@ -28,6 +29,23 @@ void Boid::initNeighbourhoodBoundary() {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
+    sf::Vector2f normalized = vec2::normalize(velocity);
+
+    // Project a displacement circle in the boid direction
+    sf::Vector2f circleCenter(normalized.x * BOID_WANDER_CIRCLE_DISTANCE, normalized.y * BOID_WANDER_CIRCLE_DISTANCE);
+
+    // Set a random point on the displacement unit circle, constant dictates how wide the angle change is
+    wanderAngle += (rand() / (float)RAND_MAX - 0.5f) * 2.0f * BOID_WANDER_ANGLE_CHANGE;
+    
+    // Calculate the displacement force on the circle that is scaled to the desired radius
+    sf::Vector2f displacement(std::cos(wanderAngle) * BOID_WANDER_CIRCLE_RADIUS, std::sin(wanderAngle) * BOID_WANDER_CIRCLE_RADIUS);
+    
+    // Combine circle center and displacement to get final wander force
+    sf::Vector2f wanderForce = circleCenter + displacement;
+
+    // Apply wander vector
+    setVelocity(velocity += wanderForce * BOID_WANDER_FORCE_FACTOR * deltaTime.asSeconds());
+
     sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
     this->move(newPos);
     this->neighbourhoodBoundary.move(newPos);

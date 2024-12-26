@@ -14,6 +14,7 @@ private:
     sf::CircleShape neighbourhoodBoundary;
     int idNumber;
     float speed = 0.f;
+     float wanderAngle = 0.0f;
 public:
     Boid();
 
