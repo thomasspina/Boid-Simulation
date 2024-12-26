@@ -13,17 +13,11 @@ class BoidScreen {
 private:
     std::vector<Boid*>* boids;
     std::vector<uint32_t> colors = {
-        0xb3f7ff, 
-        0xeffafe, 
-        0xdbd1ed, 
-        0xcfabff
+        0xf9fbf0, 
+        0xd1eeff, 
+        0x8fc5f4, 
+        0x4b89da
     };
-    // std::vector<sf::Color> colors = {
-    //     sf::Color(0xc22860), 
-    //     sf::Color(0xae2357), 
-    //     sf::Color(0x750809), 
-    //     sf::Color(0xffedd5)
-    // };
     sf::RenderWindow* windowPointer;
     float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
