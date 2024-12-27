@@ -88,6 +88,13 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
     if (ImGui::SliderFloat("Neighbourhood", &neighbourhoodRadius, BOID_DEFAULT_NEIGHBOURHOOD_RADIUS, BOID_MAXIMUM_NEIGHBOURHOOD_RADIUS)) {
         boidScreen.setBoidNeighbourhoodRadius(neighbourhoodRadius);
     }
+
+    float maxSpeed = boidScreen.getMaxBoidSpeed();
+    if (ImGui::SliderFloat("Max Speed", &maxSpeed, BOID_DEFAULT_MIN_SPEED, BOID_MAXIMUM_MAX_SPEED)) {
+        boidScreen.setMaxBoidSpeed(maxSpeed);
+    }
+
+
     ImGui::Checkbox("Show Boid Neighbourhood", &drawBoundary);
    
     bool avoidScreenBoundaries = boidScreen.getIsAvoidingScreenEdges();

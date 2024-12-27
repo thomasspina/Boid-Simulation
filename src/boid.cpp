@@ -74,8 +74,8 @@ void Boid::setVelocity(const sf::Vector2f& velocity) {
     this->velocity = velocity;
     this->setRotation(vec2::angleDegrees(this->velocity)); // sets the front of the boid where it's going   
 
-    if (vec2::getMagnitude(velocity) > BOID_DEFAULT_MAX_SPEED) {
-        this->velocity = vec2::normalize(velocity) * BOID_DEFAULT_MAX_SPEED;
+    if (vec2::getMagnitude(velocity) > this->maxSpeed) {
+        this->velocity = vec2::normalize(velocity) * this->maxSpeed;
     } else if (vec2::getMagnitude(velocity) < BOID_DEFAULT_MIN_SPEED) {
         this->velocity = vec2::normalize(velocity) * BOID_DEFAULT_MIN_SPEED;
     }

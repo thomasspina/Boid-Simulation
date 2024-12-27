@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream> // TODO remove
 #include <random>
 
 #include <SFML/Graphics/CircleShape.hpp>
@@ -9,6 +8,8 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "constants.hpp"
+
 class Boid : public sf::ConvexShape {
 private:
     sf::Vector2f velocity = {0.f, 0.f};
@@ -16,6 +17,7 @@ private:
     int idNumber;
     float speed = 0.f;
     float wanderAngle = 0.f;
+    float maxSpeed = BOID_DEFAULT_MAX_SPEED;
 public:
     Boid();
 
@@ -37,4 +39,5 @@ public:
     void setIdNumber(int id) { this->idNumber = id; }
     void setNeighboorhoodRadius(const float radius);
     void setVelocity(const sf::Vector2f& velocity);
+    void setMaxSpeed(const float speed) { this->maxSpeed = speed; }
 };

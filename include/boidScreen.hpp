@@ -11,6 +11,8 @@
 class BoidScreen {
 
 private:
+    float maxBoidSpeed = BOID_DEFAULT_MAX_SPEED;
+    float minBoidSpeed = BOID_DEFAULT_MIN_SPEED;
     std::vector<Boid*>* boids;
     std::vector<uint32_t> colors = {
         0xf9fbf0, 
@@ -42,9 +44,11 @@ public:
     int getNumBoids() const { return boids->size(); }
     float getBoidNeighbourhoodRadius() const { return boidNeighbourhoodRadius; }
     bool getIsAvoidingScreenEdges() const { return isAvoidingScreenEdges; }
+    float getMaxBoidSpeed() const { return maxBoidSpeed; }
 
     // setters
     void setNumBoids(const int numBoids);
     void setBoidNeighbourhoodRadius(const float radius);
     void setAvoidScreenEdges(bool avoid) { this->isAvoidingScreenEdges = avoid; }
+    void setMaxBoidSpeed(const float speed);
 };
