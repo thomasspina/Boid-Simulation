@@ -19,6 +19,7 @@ private:
     FlockingBehavior() = default;
     FlockingBehavior(const FlockingBehavior&) = delete;
     FlockingBehavior& operator=(const FlockingBehavior&) = delete;
+    int countNeighbours(Boid* currBoid, std::vector<Boid*>* boids);
 public:
     static FlockingBehavior& getInstance() {
         static FlockingBehavior instance;
@@ -27,8 +28,8 @@ public:
 
     void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
     std::pair<float, float> applySeparationLogic(Boid* boid, std::vector<Boid*>* boids);
-    std::pair<float, float> applyAlignmentLogic(Boid* boid, std::vector<Boid*>* boids, int& nborCount);
-    std::pair<float, float> applyCohesionLogic(Boid* boid, std::vector<Boid*>* boids, int& nborCount);
+    std::pair<float, float> applyAlignmentLogic(Boid* boid, std::vector<Boid*>* boids, int nborCount);
+    std::pair<float, float> applyCohesionLogic(Boid* boid, std::vector<Boid*>* boids, int nborCount);
 
     // pointer getters
     float* getSeparationRadiusPointer() { return &this->separationRadius; }
