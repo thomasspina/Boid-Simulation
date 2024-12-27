@@ -13,6 +13,9 @@ private:
     bool alignmentEnabled = true;
     bool cohesionEnabled = true;
 
+    float separationRadius = FLOCK_DEFAULT_SEPARATION_RADIUS;
+    float separationAvoidFactor = FLOCK_DEFAULT_AVOID_FACTOR;
+
     FlockingBehavior() = default;
     FlockingBehavior(const FlockingBehavior&) = delete;
     FlockingBehavior& operator=(const FlockingBehavior&) = delete;
@@ -27,7 +30,8 @@ public:
     std::pair<float, float> applyAlignmentLogic(Boid* boid, std::vector<Boid*>* boids, int& nborCount);
     std::pair<float, float> applyCohesionLogic(Boid* boid, std::vector<Boid*>* boids, int& nborCount);
 
-    void setSeparationEnabled(bool enabled) { this->separationEnabled = enabled; }
-    void setAlignmentEnabled(bool enabled) { this->alignmentEnabled = enabled; }
-    void setCohesionEnabled(bool enabled) { this->cohesionEnabled = enabled; }
+    // pointer getters
+    float* getSeparationRadiusPointer() { return &this->separationRadius; }
+    float* getSeparationAvoidFactorPointer() { return &this->separationAvoidFactor; }
+    bool* getIsSeparationEnabledPointer() { return &this->separationEnabled; }
 };

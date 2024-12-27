@@ -5,8 +5,8 @@
 #define SCREEN_TITLE "Boid Simulator"
 #define SCREEN_FPS 60u
 
-#define BOID_SCREEN_DEVIATION_MARGIN 100.f
-#define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.09f
+#define BOID_SCREEN_DEVIATION_MARGIN 100.f // TODO: better deviation margin needed (should be based on screen size and boid speed)
+#define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.09f // TODO: better deviation factor needed (should be based on screen size and boid speed)
 
 #define AVG_MEMORY_USAGE 50.0f // TODO: is there a better way of getting this value?
 
@@ -27,7 +27,9 @@
 #define BOID_DEFAULT_NEIGHBOURHOOD_OUTLINE_THICKNESS 1.f
 
 #define FLOCK_DEFAULT_SEPARATION_RADIUS (BOID_DEFAULT_RADIUS + 10.f)
+#define FLOCK_MAXIMUM_SEPARATION_RADIUS (BOID_DEFAULT_RADIUS + 50.f)
 #define FLOCK_DEFAULT_AVOID_FACTOR 0.6f
+#define FLOCK_MAXIMUM_AVOID_FACTOR 2.0f
 #define FLOCK_DEFAULT_MATCHING_FACTOR 0.5f
 #define FLOCK_DEFAULT_CENTERING_FACTOR 0.1f
 

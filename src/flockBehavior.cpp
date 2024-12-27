@@ -4,13 +4,13 @@
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
     int nborCount = 0;
+    
+    float new_X = currBoid->getVelocity().x;
+    float new_Y = currBoid->getVelocity().y;
 
     std::pair<float, float> velocityAvg = applyAlignmentLogic(currBoid, boids, nborCount);
     std::pair<float, float> positionAvg = applyCohesionLogic(currBoid, boids, nborCount);
     std::pair<float, float> repulsionSum = applySeparationLogic(currBoid, boids);
-
-    float new_X = currBoid->getVelocity().x;
-    float new_Y = currBoid->getVelocity().y;
 
     if (nborCount > 0) {
         // Apply alignment behavior
@@ -28,8 +28,8 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
 
     // Apply separation behavior
     if (separationEnabled) {
-        new_X += currBoid->getVelocity().x + repulsionSum.first * FLOCK_DEFAULT_AVOID_FACTOR;
-        new_Y += currBoid->getVelocity().y + repulsionSum.second * FLOCK_DEFAULT_AVOID_FACTOR;
+        new_X += currBoid->getVelocity().x + repulsionSum.first * this->separationAvoidFactor;
+        new_Y += currBoid->getVelocity().y + repulsionSum.second * this->separationAvoidFactor;
     }
     
     // Apply behavior to new vector
@@ -47,7 +47,7 @@ std::pair<float, float> FlockingBehavior::applySeparationLogic(Boid* currBoid, s
 
         if (nborBoid->getIdNumber() != currBoid->getIdNumber()) {
 
-            if (currBoid->isWithinRadius(nborBoid->getPosition(), FLOCK_DEFAULT_SEPARATION_RADIUS)) {
+            if (currBoid->isWithinRadius(nborBoid->getPosition(), this->separationRadius)) {
                 float distance = vec2::distanceBetweenPoints(currBoid->getPosition(), nborBoid->getPosition()) * 0.01f;
                 repulsionXSum += (currBoid->getPosition().x - nborBoid->getPosition().x) / distance;
                 repulsionYSum += (currBoid->getPosition().y - nborBoid->getPosition().y) / distance;

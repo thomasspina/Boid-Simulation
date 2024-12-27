@@ -36,7 +36,7 @@ double App::getMemoryUsage() const {
         return static_cast<float>(t_info.resident_size) / (1024.0f * 1024.0f); // convert to megabytes
     #endif
 }
-
+// TODO: add virtual memory to this
 void App::drawPerformanceUI() {
     float currentFPS = ImGui::GetIO().Framerate;
         
@@ -94,7 +94,6 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
         boidScreen.setMaxBoidSpeed(maxSpeed);
     }
 
-
     ImGui::Checkbox("Show Boid Neighbourhood", &drawBoundary);
    
     bool avoidScreenBoundaries = boidScreen.getIsAvoidingScreenEdges();
@@ -104,6 +103,14 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
 }
 
 void App::drawRulesUI() {
+    FlockingBehavior& flocking = FlockingBehavior::getInstance();
+    ImGui::Text("Flocking Rules");
+    
+    ImGui::SliderFloat("Separation Radius", flocking.getSeparationRadiusPointer(), BOID_DEFAULT_RADIUS, FLOCK_MAXIMUM_SEPARATION_RADIUS);
+    ImGui::SliderFloat("Avoid Factor", flocking.getSeparationAvoidFactorPointer(), 0.f, FLOCK_MAXIMUM_AVOID_FACTOR);
+    ImGui::Checkbox("Separation Enabled", flocking.getIsSeparationEnabledPointer());
+    ImGui::Separator();
+
     
 }
 
