@@ -111,7 +111,12 @@ void App::drawRulesUI() {
     ImGui::Checkbox("Separation Enabled", flocking.getIsSeparationEnabledPointer());
     ImGui::Separator();
 
-    
+    ImGui::SliderFloat("Matching Factor", flocking.getMatchingFactorPointer(), 0.f, FLOCK_MAXIMUM_MATCHING_FACTOR);
+    ImGui::Checkbox("Alignment Enabled", flocking.getIsAlignmentEnabledPointer());
+    ImGui::Separator();
+
+    ImGui::SliderFloat("Centering Factor", flocking.getCenteringFactorPointer(), 0.f, FLOCK_MAXIMUM_CENTERING_FACTOR);
+    ImGui::Checkbox("Cohesion Enabled", flocking.getIsCohesionEnabledPointer());
 }
 
 void App::drawUI(BoidScreen& boidScreen) {

@@ -15,6 +15,8 @@ private:
 
     float separationRadius = FLOCK_DEFAULT_SEPARATION_RADIUS;
     float separationAvoidFactor = FLOCK_DEFAULT_AVOID_FACTOR;
+    float matchingFactor = FLOCK_DEFAULT_MATCHING_FACTOR;
+    float centeringFactor = FLOCK_DEFAULT_CENTERING_FACTOR;
 
     FlockingBehavior() = default;
     FlockingBehavior(const FlockingBehavior&) = delete;
@@ -34,5 +36,9 @@ public:
     // pointer getters
     float* getSeparationRadiusPointer() { return &this->separationRadius; }
     float* getSeparationAvoidFactorPointer() { return &this->separationAvoidFactor; }
+    float* getMatchingFactorPointer() { return &this->matchingFactor; }
+    float* getCenteringFactorPointer() { return &this->centeringFactor; }
     bool* getIsSeparationEnabledPointer() { return &this->separationEnabled; }
+    bool* getIsAlignmentEnabledPointer() { return &this->alignmentEnabled; }
+    bool* getIsCohesionEnabledPointer() { return &this->cohesionEnabled; }
 };

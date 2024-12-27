@@ -33,16 +33,16 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
         if (alignmentEnabled) {
             std::pair<float, float> velocityAvg = applyAlignmentLogic(currBoid, boids, nborCount);
 
-            new_X += (velocityAvg.first - currBoid->getVelocity().x) * FLOCK_DEFAULT_MATCHING_FACTOR;
-            new_Y += (velocityAvg.second - currBoid->getVelocity().y) * FLOCK_DEFAULT_MATCHING_FACTOR;
+            new_X += (velocityAvg.first - currBoid->getVelocity().x) * this->matchingFactor;
+            new_Y += (velocityAvg.second - currBoid->getVelocity().y) * this->matchingFactor;
         }
 
         // Apply cohesion behavior
         if (cohesionEnabled) {
             std::pair<float, float> positionAvg = applyCohesionLogic(currBoid, boids, nborCount);
 
-            new_X += (positionAvg.first - currBoid->getPosition().x) * FLOCK_DEFAULT_CENTERING_FACTOR;
-            new_Y += (positionAvg.second - currBoid->getPosition().y) * FLOCK_DEFAULT_CENTERING_FACTOR;
+            new_X += (positionAvg.first - currBoid->getPosition().x) * this->centeringFactor;
+            new_Y += (positionAvg.second - currBoid->getPosition().y) * this->centeringFactor;;
         }
     }
 
