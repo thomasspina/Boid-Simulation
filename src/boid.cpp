@@ -7,8 +7,6 @@ Boid::Boid() : sf::ConvexShape(3) {
     setPoint(1, sf::Vector2f(BOID_DEFAULT_RADIUS / 2, BOID_DEFAULT_RADIUS * 2));
     setPoint(2, sf::Vector2f(BOID_DEFAULT_RADIUS * 1.5f, BOID_DEFAULT_RADIUS * 2));
 
-    // setFillColor(sf::Color(0xb3f7ff));
-
     float centroidX = vec2::centroid(BOID_DEFAULT_RADIUS, BOID_DEFAULT_RADIUS / 2, BOID_DEFAULT_RADIUS * 1.5f);
     float centroidY = vec2::centroid(0.f, BOID_DEFAULT_RADIUS * 2, BOID_DEFAULT_RADIUS * 2);
 

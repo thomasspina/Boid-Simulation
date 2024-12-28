@@ -125,7 +125,7 @@ void App::drawUI(BoidScreen& boidScreen) {
     ImGui::Begin("Boid Menu");
 
     ImGui::SetWindowPos(ImVec2(1000, 20), ImGuiCond_Once);
-    ImGui::SetWindowSize(ImVec2(350, 700), ImGuiCond_Once);
+    ImGui::SetWindowSize(ImVec2(400, 700), ImGuiCond_Once);
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once); // open menu by default
     if (ImGui::CollapsingHeader("Performance")) {

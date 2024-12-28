@@ -5,6 +5,7 @@
 
 #include "cell.hpp"
 #include "boid.hpp"
+#include "constants.hpp"
 
 class Grid {
 private:
@@ -13,6 +14,9 @@ private:
 
     std::vector<std::vector<Cell>> grid;
     std::vector<Boid*> boids;
+
+    std::vector<Boid*> neighbourhoodBoidsBuffer;
+    std::vector<Cell*> neighbourhoodCellBuffer; 
 public:
     Grid(sf::Window* window);
     ~Grid();
@@ -21,10 +25,11 @@ public:
     void update();
     Boid* popLastBoid();
 
-    std::vector<Cell*> getCellsInNeighbourhood(Boid* boid);
-    std::vector<Boid*> getBoidsInNeighbouringCells(Boid* boid);
+    const std::vector<Cell*>& getCellsInNeighbourhood(Boid* boid);
+    const std::vector<Boid*>& getBoidsInNeighbouringCells(Boid* boid);
     Cell* getCellFromPosition(Boid* boid);
     Cell* getCellFromPosition(const sf::Vector2f& position);
+    std::pair<int, int> getGridPositionFromCoords(const sf::Vector2f& position);
 
     std::vector<Boid*>& getBoids() { return boids; }
     const std::vector<Boid*>& getBoids() const { return boids; }

@@ -58,36 +58,37 @@ Boid* Grid::popLastBoid() {
     return boid;
 }
 
-std::vector<Cell*> Grid::getCellsInNeighbourhood(Boid* boid) {
-    std::vector<Cell*> cells;
+const std::vector<Cell*>& Grid::getCellsInNeighbourhood(Boid* boid) {
+    neighbourhoodCellBuffer.clear();
+    std::pair<int, int> gridPosition = getGridPositionFromCoords(boid->getPosition());
+
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
-            int x = boid->getPosition().x / SCREEN_GRID_CELL_SIZE + i;
-            int y = boid->getPosition().y / SCREEN_GRID_CELL_SIZE + j;
+            const int x = gridPosition.first + i;
+            const int y = gridPosition.second + j;
 
-            // take negative positions and too big positions into account
-            y = (y < 0) ? 0 : (y >= grid.size()) ? numRows - 1 : y;
-            x = (x < 0) ? 0 : (x >= grid[y].size()) ? numCols - 1 : x;
-
-            cells.push_back(&grid[y][x]);
+            // check if the cell is in the grid
+            if (x >= 0 && x < numCols && y >= 0 && y < numRows) {
+                neighbourhoodCellBuffer.push_back(&grid[y][x]);
+            }
         }
     }
 
-    return cells;
+    return neighbourhoodCellBuffer;
 }
 
-std::vector<Boid*> Grid::getBoidsInNeighbouringCells(Boid* boid) {
-    std::vector<Boid*> boidsInNeighbourhood;
+const std::vector<Boid*>& Grid::getBoidsInNeighbouringCells(Boid* boid) {
+    neighbourhoodBoidsBuffer.clear();
 
+    const std::vector<Cell*>& cells = getCellsInNeighbourhood(boid);
     // get the boids in the cells in the boid's radius
-    for (Cell* cell : getCellsInNeighbourhood(boid)) {
-        for (Boid* boid : cell->getBoids()) {
-            boidsInNeighbourhood.push_back(boid);
-        }
+    for (Cell* cell : cells) {
+        const std::vector<Boid*>& boidsInCell = cell->getBoids();
+        neighbourhoodBoidsBuffer.insert(neighbourhoodBoidsBuffer.end(), boidsInCell.begin(), boidsInCell.end());
     }
 
-    return boidsInNeighbourhood;
+    return neighbourhoodBoidsBuffer;
 }
 
 Cell* Grid::getCellFromPosition(Boid* boid) {
@@ -95,6 +96,13 @@ Cell* Grid::getCellFromPosition(Boid* boid) {
 }
 
 Cell* Grid::getCellFromPosition(const sf::Vector2f& position) {
+    std::pair<int, int> gridPosition = getGridPositionFromCoords(position);
+
+    return &grid[gridPosition.second][gridPosition.first];
+}
+
+// returns the cell coordinates of the grid the given coordinates are in
+std::pair<int, int> Grid::getGridPositionFromCoords(const sf::Vector2f& position) {
     // get the cell the boid is in. +1 for offset because of offscreen grid
     int x = std::floor(position.x) / SCREEN_GRID_CELL_SIZE;
     int y = std::floor(position.y) / SCREEN_GRID_CELL_SIZE;
@@ -103,5 +111,5 @@ Cell* Grid::getCellFromPosition(const sf::Vector2f& position) {
     y = (y < 0) ? 0 : (y >= grid.size()) ? numRows - 1 : y;
     x = (x < 0) ? 0 : (x >= grid[y].size()) ? numCols - 1 : x;
 
-    return &grid[y][x];
+    return {x, y};
 }
