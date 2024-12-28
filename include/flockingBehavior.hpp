@@ -22,9 +22,9 @@ private:
     FlockingBehavior(const FlockingBehavior&) = delete;
     FlockingBehavior& operator=(const FlockingBehavior&) = delete;
 
-    void applySeparationLogic(Boid* currBoid, Boid* nborBoid, float& repulsionXSum, float& repulsionYSum);
-    void applyAlignmentLogic(Boid* nborBoidPos, float& avgVelocityX, float& avgVelocityY);
-    void applyCohesionLogic(Boid* nborBoidPos, float& avgPosX, float& avgPosY);
+    void applySeparationLogic(const sf::Vector2f& currBoidPos, const sf::Vector2f& nborBoidPos, float& repulsionXSum, float& repulsionYSum);
+    void applyAlignmentLogic(const sf::Vector2f& nborVel, float& avgVelocityX, float& avgVelocityY);
+    void applyCohesionLogic(const sf::Vector2f& nborBoidPos, float& avgPosX, float& avgPosY);
 public:
     static FlockingBehavior& getInstance() {
         static FlockingBehavior instance;

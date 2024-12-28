@@ -2,26 +2,28 @@
 #include "flockingBehavior.hpp"
 #include "utils.hpp"
 
-void FlockingBehavior::applySeparationLogic(Boid* currBoid, Boid* nborBoid, float& repulsionXSum, float& repulsionYSum) {
-    float distance = vec2::distanceBetweenPoints(currBoid->getPosition(), nborBoid->getPosition()) * 0.01f; // TODO: 0.01f is a magic number
-    repulsionXSum += (currBoid->getPosition().x - nborBoid->getPosition().x) / distance;
-    repulsionYSum += (currBoid->getPosition().y - nborBoid->getPosition().y) / distance;
+void FlockingBehavior::applySeparationLogic(const sf::Vector2f& currBoidPos, const sf::Vector2f& nborBoidPos, float& repulsionXSum, float& repulsionYSum) {
+    float distance = vec2::distanceBetweenPoints(currBoidPos, nborBoidPos) * 0.01f; // TODO: 0.01f is a magic number
+    repulsionXSum += (currBoidPos.x - nborBoidPos.x) / distance;
+    repulsionYSum += (currBoidPos.y - nborBoidPos.y) / distance;
 }
 
-void FlockingBehavior::applyAlignmentLogic(Boid* nborBoid, float& avgVelocityX, float& avgVelocityY) {
-        avgVelocityX += nborBoid->getVelocity().x;
-        avgVelocityY += nborBoid->getVelocity().y;
+void FlockingBehavior::applyAlignmentLogic(const sf::Vector2f& nborVel, float& avgVelocityX, float& avgVelocityY) {
+        avgVelocityX += nborVel.x;
+        avgVelocityY += nborVel.y;
 }
 
-void FlockingBehavior::applyCohesionLogic(Boid* nborBoid, float& avgPosX, float& avgPosY) {
-        avgPosX += nborBoid->getPosition().x;
-        avgPosY += nborBoid->getPosition().y;
+void FlockingBehavior::applyCohesionLogic(const sf::Vector2f& nborBoidPos, float& avgPosX, float& avgPosY) {
+        avgPosX += nborBoidPos.x;
+        avgPosY += nborBoidPos.y;
 }
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids) {
     int nborCount = 0;
 
     const sf::Vector2f& currVel = currBoid->getVelocity();
+    const sf::Vector2f& currPos = currBoid->getPosition();
+
     float new_X = currVel.x;
     float new_Y = currVel.y;
 
@@ -39,22 +41,23 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid
     for (size_t i = 0; i < boids.size(); i++) {
         Boid* nborBoid = boids[i];
         const sf::Vector2f& nborPos = nborBoid->getPosition();
+        const sf::Vector2f& nborVel = nborBoid->getVelocity();
 
         if (nborBoid->getIdNumber() != currBoidId) {
 
             if (currBoid->isWithinRadius(nborPos, this->separationRadius)) {
                 nborCount++;
                 if (separationEnabled) {
-                    applySeparationLogic(currBoid, nborBoid, repulsionXSum, repulsionYSum);
+                    applySeparationLogic(currPos, nborPos, repulsionXSum, repulsionYSum);
                 }
             } else if (currBoid->isWithinRadius(nborPos, neighbourRadius)) {
                 nborCount++;
                 if (alignmentEnabled) {
-                    applyAlignmentLogic(nborBoid, avgVelocityX, avgVelocityY);
+                    applyAlignmentLogic(nborVel, avgVelocityX, avgVelocityY);
                 }
 
                 if (cohesionEnabled) {
-                    applyCohesionLogic(nborBoid, avgPosX, avgPosY);
+                    applyCohesionLogic(nborPos, avgPosX, avgPosY);
                 }
             }
         }
