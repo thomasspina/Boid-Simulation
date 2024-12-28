@@ -4,6 +4,7 @@
 #include "constants.hpp"
 #include "utils.hpp"
 #include "flockingBehavior.hpp"
+#include <iostream>
 
 Boid* BoidScreen::createBoid() {
     Boid* newBoid = new Boid();
@@ -120,10 +121,15 @@ BoidScreen::~BoidScreen() {
 
 void BoidScreen::update(const sf::Time& dt) {
     std::vector<Boid*>& boids = grid->getBoids();
+    sf::Vector2f position = static_cast<sf::Vector2f>(sf::Mouse::getPosition());
+
     for (size_t i=0; i < getNumBoids(); i++) {
         Boid* boid = boids[i];
-        
         std::vector<Boid*> boidsInNeighbouringCells = grid->getBoidsInNeighbouringCells(boid);
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+            flockingBehavior.applyMouseAvoidance(boid, position);
+        }
 
         flockingBehavior.applyFlockingLogic(boid, boidsInNeighbouringCells);
 

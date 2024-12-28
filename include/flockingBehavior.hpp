@@ -25,13 +25,17 @@ private:
     void applySeparationLogic(const sf::Vector2f& currBoidPos, const sf::Vector2f& nborBoidPos, float& repulsionXSum, float& repulsionYSum);
     void applyAlignmentLogic(const sf::Vector2f& nborVel, float& avgVelocityX, float& avgVelocityY);
     void applyCohesionLogic(const sf::Vector2f& nborBoidPos, float& avgPosX, float& avgPosY);
+    void applyMouseAvoidanceLogic(Boid* currBoid, sf::Vector2f mousePos, float& currX, float& currY);
+
 public:
     static FlockingBehavior& getInstance() {
         static FlockingBehavior instance;
         return instance;
     }
 
-    void applyFlockingLogic(Boid* boid, const std::vector<Boid*>& boids);
+    void applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids);
+    void applyMouseAvoidance(Boid* currBoid, sf::Vector2f mousePos);
+
 
     // pointer getters
     float* getSeparationRadiusPointer() { return &this->separationRadius; }

@@ -3,7 +3,7 @@
 #include "utils.hpp"
 
 void FlockingBehavior::applySeparationLogic(const sf::Vector2f& currBoidPos, const sf::Vector2f& nborBoidPos, float& repulsionXSum, float& repulsionYSum) {
-    float distance = vec2::distanceBetweenPoints(currBoidPos, nborBoidPos) * 0.01f; // TODO: 0.01f is a magic number
+    float distance = vec2::distanceBetweenPoints(currBoidPos, nborBoidPos) * BOID_DISTANCE_CALCULATION_SCALER;
     repulsionXSum += (currBoidPos.x - nborBoidPos.x) / distance;
     repulsionYSum += (currBoidPos.y - nborBoidPos.y) / distance;
 }
@@ -86,3 +86,29 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid
     currBoid->setVelocity(sf::Vector2(new_X, new_Y));
 }
 
+void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, sf::Vector2f mousePos, float& currX, float& currY) {
+    sf::Vector2f boidPosition = currBoid->getPosition();
+
+    float distance = vec2::distanceBetweenPoints(boidPosition, mousePos) * BOID_DISTANCE_CALCULATION_SCALER;
+    float repulsionX = (boidPosition.x - mousePos.x) / distance;
+    float repulsionY = (boidPosition.y - mousePos.y) / distance;
+
+    currX += repulsionX * BOID_DEFAULT_MOUSE_AVOIDANCE_FACTOR;
+    currY += repulsionY * BOID_DEFAULT_MOUSE_AVOIDANCE_FACTOR;
+}
+ 
+void FlockingBehavior::applyMouseAvoidance(Boid* currBoid, sf::Vector2f mousePos) {
+
+    if (currBoid->isWithinRadius(mousePos, BOID_DEFAULT_MOUSE_AVOIDANCE_RADIUS)) {
+
+        float new_X = 0.f;
+        float new_Y = 0.f;
+
+        new_X = currBoid->getVelocity().x;
+        new_Y = currBoid->getVelocity().y;
+
+        applyMouseAvoidanceLogic(currBoid, mousePos, new_X, new_Y);
+
+        currBoid->setVelocity(sf::Vector2(new_X, new_Y));
+    }
+}
