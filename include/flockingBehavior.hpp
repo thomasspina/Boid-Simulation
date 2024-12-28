@@ -12,6 +12,7 @@ private:
     bool separationEnabled = true;
     bool alignmentEnabled = true;
     bool cohesionEnabled = true;
+    bool mouseAvoidanceEnable = true;
 
     float separationRadius = FLOCK_DEFAULT_SEPARATION_RADIUS;
     float separationAvoidFactor = FLOCK_DEFAULT_AVOID_FACTOR;
@@ -45,4 +46,5 @@ public:
     bool* getIsSeparationEnabledPointer() { return &this->separationEnabled; }
     bool* getIsAlignmentEnabledPointer() { return &this->alignmentEnabled; }
     bool* getIsCohesionEnabledPointer() { return &this->cohesionEnabled; }
+    bool* getIsMouseAvoidanceEnabledPointer() { return &this->mouseAvoidanceEnable; }
 };

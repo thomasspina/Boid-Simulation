@@ -99,16 +99,19 @@ void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, sf::Vector2f mou
  
 void FlockingBehavior::applyMouseAvoidance(Boid* currBoid, sf::Vector2f mousePos) {
 
-    if (currBoid->isWithinRadius(mousePos, BOID_DEFAULT_MOUSE_AVOIDANCE_RADIUS)) {
+    if (mouseAvoidanceEnable) {
+        
+        if (currBoid->isWithinRadius(mousePos, BOID_DEFAULT_MOUSE_AVOIDANCE_RADIUS)) {
 
-        float new_X = 0.f;
-        float new_Y = 0.f;
+            float new_X = 0.f;
+            float new_Y = 0.f;
 
-        new_X = currBoid->getVelocity().x;
-        new_Y = currBoid->getVelocity().y;
+            new_X = currBoid->getVelocity().x;
+            new_Y = currBoid->getVelocity().y;
 
-        applyMouseAvoidanceLogic(currBoid, mousePos, new_X, new_Y);
+            applyMouseAvoidanceLogic(currBoid, mousePos, new_X, new_Y);
 
-        currBoid->setVelocity(sf::Vector2(new_X, new_Y));
+            currBoid->setVelocity(sf::Vector2(new_X, new_Y));
+        }
     }
 }

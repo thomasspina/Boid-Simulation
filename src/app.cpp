@@ -79,6 +79,7 @@ void App::drawPerformanceUI() {
 }
 
 void App::drawConfigUI(BoidScreen& boidScreen) {
+    FlockingBehavior& flocking = FlockingBehavior::getInstance();
     int numBoids = boidScreen.getNumBoids();
     if (ImGui::SliderInt("Number of Boids", &numBoids, 1, MAX_NUM_BOIDS)) {
         boidScreen.setNumBoids(numBoids);
@@ -102,6 +103,7 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
     }
 
     ImGui::Checkbox("Show Grid", &drawGrid);
+    ImGui::Checkbox("Enable Mouse Avoidance", flocking.getIsMouseAvoidanceEnabledPointer());
 }
 
 void App::drawRulesUI() {
