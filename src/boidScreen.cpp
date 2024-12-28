@@ -7,20 +7,21 @@
 
 Boid* BoidScreen::createBoid() {
     Boid* newBoid = new Boid();
-    newBoid->setIdNumber(this->boids->size());
+    newBoid->setIdNumber(this->getNumBoids());
     newBoid->setMaxSpeed(maxBoidSpeed);
 
     int randColor = rand() % colors.size();
 
-    newBoid->setFillColor(vec2::HexToColour(colors[randColor]));
+    newBoid->setFillColor(colour::HexToColour(colors[randColor]));
+    newBoid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
 
     // set random boid velocity
     setRandomBoidVelocity(newBoid);
 
     // set random boid position
     setRandomBoidPosition(newBoid);
-
-    this->boids->push_back(newBoid);
+    
+    grid->addBoid(newBoid);
 
     return newBoid;
 }
@@ -52,6 +53,7 @@ void BoidScreen::wrapAroundScreen(Boid* boid) {
 }
 
 void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
+    // TODO: fix formulas (find better ones)
     float xPos = boid->getPosition().x;
     float yPos = boid->getPosition().y;
 
@@ -103,26 +105,27 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
     // seed random number generator
     srand(time(0));
 
-    this->boids = new std::vector<Boid*>();
+    this->grid = new Grid(windowPointer);
 
     // create default number of boids
+    // TODO: replace 1 with DEFAULT_NUM_BOIDS
     for(int i = 0; i < DEFAULT_NUM_BOIDS; i++) {
         createBoid();
     }
 }
 
 BoidScreen::~BoidScreen() {
-    for(auto boid : *boids) {
-        delete boid;
-    }
-    delete boids;
+    delete grid;
 }
 
 void BoidScreen::update(const sf::Time& dt) {
-    for (size_t i=0; i < boids->size(); i++) {
-        Boid* boid = (*boids)[i];
+    std::vector<Boid*>& boids = grid->getBoids();
+    for (size_t i=0; i < getNumBoids(); i++) {
+        Boid* boid = boids[i];
         
-        flockingBehavior.applyFlockingLogic(boid, boids);
+        std::vector<Boid*> boidsInNeighbouringCells = grid->getBoidsInNeighbouringCells(boid);
+
+        flockingBehavior.applyFlockingLogic(boid, boidsInNeighbouringCells);
 
         boid->update(dt);
         
@@ -130,35 +133,36 @@ void BoidScreen::update(const sf::Time& dt) {
             wrapAroundScreen(boid);
         else
             deviateBoidFromScreenBoundary(boid);
+
+        // update grid last
+        grid->update();
     }
 }
 
 void BoidScreen::setBoidNeighbourhoodRadius(const float radius) {
     this->boidNeighbourhoodRadius = radius;
-    for (auto boid : *boids) {
+    for (auto boid : grid->getBoids()) {
         boid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
     }
 }
 
 void BoidScreen::setNumBoids(const int newNumBoids) {
-    int numBoids = this->boids->size();
+    int numBoids = grid->getNumBoids();
 
     // delete boids if new number of boids is less than current number
     for (int i = numBoids; i > newNumBoids; i--) {
-        delete this->boids->back();
-        this->boids->pop_back();
+        delete grid->popLastBoid();
     }
 
     // create new boids if new number of boids is greater than current number
     for (int i = numBoids; i <= newNumBoids; i++) {
-        Boid* newBoid = createBoid();
-        newBoid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
+        createBoid();
     }
 }
 
 void BoidScreen::setMaxBoidSpeed(const float speed) {
     this->maxBoidSpeed = speed;
-    for (auto boid : *boids) {
+    for (auto boid : grid->getBoids()) {
         boid->setMaxSpeed(maxBoidSpeed);
     }
 }

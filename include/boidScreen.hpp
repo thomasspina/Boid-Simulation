@@ -7,13 +7,12 @@
 #include "boid.hpp"
 #include "flockingBehavior.hpp"
 #include "constants.hpp"
+#include "grid.hpp"
 
 class BoidScreen {
-
 private:
     float maxBoidSpeed = BOID_DEFAULT_MAX_SPEED;
     float minBoidSpeed = BOID_DEFAULT_MIN_SPEED;
-    std::vector<Boid*>* boids;
     std::vector<uint32_t> colors = {
         0xf9fbf0, 
         0xd1eeff, 
@@ -21,6 +20,7 @@ private:
         0x4b89da
     };
     sf::RenderWindow* windowPointer;
+    Grid* grid;
     float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
     bool isAvoidingScreenEdges = false;
@@ -40,11 +40,12 @@ public:
     void update(const sf::Time& dt);
 
     // getters
-    const std::vector<Boid*>* const getBoids() const { return boids; }
-    int getNumBoids() const { return boids->size(); }
+    int getNumBoids() const { return grid->getNumBoids(); }
+    const std::vector<Boid*>& getBoids() const { return grid->getBoids(); }
     float getBoidNeighbourhoodRadius() const { return boidNeighbourhoodRadius; }
     bool getIsAvoidingScreenEdges() const { return isAvoidingScreenEdges; }
     float getMaxBoidSpeed() const { return maxBoidSpeed; }
+    Grid* getGrid() { return grid; }
 
     // setters
     void setNumBoids(const int numBoids);

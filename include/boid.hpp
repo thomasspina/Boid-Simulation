@@ -6,7 +6,6 @@
 #include <SFML/Graphics/ConvexShape.hpp>
 
 #include <SFML/System/Clock.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 
 #include "constants.hpp"
 
@@ -27,7 +26,7 @@ public:
     sf::Vector2f applyWanderLogic();
 
     // getters
-    const sf::CircleShape& getBoundary() const { return this->neighbourhoodBoundary; }
+    const sf::CircleShape& getNeighbourhoodBoundary() const { return this->neighbourhoodBoundary; }
     float getSpeed() const { return this->speed; }
     int getIdNumber() const { return this->idNumber; }
     float getNeighbourhoodRadius() const { return this->neighbourhoodBoundary.getRadius(); }

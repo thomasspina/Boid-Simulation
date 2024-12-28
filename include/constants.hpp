@@ -4,6 +4,7 @@
 #define SCREEN_HEIGHT 1080u
 #define SCREEN_TITLE "Boid Simulator"
 #define SCREEN_FPS 60u
+#define SCREEN_GRID_CELL_SIZE 400u
 
 #define BOID_SCREEN_DEVIATION_MARGIN 100.f // TODO: better deviation margin needed (should be based on screen size and boid speed)
 #define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.09f // TODO: better deviation factor needed (should be based on screen size and boid speed)
@@ -38,7 +39,7 @@
 #define BOID_WANDER_CIRCLE_DISTANCE 50.0f
 #define BOID_WANDER_CIRCLE_RADIUS 25.0f
 #define BOID_WANDER_ANGLE_CHANGE 0.3f
-#define BOID_WANDER_FORCE_FACTOR 1.0F
+#define BOID_WANDER_FORCE_FACTOR 1.0f
 
 
 

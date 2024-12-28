@@ -2,11 +2,11 @@
 #include "flockingBehavior.hpp"
 #include "utils.hpp"
 
-int FlockingBehavior::countNeighbours(Boid* currBoid, std::vector<Boid*>* boids) {
+int FlockingBehavior::countNeighbours(Boid* currBoid, const std::vector<Boid*>& boids) {
     int nborCount = 0;
 
-    for (size_t i=0; i < boids->size(); i++) {
-        Boid* nborBoid = (*boids)[i];
+    for (size_t i=0; i < boids.size(); i++) {
+        Boid* nborBoid = boids[i];
 
         if (nborBoid->getIdNumber() != currBoid->getIdNumber()) {
             if (!currBoid->isWithinRadius(nborBoid->getPosition(), this->separationRadius)) {
@@ -22,7 +22,7 @@ int FlockingBehavior::countNeighbours(Boid* currBoid, std::vector<Boid*>* boids)
     return nborCount;
 }
 
-void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* boids) {
+void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids) {
     int nborCount = countNeighbours(currBoid, boids);
     
     float new_X = currBoid->getVelocity().x;
@@ -60,12 +60,12 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, std::vector<Boid*>* bo
     currBoid->setVelocity(newVelocity);
 }
 
-std::pair<float, float> FlockingBehavior::applySeparationLogic(Boid* currBoid, std::vector<Boid*>* boids) {
+std::pair<float, float> FlockingBehavior::applySeparationLogic(Boid* currBoid, const std::vector<Boid*>& boids) {
     float repulsionXSum = 0.f;
     float repulsionYSum = 0.f;
 
-    for (size_t i=0; i < boids->size(); i++) {
-        Boid* nborBoid = (*boids)[i];
+    for (size_t i=0; i < boids.size(); i++) {
+        Boid* nborBoid = boids[i];
 
         if (nborBoid->getIdNumber() != currBoid->getIdNumber()) {
 
@@ -80,12 +80,12 @@ std::pair<float, float> FlockingBehavior::applySeparationLogic(Boid* currBoid, s
     return {repulsionXSum, repulsionYSum};
 }
 
-std::pair<float, float> FlockingBehavior::applyAlignmentLogic(Boid* currBoid, std::vector<Boid*>* boids, int nborCount) {
+std::pair<float, float> FlockingBehavior::applyAlignmentLogic(Boid* currBoid, const std::vector<Boid*>& boids, int nborCount) {
     float avgVelocityX = 0.f;
     float avgVelocityY = 0.f;
 
-    for (size_t i=0; i < boids->size(); i++) {
-        Boid* nborBoid = (*boids)[i];
+    for (size_t i=0; i < boids.size(); i++) {
+        Boid* nborBoid = boids[i];
 
         if (nborBoid->getIdNumber() != currBoid->getIdNumber()) {
 
@@ -102,12 +102,12 @@ std::pair<float, float> FlockingBehavior::applyAlignmentLogic(Boid* currBoid, st
     return {avgVelocityX / nborCount, avgVelocityY / nborCount};
 }
 
-std::pair<float, float> FlockingBehavior::applyCohesionLogic(Boid* currBoid, std::vector<Boid*>* boids, int nborCount) {
+std::pair<float, float> FlockingBehavior::applyCohesionLogic(Boid* currBoid, const std::vector<Boid*>& boids, int nborCount) {
     float avgPosX = 0.f;
     float avgPosY = 0.f;
 
-    for (size_t i=0; i < boids->size(); i++) {
-        Boid* nborBoid = (*boids)[i];
+    for (size_t i=0; i < boids.size(); i++) {
+        Boid* nborBoid = boids[i];
 
         if (nborBoid->getIdNumber() != currBoid->getIdNumber()) {
 

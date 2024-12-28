@@ -100,6 +100,8 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
     if (ImGui::Checkbox("Avoid Screen Boundary", &avoidScreenBoundaries)) {
         boidScreen.setAvoidScreenEdges(avoidScreenBoundaries);
     }
+
+    ImGui::Checkbox("Show Grid", &drawGrid);
 }
 
 void App::drawRulesUI() {
@@ -150,7 +152,7 @@ int App::run() {
     if(!ImGui::SFML::Init(window)) return -1;
 
     // Initialize boid screen where all boids will be rendered
-    BoidScreen boids = BoidScreen(&window);
+    BoidScreen boidScreen = BoidScreen(&window);
 
     sf::Clock dtC;
     
@@ -168,7 +170,7 @@ int App::run() {
         }
 
         // update boids
-        boids.update(currDeltaTime);
+        boidScreen.update(currDeltaTime);
 
         // reset delta time clock
         ImGui::SFML::Update(window, currDeltaTime);
@@ -176,19 +178,27 @@ int App::run() {
 
         /// DRAW MENU
 
-        drawUI(boids);
+        drawUI(boidScreen);
 
         /// RENDER WINDOW 
 
         window.clear();
 
         // render boids and their boundaries
-        for (auto boid : *boids.getBoids()) {
+        for (auto boid : boidScreen.getBoids()) {
             window.draw(*boid);
 
-            // draw boid boundary if enabled
+            // draw boid neighbourhood boundary if enabled
             if (drawBoundary) {
-                window.draw(boid->getBoundary());
+                window.draw(boid->getNeighbourhoodBoundary());
+            }
+        }
+
+        if (drawGrid) {
+            for (std::vector<Cell>& row : boidScreen.getGrid()->getGrid()) {
+                for (Cell& cell : row) {
+                    window.draw(cell);
+                }
             }
         }
 

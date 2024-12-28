@@ -16,6 +16,8 @@ private:
 
     // Config UI toggles boundary visibility
     bool drawBoundary = false;
+    // Config UI toggles grid visibility
+    bool drawGrid = false;
 
     double getMemoryUsage() const;
 

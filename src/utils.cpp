@@ -7,7 +7,7 @@ float vec2::angleRadians(const sf::Vector2f& vec) {
 }
 
 float vec2::angleDegrees(const sf::Vector2f& vec) {
-    return angleRadians(vec) * 180.f / (float) M_PI;
+    return angleRadians(vec) * 180.f / M_PI;
 }
 
 sf::Vector2f vec2::vecFromRadian(const float rads) {
@@ -15,7 +15,7 @@ sf::Vector2f vec2::vecFromRadian(const float rads) {
 }
 
 sf::Vector2f vec2::vecFromDegree(const float deg) {
-    return vecFromRadian(deg * 180.f / (float) M_PI);
+    return vecFromRadian(deg * 180.f / M_PI);
 }
 
 float vec2::distanceBetweenPoints(const sf::Vector2f& v1, const sf::Vector2f& v2) {
@@ -36,7 +36,7 @@ float vec2::centroid(float p1, float p2, float p3) {
     return (p1 + p2 + p3) / 3;
 }
 
-sf::Color vec2::HexToColour(uint32_t hexValue) {
+sf::Color colour::HexToColour(uint32_t hexValue) {
     return sf::Color(
         (hexValue >> 16) & 0xFF,  // Extract red
         (hexValue >> 8) & 0xFF,   // Extract green
