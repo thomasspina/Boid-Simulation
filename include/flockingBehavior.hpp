@@ -22,7 +22,7 @@ private:
     FlockingBehavior(const FlockingBehavior&) = delete;
     FlockingBehavior& operator=(const FlockingBehavior&) = delete;
 
-    void applySeparationLogic(Boid* currBoid, Boid* nborBoid, float& repulsionSumX, float& repulsionSumY);
+    void applySeparationLogic(Boid* currBoid, Boid* nborBoid, float& repulsionXSum, float& repulsionYSum);
     void applyAlignmentLogic(Boid* nborBoidPos, float& avgVelocityX, float& avgVelocityY);
     void applyCohesionLogic(Boid* nborBoidPos, float& avgPosX, float& avgPosY);
 public:
