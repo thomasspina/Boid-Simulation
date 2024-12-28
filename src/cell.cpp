@@ -26,8 +26,3 @@ bool Cell::cellIsWithinBoidNeighbourhood(Boid* boid) {
     // avoid sqrt by squaring the radius
     return (distanceX * distanceX + distanceY * distanceY) <= (boidNeighbourhoodRadius * boidNeighbourhoodRadius);
 }
-
-bool Cell::cellContainsBoidCoords(Boid* boid) const {
-    const sf::Vector2f& boidPos = boid->getPosition();
-    return boidPos.x >= topLeft.first && boidPos.x <= bottomRight.first && boidPos.y >= topLeft.second && boidPos.y <= bottomRight.second;
-}

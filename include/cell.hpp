@@ -19,7 +19,6 @@ public:
     void  removeBoid(Boid* boid);
 
     bool cellIsWithinBoidNeighbourhood(Boid* boid);
-    bool cellContainsBoidCoords(Boid* boid) const;
 
     const std::vector<Boid*>& getBoids() const { return boids; }
 };

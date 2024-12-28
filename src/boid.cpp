@@ -55,7 +55,8 @@ sf::Vector2f Boid::applyWanderLogic() {
 
 // check whether a neighbor boid is within the current boid's boundary
 bool Boid::isWithinRadius(const sf::Vector2f& neighborVector, float radius) const {
-    return vec2::distanceBetweenPoints(this->getPosition(), neighborVector) <= radius;
+    // squared distance is used to avoid the square root calculation
+    return vec2::squaredDistanceBetweenPoints(this->getPosition(), neighborVector) <=  radius * radius;
 }
 
 void Boid::setNeighboorhoodRadius(const float radius) {

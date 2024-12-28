@@ -19,7 +19,11 @@ sf::Vector2f vec2::vecFromDegree(const float deg) {
 }
 
 float vec2::distanceBetweenPoints(const sf::Vector2f& v1, const sf::Vector2f& v2) {
-    return sqrtf((v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y));
+    return sqrtf(squaredDistanceBetweenPoints(v1, v2));
+}
+
+float vec2::squaredDistanceBetweenPoints(const sf::Vector2f& v1, const sf::Vector2f& v2) {
+    return (v1.x - v2.x) * (v1.x - v2.x) + (v1.y - v2.y) * (v1.y - v2.y);
 }
 
 float vec2::getMagnitude(const sf::Vector2f& vec) {
