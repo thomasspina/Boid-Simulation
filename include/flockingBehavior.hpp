@@ -21,11 +21,10 @@ private:
     FlockingBehavior() = default;
     FlockingBehavior(const FlockingBehavior&) = delete;
     FlockingBehavior& operator=(const FlockingBehavior&) = delete;
-    int countNeighbours(Boid* currBoid, const std::vector<Boid*>& boids);
 
     void applySeparationLogic(Boid* currBoid, Boid* nborBoid, float& repulsionSumX, float& repulsionSumY);
-    void applyAlignmentLogic(Boid* currBoid, Boid* nborBoid, float& avgVelocityX, float& avgVelocityY);
-    void applyCohesionLogic(Boid* currBoid, Boid* nborBoid, float& avgPosX, float& avgPosY);
+    void applyAlignmentLogic(Boid* nborBoidPos, float& avgVelocityX, float& avgVelocityY);
+    void applyCohesionLogic(Boid* nborBoidPos, float& avgPosX, float& avgPosY);
 public:
     static FlockingBehavior& getInstance() {
         static FlockingBehavior instance;
