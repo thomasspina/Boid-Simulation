@@ -4,7 +4,7 @@ This project showcases a boid simulation that reproduces the flocking behavior o
 
 Through our simulation, users can experiment with and adjust the boids' behaviors to observe how these changes may affect the way flocks behave.
 
-## Run
+## Install
 ### MacOS
 
 To run this program on MacOS you need to have XCode Command line tools installed

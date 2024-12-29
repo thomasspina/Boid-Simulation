@@ -135,8 +135,10 @@ void BoidScreen::update(const sf::Time& dt) {
         Boid* boid = boids[i];
         std::vector<Boid*> boidsInNeighbouringCells = grid->getBoidsInNeighbouringCells(boid);
 
-        flockingBehavior.applyMouseAvoidance(boid, mousePos);
-        flockingBehavior.applyMouseAvoidance(boid, mousePos);
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            flockingBehavior.applyMouseAvoidance(boid, mousePos);
+        }
+        
         flockingBehavior.applyFlockingLogic(boid, boidsInNeighbouringCells, dt);
 
         boid->update(dt);

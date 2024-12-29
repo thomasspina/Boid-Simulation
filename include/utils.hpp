@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
 #include <array>
+#include <cmath>
 
 namespace vec2 {
     constexpr float RAD_TO_DEG = 180.f / M_PI;
