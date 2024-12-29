@@ -23,6 +23,6 @@ To deal with this issue, we decided to try spatial partitioning using grids. By 
 
 Potential future improvements will still focus on optimization. Although grids reduce a significant amount of time complexity, the worst case can still reach O(n²). Considering the scenario where separation values are removed and alignment and cohesion are maximized, all 1,000 boids may end up in a single clump. In this case, our program will suffer, as all boids could occupy a single cell, resulting in O(n²) checks.
 
-To address this, a more complex spatial partitioning method may be required: quadtrees. By recursively creating smaller cells, each boid can check much closer neighbors without suffering from extensive checks. In this case, we can modify each boid to check the 10 closest neighbors to itself instead of every boid within its vicinity. Since, in real life, birds only check their closest neighbors, this improvement would enhance both the behavioral accuracy relative to real-life agents and vastly improve our simulation performance.
+To address this, a more complex spatial partitioning method may be required: quadtrees. By recursively creating smaller cells, each boid can find much closer neighbors without suffering from extensive checks. In this case, we can modify each boid to check the 10 closest neighbors to itself instead of every boid within its vicinity. Since, in real life, birds only check their closest neighbors, this improvement would enhance both the behavioral accuracy relative to real-life agents and vastly improve our simulation performance.
 
 
