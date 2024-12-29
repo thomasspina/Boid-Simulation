@@ -54,28 +54,31 @@ void BoidScreen::wrapAroundScreen(Boid* boid) {
 }
 
 void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
-    float xPos = boid->getPosition().x;
-    float yPos = boid->getPosition().y;
+    const float xPos = boid->getPosition().x;
+    const float yPos = boid->getPosition().y;
 
     float vx = boid->getVelocity().x;
     float vy = boid->getVelocity().y;
 
+    const float windowWidth = windowPointer->getSize().x;
+    const float windowHeight = windowPointer->getSize().y;
+
     // check left margin
     if (xPos < BOID_SCREEN_DEVIATION_MARGIN)
-        vx = vx + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+        vx = vx + BOID_SCREEN_DEVIATION_TURN_FACTOR * std::abs(BOID_SCREEN_DEVIATION_MARGIN - xPos);
 
     // check right margin
-    else if (xPos > windowPointer->getSize().x - BOID_SCREEN_DEVIATION_MARGIN)
-        vx = vx - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+    else if (xPos > windowWidth - BOID_SCREEN_DEVIATION_MARGIN)
+        vx = vx - BOID_SCREEN_DEVIATION_TURN_FACTOR * std::abs(BOID_SCREEN_DEVIATION_MARGIN - (windowWidth - xPos));
 
 
     // check top margin
     if (yPos < BOID_SCREEN_DEVIATION_MARGIN)
-        vy = vy + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+        vy = vy + BOID_SCREEN_DEVIATION_TURN_FACTOR * std::abs(BOID_SCREEN_DEVIATION_MARGIN - yPos);
     
     // check bottom margin
-    else if (yPos > windowPointer->getSize().y - BOID_SCREEN_DEVIATION_MARGIN) 
-        vy = vy - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+    else if (yPos > windowHeight - BOID_SCREEN_DEVIATION_MARGIN) 
+        vy = vy - BOID_SCREEN_DEVIATION_TURN_FACTOR * std::abs(BOID_SCREEN_DEVIATION_MARGIN - (windowHeight - yPos));
 
     boid->setVelocity({vx, vy});
 }
