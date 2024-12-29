@@ -25,14 +25,17 @@ void Boid::initNeighbourhoodBoundary() {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
-    const sf::Vector2f wanderForce = applyWanderLogic();
-
-    // apply wander vector
-    setVelocity(velocity += wanderForce * deltaTime.asSeconds());
+    applyWander(deltaTime);
 
     sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
     this->move(newPos);
     this->neighbourhoodBoundary.move(newPos);
+}
+
+void Boid::applyWander(const sf::Time& deltaTime) {
+    // apply wander force to the boid
+    const sf::Vector2f wanderForce = applyWanderLogic();
+    setVelocity(velocity += wanderForce * deltaTime.asSeconds());
 }
 
 const sf::Vector2f Boid::applyWanderLogic() {

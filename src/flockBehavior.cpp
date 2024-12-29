@@ -3,22 +3,50 @@
 #include "utils.hpp"
 
 void FlockingBehavior::applySeparationLogic(const sf::Vector2f& currBoidPos, const sf::Vector2f& nborBoidPos, float& repulsionXSum, float& repulsionYSum) {
+    if (!separationEnabled) return;
+
     float distance = vec2::distanceBetweenPoints(currBoidPos, nborBoidPos) * BOID_DISTANCE_CALCULATION_SCALER;
     repulsionXSum += (currBoidPos.x - nborBoidPos.x) / distance;
     repulsionYSum += (currBoidPos.y - nborBoidPos.y) / distance;
 }
 
 void FlockingBehavior::applyAlignmentLogic(const sf::Vector2f& nborVel, float& avgVelocityX, float& avgVelocityY) {
-        avgVelocityX += nborVel.x;
-        avgVelocityY += nborVel.y;
+    if (!alignmentEnabled) return;
+
+    avgVelocityX += nborVel.x;
+    avgVelocityY += nborVel.y;
 }
 
 void FlockingBehavior::applyCohesionLogic(const sf::Vector2f& nborBoidPos, float& avgPosX, float& avgPosY) {
-        avgPosX += nborBoidPos.x;
-        avgPosY += nborBoidPos.y;
+    if (!cohesionEnabled) return;
+
+    avgPosX += nborBoidPos.x;
+    avgPosY += nborBoidPos.y;
 }
 
-void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids) {
+void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Vector2f& vel, const sf::Time& dT) {
+    if (!isWanderEnabled) return;
+
+    float wanderAngle = boid->getWanderAngle();
+
+    const sf::Vector2f normalized = vec2::normalize(vel);
+
+    // project a displacement circle in the boid direction
+    sf::Vector2f circleCenter(normalized.x * BOID_WANDER_CIRCLE_DISTANCE, normalized.y * BOID_WANDER_CIRCLE_DISTANCE);
+
+    // set a random point on the displacement unit circle, constant dictates how wide the angle change is
+    wanderAngle += (rand() / (float)RAND_MAX - 0.5f) * 2.0f * BOID_WANDER_ANGLE_CHANGE;
+    
+    // Calculate the displacement force on the circle that is scaled to the desired radius
+    sf::Vector2f displacement(std::cos(wanderAngle) * BOID_WANDER_CIRCLE_RADIUS, std::sin(wanderAngle) * BOID_WANDER_CIRCLE_RADIUS);
+    
+    // Combine circle center and displacement to get final wander force
+    sf::Vector2f wanderForce = circleCenter + displacement;
+
+    boid->setVelocity(vel + wanderForce * this->wanderFactor * dT.asSeconds());
+}
+
+void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids, const sf::Time& dT) {
     int nborCount = 0;
 
     const sf::Vector2f& currVel = currBoid->getVelocity();
@@ -47,23 +75,17 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid
 
             if (currBoid->isWithinRadius(nborPos, this->separationRadius)) {
                 nborCount++;
-                if (separationEnabled) {
-                    applySeparationLogic(currPos, nborPos, repulsionXSum, repulsionYSum);
-                }
+                applySeparationLogic(currPos, nborPos, repulsionXSum, repulsionYSum);
             } else if (currBoid->isWithinRadius(nborPos, neighbourRadius)) {
                 nborCount++;
-                if (alignmentEnabled) {
-                    applyAlignmentLogic(nborVel, avgVelocityX, avgVelocityY);
-                }
-
-                if (cohesionEnabled) {
-                    applyCohesionLogic(nborPos, avgPosX, avgPosY);
-                }
+                applyAlignmentLogic(nborVel, avgVelocityX, avgVelocityY);
+                applyCohesionLogic(nborPos, avgPosX, avgPosY);
             }
         }
     }
 
     if (nborCount == 0) {
+        applyWanderLogic(currBoid, currBoid->getVelocity(), dT);
         return;
     }
 
@@ -84,6 +106,8 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid
 
     // apply behavior to new vector
     currBoid->setVelocity(sf::Vector2(new_X, new_Y));
+
+    applyWanderLogic(currBoid, currBoid->getVelocity(), dT);
 }
 
 void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, sf::Vector2f mousePos, float& currX, float& currY) {

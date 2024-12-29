@@ -21,9 +21,9 @@ private:
     };
     sf::RenderWindow* windowPointer;
     Grid* grid;
-    float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
     FlockingBehavior& flockingBehavior = FlockingBehavior::getInstance();
     bool isAvoidingScreenEdges = false;
+    float boidNeighbourhoodRadius = BOID_DEFAULT_NEIGHBOURHOOD_RADIUS;
 
     // private helpers
     Boid* createBoid();
@@ -43,13 +43,12 @@ public:
     int getNumBoids() const { return grid->getNumBoids(); }
     const std::vector<Boid*>& getBoids() const { return grid->getBoids(); }
     float getBoidNeighbourhoodRadius() const { return boidNeighbourhoodRadius; }
-    bool getIsAvoidingScreenEdges() const { return isAvoidingScreenEdges; }
+    bool* getIsAvoidingScreenEdgesPointer() { return &this->isAvoidingScreenEdges; }
     float getMaxBoidSpeed() const { return maxBoidSpeed; }
     Grid* getGrid() { return grid; }
 
     // setters
     void setNumBoids(const int numBoids);
     void setBoidNeighbourhoodRadius(const float radius);
-    void setAvoidScreenEdges(bool avoid) { this->isAvoidingScreenEdges = avoid; }
     void setMaxBoidSpeed(const float speed);
 };

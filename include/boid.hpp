@@ -17,7 +17,6 @@ private:
     float speed = 0.f;
     float wanderAngle = 0.f;
     float maxSpeed = BOID_DEFAULT_MAX_SPEED;
-    float wanderFactor = BOID_WANDER_FORCE_FACTOR;
 public:
     Boid();
 
@@ -25,6 +24,7 @@ public:
     void update(const sf::Time& deltaTime);
     bool isWithinRadius(const sf::Vector2f& neighborVector, const float radius) const;
     const sf::Vector2f applyWanderLogic();
+    void applyWander(const sf::Time& deltaTime);
 
     // getters
     const sf::CircleShape& getNeighbourhoodBoundary() const { return this->neighbourhoodBoundary; }
@@ -32,7 +32,7 @@ public:
     int getIdNumber() const { return this->idNumber; }
     float getNeighbourhoodRadius() const { return this->neighbourhoodBoundary.getRadius(); }
     const sf::Vector2f& getVelocity() const { return this->velocity; }
-    float& getWanderForceFactorRef() { return this->wanderFactor; }
+    float getWanderAngle() const { return this->wanderAngle; }
 
     // setters
     void setBoundPos(const float x, const float y) { this->neighbourhoodBoundary.setPosition(x, y); }
@@ -41,4 +41,5 @@ public:
     void setNeighboorhoodRadius(const float radius);
     void setVelocity(const sf::Vector2f& velocity);
     void setMaxSpeed(const float speed) { this->maxSpeed = speed; }
+    void setWanderAngle(const float angle) { this->wanderAngle = angle; }
 };

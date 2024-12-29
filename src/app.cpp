@@ -36,7 +36,7 @@ double App::getMemoryUsage() const {
         return static_cast<float>(t_info.resident_size) / (1024.0f * 1024.0f); // convert to megabytes
     #endif
 }
-// TODO: add virtual memory to this
+// TODO: add virtual memory to this?
 void App::drawPerformanceUI() {
     float currentFPS = ImGui::GetIO().Framerate;
         
@@ -95,13 +95,12 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
         boidScreen.setMaxBoidSpeed(maxSpeed);
     }
 
-    ImGui::Checkbox("Show Boid Neighbourhood", &drawBoundary);
-   
-    bool avoidScreenBoundaries = boidScreen.getIsAvoidingScreenEdges();
-    if (ImGui::Checkbox("Avoid Screen Boundary", &avoidScreenBoundaries)) {
-        boidScreen.setAvoidScreenEdges(avoidScreenBoundaries);
-    }
+    ImGui::SliderFloat("Wander Factor", flocking.getWanderFactorPointer(), 0.f, BOID_WANDER_FORCE_FACTOR_MAX);
+    ImGui::Checkbox("Enable Boid Wandering", flocking.getIsWanderEnabledPointer());
 
+    ImGui::Separator();
+    ImGui::Checkbox("Show Boid Neighbourhood", &drawBoundary);
+    ImGui::Checkbox("Avoid Screen Boundary", boidScreen.getIsAvoidingScreenEdgesPointer());
     ImGui::Checkbox("Show Grid", &drawGrid);
     ImGui::Checkbox("Enable Mouse Avoidance (Hold R-click)", flocking.getIsMouseAvoidanceEnabledPointer());
 }
@@ -121,6 +120,7 @@ void App::drawRulesUI() {
 
     ImGui::SliderFloat("Centering Factor", flocking.getCenteringFactorPointer(), 0.f, FLOCK_MAXIMUM_CENTERING_FACTOR);
     ImGui::Checkbox("Cohesion Enabled", flocking.getIsCohesionEnabledPointer());
+    ImGui::Separator();
 }
 
 void App::drawUI(BoidScreen& boidScreen) {

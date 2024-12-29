@@ -54,7 +54,6 @@ void BoidScreen::wrapAroundScreen(Boid* boid) {
 }
 
 void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
-    // TODO: fix formulas (find better ones)
     float xPos = boid->getPosition().x;
     float yPos = boid->getPosition().y;
 
@@ -82,7 +81,6 @@ void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
 }
 
 void BoidScreen::setRandomBoidVelocity(Boid* boid) {
-    // TODO: find a better way to generate random speed
     float randomSpeed = rand() % (int) BOID_DEFAULT_MAX_SPEED;
     if(randomSpeed < BOID_DEFAULT_MIN_SPEED) {
         randomSpeed += BOID_DEFAULT_MIN_SPEED;
@@ -119,18 +117,24 @@ BoidScreen::~BoidScreen() {
 }
 
 void BoidScreen::update(const sf::Time& dt) {
-    std::vector<Boid*>& boids = grid->getBoids();
-    sf::Vector2f position = static_cast<sf::Vector2f>(sf::Mouse::getPosition());
+    const std::vector<Boid*>& boids = grid->getBoids();
+    const sf::Vector2u& windowSize = windowPointer->getSize();
+
+    #if defined(_WIN32)
+        const sf::Vector2f& mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition());
+    #elif defined(__APPLE__)
+        const sf::Vector2f& mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*windowPointer));
+    #endif
+
+
 
     for (size_t i=0; i < getNumBoids(); i++) {
         Boid* boid = boids[i];
         std::vector<Boid*> boidsInNeighbouringCells = grid->getBoidsInNeighbouringCells(boid);
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-            flockingBehavior.applyMouseAvoidance(boid, position);
-        }
-
-        flockingBehavior.applyFlockingLogic(boid, boidsInNeighbouringCells);
+        flockingBehavior.applyMouseAvoidance(boid, mousePos);
+        flockingBehavior.applyMouseAvoidance(boid, mousePos);
+        flockingBehavior.applyFlockingLogic(boid, boidsInNeighbouringCells, dt);
 
         boid->update(dt);
         
