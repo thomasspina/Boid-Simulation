@@ -4,6 +4,44 @@ This project showcases a boid simulation that reproduces the flocking behavior o
 
 Through our simulation, users can experiment with and adjust the boids' behaviors to observe how these changes may affect the way flocks behave.
 
+## Run
+### MacOS
+
+To run this program on MacOS you need to have XCode Command line tools installed.
+~~~
+xcode-select --install
+~~~
+
+Then install CMake using Homebrew (https://brew.sh)
+~~~
+brew install cmake
+~~~
+
+Then clone the github repo onto your computer
+~~~
+git clone https://github.com/thomasspina/Boid-Simulation.git
+~~~
+
+In the repo make a build directory in which the project will be built and switch to that directory
+~~~
+mkdir build && cd ./build
+~~~
+
+From within this build directory you can build the project using cmake and make with the following command
+~~~
+cmake .. && make -j 4
+~~~
+
+Then to run the project you have to run the generated binary in the bin directory in the build directory
+~~~
+./bin/Boid-Simulation
+~~~
+
+### Windows
+
+To be written
+
+
 ## Features
 
 To be written
