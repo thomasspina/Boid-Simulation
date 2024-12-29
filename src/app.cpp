@@ -102,7 +102,7 @@ void App::drawConfigUI(BoidScreen& boidScreen) {
     ImGui::Checkbox("Show Boid Neighbourhood", &drawBoundary);
     ImGui::Checkbox("Avoid Screen Boundary", boidScreen.getIsAvoidingScreenEdgesPointer());
     ImGui::Checkbox("Show Grid", &drawGrid);
-    ImGui::Checkbox("Enable Mouse Avoidance (Hold R-click)", flocking.getIsMouseAvoidanceEnabledPointer());
+    ImGui::Checkbox("Enable Mouse Avoidance (Hold L-click)", flocking.getIsMouseAvoidanceEnabledPointer());
 }
 
 void App::drawRulesUI() {
