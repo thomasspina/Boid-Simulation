@@ -7,7 +7,7 @@ Through our simulation, users can experiment with and adjust the boids' behavior
 ## Run
 ### MacOS
 
-To run this program on MacOS you need to have XCode Command line tools installed.
+To run this program on MacOS you need to have XCode Command line tools installed
 ~~~
 xcode-select --install
 ~~~
@@ -44,7 +44,7 @@ To be written
 
 ## Features
 
-To be written
+To be Written
 
 
 ## Technology
