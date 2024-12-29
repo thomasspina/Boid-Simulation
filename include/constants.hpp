@@ -6,10 +6,10 @@
 #define SCREEN_FPS 60u
 #define SCREEN_GRID_CELL_SIZE 100u
 
-#define BOID_SCREEN_DEVIATION_MARGIN 100.f // TODO: better deviation margin needed (should be based on screen size and boid speed)
-#define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.09f // TODO: better deviation factor needed (should be based on screen size and boid speed)
+#define BOID_SCREEN_DEVIATION_MARGIN 10.f
+#define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.25f
 
-#define AVG_MEMORY_USAGE 50.0f // TODO: is there a better way of getting this value?
+#define AVG_MEMORY_USAGE 50.0f
 
 #define DEFAULT_NUM_BOIDS 60
 #define MAX_NUM_BOIDS 1000

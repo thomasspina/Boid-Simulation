@@ -62,20 +62,20 @@ void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
 
     // check left margin
     if (xPos < BOID_SCREEN_DEVIATION_MARGIN)
-        vx = boid->getVelocity().x + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+        vx = vx + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
 
     // check right margin
     else if (xPos > windowPointer->getSize().x - BOID_SCREEN_DEVIATION_MARGIN)
-        vx = boid->getVelocity().x - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+        vx = vx - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
 
 
     // check top margin
     if (yPos < BOID_SCREEN_DEVIATION_MARGIN)
-        vy = boid->getVelocity().y + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+        vy = vy + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
     
     // check bottom margin
     else if (yPos > windowPointer->getSize().y - BOID_SCREEN_DEVIATION_MARGIN) 
-        vy = boid->getVelocity().y - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+        vy = vy - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
 
     boid->setVelocity({vx, vy});
 }
