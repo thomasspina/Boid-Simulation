@@ -25,9 +25,9 @@ void Boid::initNeighbourhoodBoundary() {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
-    sf::Vector2f wanderForce = applyWanderLogic();
+    const sf::Vector2f wanderForce = applyWanderLogic();
 
-    // Apply wander vector
+    // apply wander vector
     setVelocity(velocity += wanderForce * deltaTime.asSeconds());
 
     sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
@@ -35,13 +35,13 @@ void Boid::update(const sf::Time& deltaTime) {
     this->neighbourhoodBoundary.move(newPos);
 }
 
-sf::Vector2f Boid::applyWanderLogic() {
-    sf::Vector2f normalized = vec2::normalize(velocity);
+const sf::Vector2f Boid::applyWanderLogic() {
+    const sf::Vector2f normalized = vec2::normalize(velocity);
 
-    // Project a displacement circle in the boid direction
+    // project a displacement circle in the boid direction
     sf::Vector2f circleCenter(normalized.x * BOID_WANDER_CIRCLE_DISTANCE, normalized.y * BOID_WANDER_CIRCLE_DISTANCE);
 
-    // Set a random point on the displacement unit circle, constant dictates how wide the angle change is
+    // set a random point on the displacement unit circle, constant dictates how wide the angle change is
     wanderAngle += (rand() / (float)RAND_MAX - 0.5f) * 2.0f * BOID_WANDER_ANGLE_CHANGE;
     
     // Calculate the displacement force on the circle that is scaled to the desired radius
@@ -73,9 +73,10 @@ void Boid::setVelocity(const sf::Vector2f& velocity) {
     this->velocity = velocity;
     this->setRotation(vec2::angleDegrees(this->velocity)); // sets the front of the boid where it's going   
 
-    if (vec2::getMagnitude(velocity) > this->maxSpeed) {
+    const float magnitude = vec2::getMagnitude(velocity);
+    if (magnitude > this->maxSpeed) {
         this->velocity = vec2::normalize(velocity) * this->maxSpeed;
-    } else if (vec2::getMagnitude(velocity) < BOID_DEFAULT_MIN_SPEED) {
+    } else if (magnitude < BOID_DEFAULT_MIN_SPEED) {
         this->velocity = vec2::normalize(velocity) * BOID_DEFAULT_MIN_SPEED;
     }
 }

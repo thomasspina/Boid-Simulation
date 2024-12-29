@@ -108,7 +108,6 @@ BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPo
     this->grid = new Grid(windowPointer);
 
     // create default number of boids
-    // TODO: replace 1 with DEFAULT_NUM_BOIDS
     for(int i = 0; i < DEFAULT_NUM_BOIDS; i++) {
         createBoid();
     }

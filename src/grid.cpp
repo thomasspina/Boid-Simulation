@@ -38,7 +38,8 @@ void Grid::addBoid(Boid* boid) {
 void Grid::update() {
     for (std::vector<Cell>& cellRow : grid) {
         for (Cell& cell : cellRow) {
-            for (Boid* boid : cell.getBoids()) {
+            const std::vector<Boid*>& boidsInCell = cell.getBoids();
+            for (Boid* boid : boidsInCell) {
                 // update the boid's cell
                 Cell* newCell = getCellFromPosition(boid);
                 if (newCell != &cell) {
@@ -103,7 +104,7 @@ Cell* Grid::getCellFromPosition(const sf::Vector2f& position) {
 
 // returns the cell coordinates of the grid the given coordinates are in
 std::pair<int, int> Grid::getGridPositionFromCoords(const sf::Vector2f& position) {
-    // get the cell the boid is in. +1 for offset because of offscreen grid
+    // get the cell the boid is in
     int x = std::floor(position.x) / SCREEN_GRID_CELL_SIZE;
     int y = std::floor(position.y) / SCREEN_GRID_CELL_SIZE;
 
