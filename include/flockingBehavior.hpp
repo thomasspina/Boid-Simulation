@@ -29,7 +29,7 @@ private:
     void applyAlignmentLogic(const sf::Vector2f& nborVel, float& avgVelocityX, float& avgVelocityY);
     void applyCohesionLogic(const sf::Vector2f& nborBoidPos, float& avgPosX, float& avgPosY);
     void applyWanderLogic(Boid* boid, const sf::Vector2f& vel, const sf::Time& dT);
-    void applyMouseAvoidanceLogic(Boid* currBoid, sf::Vector2f mousePos, float& currX, float& currY);
+    void applyMouseAvoidanceLogic(Boid* currBoid, const sf::Vector2f& mousePos, float& currX, float& currY);
 
 public:
     static FlockingBehavior& getInstance() {

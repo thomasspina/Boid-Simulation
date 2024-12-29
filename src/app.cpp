@@ -36,7 +36,7 @@ double App::getMemoryUsage() const {
         return static_cast<float>(t_info.resident_size) / (1024.0f * 1024.0f); // convert to megabytes
     #endif
 }
-// TODO: add virtual memory to this?
+
 void App::drawPerformanceUI() {
     float currentFPS = ImGui::GetIO().Framerate;
         

@@ -110,7 +110,7 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid
     applyWanderLogic(currBoid, currBoid->getVelocity(), dT);
 }
 
-void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, sf::Vector2f mousePos, float& currX, float& currY) {
+void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, const sf::Vector2f& mousePos, float& currX, float& currY) {
     sf::Vector2f boidPosition = currBoid->getPosition();
 
     float distance = vec2::distanceBetweenPoints(boidPosition, mousePos) * BOID_DISTANCE_CALCULATION_SCALER;
