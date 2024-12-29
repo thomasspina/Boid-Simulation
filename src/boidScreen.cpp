@@ -3,53 +3,35 @@
 #include "boid.hpp"
 #include "constants.hpp"
 #include "utils.hpp"
-#include <iostream>
-#include <algorithm>
 #include "flockingBehavior.hpp"
+#include <iostream>
 
-BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
-    // seed random number generator
-    srand(time(0));
+Boid* BoidScreen::createBoid() {
+    Boid* newBoid = new Boid();
+    newBoid->setIdNumber(this->getNumBoids());
+    newBoid->setMaxSpeed(maxBoidSpeed);
 
-    this->boids = new std::vector<Boid*>();
+    int randColor = rand() % colors.size();
 
-    // create default number of boids
-    for(int i = 0; i < DEFAULT_NUM_BOIDS; i++) {
-        Boid* newBoid = new Boid();
-        newBoid->setIdNumber(i);
-        boids->push_back(newBoid);
-    }
+    newBoid->setFillColor(colour::HexToColour(colors[randColor]));
+    newBoid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
 
     // set random boid velocity
-    for(auto boid : *boids) {
-        // TODO: change the 100.f speed to a speed constant
-        boid->setVelocity(vec2::vecFromDegree(rand() % 360) * BOID_DEFAUL_SPEED);
-    }
+    setRandomBoidVelocity(newBoid);
 
     // set random boid position
-    for(auto boid : *boids) {
-        float xPos = rand() % windowPointer->getSize().x;
-        float yPos = rand() % windowPointer->getSize().y;
+    setRandomBoidPosition(newBoid);
+    
+    grid->addBoid(newBoid);
 
-        boid->setPosition(xPos, yPos);
-        // boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
-        boid->setBoundPos(xPos, yPos);
-    }
+    return newBoid;
 }
 
-// TODO: Move all flock behavior to separate class
-void BoidScreen::update(const sf::Time& dt) {
-    for (size_t i=0; i < boids->size(); i++) {
-        Boid* boid = (*boids)[i];
-        
-        flockingBehavior::applyFlockingLogic(boid, boids);
-
-        boid->update(dt);
-
+void BoidScreen::wrapAroundScreen(Boid* boid) {
         float xPos = boid->getPosition().x;
         float yPos = boid->getPosition().y;
 
-        // wrap boid around screen
+        // set x if boid is out of bounds
         if(boid->getPosition().x < 0) {
             xPos = windowPointer->getSize().x;
             yPos = boid->getPosition().y;
@@ -58,6 +40,7 @@ void BoidScreen::update(const sf::Time& dt) {
             yPos = boid->getPosition().y;
         }
 
+        // set y if boid is out of bounds
         if(boid->getPosition().y < 0) {
             xPos = boid->getPosition().x;
             yPos = windowPointer->getSize().y;
@@ -68,13 +51,127 @@ void BoidScreen::update(const sf::Time& dt) {
 
         boid->setPosition(xPos, yPos);
         boid->setBoundPos(xPos, yPos);
-        // boid->setBoundPos(xPos - BOID_DEFAULT_BOUNDARY_RADIUS, yPos - BOID_DEFAULT_BOUNDARY_RADIUS);
+}
+
+void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
+    float xPos = boid->getPosition().x;
+    float yPos = boid->getPosition().y;
+
+    float vx = boid->getVelocity().x;
+    float vy = boid->getVelocity().y;
+
+    // check left margin
+    if (xPos < BOID_SCREEN_DEVIATION_MARGIN)
+        vx = boid->getVelocity().x + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+
+    // check right margin
+    else if (xPos > windowPointer->getSize().x - BOID_SCREEN_DEVIATION_MARGIN)
+        vx = boid->getVelocity().x - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+
+
+    // check top margin
+    if (yPos < BOID_SCREEN_DEVIATION_MARGIN)
+        vy = boid->getVelocity().y + BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+    
+    // check bottom margin
+    else if (yPos > windowPointer->getSize().y - BOID_SCREEN_DEVIATION_MARGIN) 
+        vy = boid->getVelocity().y - BOID_SCREEN_DEVIATION_TURN_FACTOR * maxBoidSpeed;
+
+    boid->setVelocity({vx, vy});
+}
+
+void BoidScreen::setRandomBoidVelocity(Boid* boid) {
+    float randomSpeed = rand() % (int) BOID_DEFAULT_MAX_SPEED;
+    if(randomSpeed < BOID_DEFAULT_MIN_SPEED) {
+        randomSpeed += BOID_DEFAULT_MIN_SPEED;
+    }
+    boid->setSpeed(randomSpeed);
+
+
+    sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
+    boid->setVelocity(random_dir * boid->getSpeed());
+}
+
+void BoidScreen::setRandomBoidPosition(Boid* boid) {
+    float xPos = rand() % windowPointer->getSize().x;
+    float yPos = rand() % windowPointer->getSize().y;
+
+    boid->setPosition(xPos, yPos);
+    boid->setBoundPos(xPos, yPos);
+}
+
+BoidScreen::BoidScreen(sf::RenderWindow* windowPointer) : windowPointer(windowPointer) {
+    // seed random number generator
+    srand(time(0));
+
+    this->grid = new Grid(windowPointer);
+
+    // create default number of boids
+    for(int i = 0; i < DEFAULT_NUM_BOIDS; i++) {
+        createBoid();
     }
 }
 
 BoidScreen::~BoidScreen() {
-    for(auto boid : *boids) {
-        delete boid;
+    delete grid;
+}
+
+void BoidScreen::update(const sf::Time& dt) {
+    const std::vector<Boid*>& boids = grid->getBoids();
+    const sf::Vector2u& windowSize = windowPointer->getSize();
+
+    #if defined(_WIN32)
+        const sf::Vector2f& mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition());
+    #elif defined(__APPLE__)
+        const sf::Vector2f& mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(*windowPointer));
+    #endif
+
+
+
+    for (size_t i=0; i < getNumBoids(); i++) {
+        Boid* boid = boids[i];
+        std::vector<Boid*> boidsInNeighbouringCells = grid->getBoidsInNeighbouringCells(boid);
+
+        flockingBehavior.applyMouseAvoidance(boid, mousePos);
+        flockingBehavior.applyMouseAvoidance(boid, mousePos);
+        flockingBehavior.applyFlockingLogic(boid, boidsInNeighbouringCells, dt);
+
+        boid->update(dt);
+        
+        if (!isAvoidingScreenEdges)
+            wrapAroundScreen(boid);
+        else
+            deviateBoidFromScreenBoundary(boid);
+
+        // update grid last
+        grid->update();
     }
-    delete boids;
+}
+
+void BoidScreen::setBoidNeighbourhoodRadius(const float radius) {
+    this->boidNeighbourhoodRadius = radius;
+    for (auto boid : grid->getBoids()) {
+        boid->setNeighboorhoodRadius(boidNeighbourhoodRadius);
+    }
+}
+
+void BoidScreen::setNumBoids(const int newNumBoids) {
+    int numBoids = grid->getNumBoids();
+
+    // delete boids if new number of boids is less than current number
+    for (int i = numBoids; i > newNumBoids; i--) {
+        delete grid->popLastBoid();
+    }
+
+    // create new boids if new number of boids is greater than current number
+    for (int i = numBoids; i <= newNumBoids; i++) {
+        createBoid();
+    }
+}
+
+void BoidScreen::setMaxBoidSpeed(const float speed) {
+    this->maxBoidSpeed = speed;
+    for (auto boid : grid->getBoids()) {
+        boid->setMaxSpeed(maxBoidSpeed);
+    }
 }

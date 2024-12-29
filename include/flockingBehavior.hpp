@@ -1,14 +1,55 @@
 #pragma once
 
 #include <vector>
-#include "boid.hpp"
 #include <algorithm>
+#include <utility> 
 
+#include "boid.hpp"
 
-class flockingBehavior {
+// Singleton class to handle flocking behavior
+class FlockingBehavior {
+private: 
+    bool separationEnabled = true;
+    bool alignmentEnabled = true;
+    bool cohesionEnabled = true;
+    bool mouseAvoidanceEnable = false;
+    bool isWanderEnabled = true;
+
+    float separationRadius = FLOCK_DEFAULT_SEPARATION_RADIUS;
+    float separationAvoidFactor = FLOCK_DEFAULT_AVOID_FACTOR;
+    float matchingFactor = FLOCK_DEFAULT_MATCHING_FACTOR;
+    float centeringFactor = FLOCK_DEFAULT_CENTERING_FACTOR;
+    float wanderFactor = BOID_WANDER_FORCE_FACTOR;
+
+    FlockingBehavior() = default;
+    FlockingBehavior(const FlockingBehavior&) = delete;
+    FlockingBehavior& operator=(const FlockingBehavior&) = delete;
+
+    void applySeparationLogic(const sf::Vector2f& currBoidPos, const sf::Vector2f& nborBoidPos, float& repulsionXSum, float& repulsionYSum);
+    void applyAlignmentLogic(const sf::Vector2f& nborVel, float& avgVelocityX, float& avgVelocityY);
+    void applyCohesionLogic(const sf::Vector2f& nborBoidPos, float& avgPosX, float& avgPosY);
+    void applyWanderLogic(Boid* boid, const sf::Vector2f& vel, const sf::Time& dT);
+    void applyMouseAvoidanceLogic(Boid* currBoid, const sf::Vector2f& mousePos, float& currX, float& currY);
+
 public:
-    static void applyFlockingLogic(Boid* boid, std::vector<Boid*>* boids);
-    // void separation(Boid* boid);
-    // void alignment();
-    // void cohesion();
+    static FlockingBehavior& getInstance() {
+        static FlockingBehavior instance;
+        return instance;
+    }
+
+    void applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids, const sf::Time& deltaTime);
+    void applyMouseAvoidance(Boid* currBoid, sf::Vector2f mousePos);
+
+
+    // pointer getters
+    float* getSeparationRadiusPointer() { return &this->separationRadius; }
+    float* getSeparationAvoidFactorPointer() { return &this->separationAvoidFactor; }
+    float* getMatchingFactorPointer() { return &this->matchingFactor; }
+    float* getCenteringFactorPointer() { return &this->centeringFactor; }
+    bool* getIsSeparationEnabledPointer() { return &this->separationEnabled; }
+    bool* getIsAlignmentEnabledPointer() { return &this->alignmentEnabled; }
+    bool* getIsCohesionEnabledPointer() { return &this->cohesionEnabled; }
+    bool* getIsMouseAvoidanceEnabledPointer() { return &this->mouseAvoidanceEnable; }
+    bool* getIsWanderEnabledPointer() { return &this->isWanderEnabled; }
+    float* getWanderFactorPointer() { return &this->wanderFactor; }
 };
