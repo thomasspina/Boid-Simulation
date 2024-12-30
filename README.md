@@ -45,8 +45,9 @@ To be written
 ## Features
 
 The project has many adjustable parameters as seen from the boid menu.
-
-![performance](https://github.com/user-attachments/assets/c78c6ce8-c562-409c-b8ec-0e5523724cfd)
+<img width="1719" alt="Screenshot 2024-12-30 at 4 17 39 PM" src="https://github.com/user-attachments/assets/9a366667-e419-49c8-8e25-a17abad6ac5c" />
+There are performance trackers at the very top, a configuration menu which handles basic simulation settings, and a rules menu which handles the weights attributed to each boid rule from the Cornell paper in the sources section. Most settings are self explanatory, for example there is a "Number of Boids" slider which adjusts the number of boids in the simulation (1000 boids should drop the framerate). Below are the less obvious settings.
+*Neighbourhood
 
 
 
