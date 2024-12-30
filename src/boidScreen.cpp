@@ -84,12 +84,7 @@ void BoidScreen::deviateBoidFromScreenBoundary(Boid* boid) {
 }
 
 void BoidScreen::setRandomBoidVelocity(Boid* boid) {
-    float randomSpeed = rand() % (int) BOID_DEFAULT_MAX_SPEED;
-    if(randomSpeed < BOID_DEFAULT_MIN_SPEED) {
-        randomSpeed += BOID_DEFAULT_MIN_SPEED;
-    }
-    boid->setSpeed(randomSpeed);
-
+    boid->setSpeed(BOID_DEFAULT_SPEED);
 
     sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
     boid->setVelocity(random_dir * boid->getSpeed());
@@ -143,10 +138,11 @@ void BoidScreen::update(const sf::Time& dt) {
 
         boid->update(dt);
         
-        if (!isAvoidingScreenEdges)
+        if (!isAvoidingScreenEdges) {
             wrapAroundScreen(boid);
-        else
+        } else {
             deviateBoidFromScreenBoundary(boid);
+        }
 
         // update grid last
         grid->update();

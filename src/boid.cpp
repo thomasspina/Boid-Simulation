@@ -25,35 +25,9 @@ void Boid::initNeighbourhoodBoundary() {
 }
 
 void Boid::update(const sf::Time& deltaTime) {
-    applyWander(deltaTime);
-
     sf::Vector2<float> newPos = velocity * deltaTime.asSeconds();
     this->move(newPos);
     this->neighbourhoodBoundary.move(newPos);
-}
-
-void Boid::applyWander(const sf::Time& deltaTime) {
-    // apply wander force to the boid
-    const sf::Vector2f wanderForce = applyWanderLogic();
-    setVelocity(velocity += wanderForce * deltaTime.asSeconds());
-}
-
-const sf::Vector2f Boid::applyWanderLogic() {
-    const sf::Vector2f normalized = vec2::normalize(velocity);
-
-    // project a displacement circle in the boid direction
-    sf::Vector2f circleCenter(normalized.x * BOID_WANDER_CIRCLE_DISTANCE, normalized.y * BOID_WANDER_CIRCLE_DISTANCE);
-
-    // set a random point on the displacement unit circle, constant dictates how wide the angle change is
-    wanderAngle += (rand() / (float)RAND_MAX - 0.5f) * 2.0f * BOID_WANDER_ANGLE_CHANGE;
-    
-    // Calculate the displacement force on the circle that is scaled to the desired radius
-    sf::Vector2f displacement(std::cos(wanderAngle) * BOID_WANDER_CIRCLE_RADIUS, std::sin(wanderAngle) * BOID_WANDER_CIRCLE_RADIUS);
-    
-    // Combine circle center and displacement to get final wander force
-    sf::Vector2f wanderForce = circleCenter + displacement;
-
-    return wanderForce * BOID_WANDER_FORCE_FACTOR;
 }
 
 // check whether a neighbor boid is within the current boid's boundary

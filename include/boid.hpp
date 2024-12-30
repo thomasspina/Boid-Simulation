@@ -23,8 +23,6 @@ public:
     void initNeighbourhoodBoundary();
     void update(const sf::Time& deltaTime);
     bool isWithinRadius(const sf::Vector2f& neighborVector, const float radius) const;
-    const sf::Vector2f applyWanderLogic();
-    void applyWander(const sf::Time& deltaTime);
 
     // getters
     const sf::CircleShape& getNeighbourhoodBoundary() const { return this->neighbourhoodBoundary; }

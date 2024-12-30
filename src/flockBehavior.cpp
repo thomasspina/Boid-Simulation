@@ -24,10 +24,11 @@ void FlockingBehavior::applyCohesionLogic(const sf::Vector2f& nborBoidPos, float
     avgPosY += nborBoidPos.y;
 }
 
-void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Vector2f& vel, const sf::Time& dT) {
-    if (!isWanderEnabled) return;
+void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Time& dT) {
+    if (!wanderEnabled) return;
 
     float wanderAngle = boid->getWanderAngle();
+    const sf::Vector2f& vel = boid->getVelocity();
 
     const sf::Vector2f normalized = vec2::normalize(vel);
 
@@ -43,20 +44,16 @@ void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Vector2f& vel, con
     // Combine circle center and displacement to get final wander force
     sf::Vector2f wanderForce = circleCenter + displacement;
 
-    boid->setVelocity(vel + wanderForce * this->wanderFactor * dT.asSeconds());
+    boid->setVelocity(vel - wanderForce * this->wanderFactor * dT.asSeconds());
 }
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids, const sf::Time& dT) {
+    applyWanderLogic(currBoid, dT);
+
     int nborCount = 0;
-
-    const sf::Vector2f& currVel = currBoid->getVelocity();
-    const sf::Vector2f& currPos = currBoid->getPosition();
-
-    float new_X = currVel.x;
-    float new_Y = currVel.y;
-
-    float repulsionXSum = 0.f;
-    float repulsionYSum = 0.f;
+    
+    float new_X = currBoid->getVelocity().x;
+    float new_Y = currBoid->getVelocity().y;
 
     float avgVelocityX = 0.f;
     float avgVelocityY = 0.f;
@@ -64,50 +61,53 @@ void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid
     float avgPosX = 0.f;
     float avgPosY = 0.f;
 
-    int currBoidId = currBoid->getIdNumber();
-    float neighbourRadius = currBoid->getNeighbourhoodRadius();
-    for (size_t i = 0; i < boids.size(); i++) {
+    float repulsionXSum = 0.f;
+    float repulsionYSum = 0.f;
+
+    const sf::Vector2f& currBoidPos = currBoid->getPosition();
+    const sf::Vector2f& currBoidVel = currBoid->getVelocity();
+
+    for (size_t i=0; i < boids.size(); i++) {
         Boid* nborBoid = boids[i];
-        const sf::Vector2f& nborPos = nborBoid->getPosition();
-        const sf::Vector2f& nborVel = nborBoid->getVelocity();
+        const sf::Vector2f& nborBoidPos = nborBoid->getPosition();
 
-        if (nborBoid->getIdNumber() != currBoidId) {
+        if (nborBoid->getIdNumber() == currBoid->getIdNumber()) { continue; }
 
-            if (currBoid->isWithinRadius(nborPos, this->separationRadius)) {
-                nborCount++;
-                applySeparationLogic(currPos, nborPos, repulsionXSum, repulsionYSum);
-            } else if (currBoid->isWithinRadius(nborPos, neighbourRadius)) {
-                nborCount++;
-                applyAlignmentLogic(nborVel, avgVelocityX, avgVelocityY);
-                applyCohesionLogic(nborPos, avgPosX, avgPosY);
-            }
+
+        if (currBoid->isWithinRadius(nborBoidPos, this->separationRadius)) {
+            applySeparationLogic(currBoidPos, nborBoidPos, repulsionXSum, repulsionYSum);
+        } else if (currBoid->isWithinRadius(nborBoidPos, currBoid->getNeighbourhoodRadius())) {
+            nborCount++;
+
+            applyAlignmentLogic(nborBoid->getVelocity(), avgVelocityX, avgVelocityY);
+            applyCohesionLogic(nborBoidPos, avgPosX, avgPosY);
         }
     }
 
-    if (nborCount == 0) {
-        applyWanderLogic(currBoid, currBoid->getVelocity(), dT);
-        return;
-    }
+    if (nborCount == 0) { return; }
 
+    // Apply alignment behavior
     if (alignmentEnabled) {
-        new_X += (avgVelocityX / nborCount - currVel.x) * this->matchingFactor;
-        new_Y += (avgVelocityY / nborCount - currVel.y) * this->matchingFactor;
+        new_X += (avgVelocityX / nborCount - currBoidVel.x) * this->matchingFactor;
+        new_Y += (avgVelocityY / nborCount - currBoidVel.y) * this->matchingFactor;
     }
 
+    // Apply cohesion behavior
     if (cohesionEnabled) {
-        new_X += (avgPosX / nborCount - currBoid->getPosition().x) * this->centeringFactor;
-        new_Y += (avgPosY / nborCount - currBoid->getPosition().y) * this->centeringFactor;
+        new_X += (avgPosX / nborCount - currBoidPos.x) * this->centeringFactor;
+        new_Y += (avgPosY / nborCount - currBoidPos.y) * this->centeringFactor;;
     }
-
+    
+    // Apply separation behavior
     if (separationEnabled) {
-        new_X += currVel.x + repulsionXSum * this->separationAvoidFactor;
-        new_Y += currVel.y + repulsionYSum * this->separationAvoidFactor;
+        new_X += currBoidVel.x + repulsionXSum * this->separationAvoidFactor;
+        new_Y += currBoidVel.y + repulsionYSum * this->separationAvoidFactor;
     }
+    
+    // Apply behavior to new vector
+    sf::Vector2f newVelocity = sf::Vector2(new_X, new_Y);
 
-    // apply behavior to new vector
-    currBoid->setVelocity(sf::Vector2(new_X, new_Y));
-
-    applyWanderLogic(currBoid, currBoid->getVelocity(), dT);
+    currBoid->setVelocity(newVelocity);
 }
 
 void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, const sf::Vector2f& mousePos, float& currX, float& currY) {
@@ -122,20 +122,19 @@ void FlockingBehavior::applyMouseAvoidanceLogic(Boid* currBoid, const sf::Vector
 }
  
 void FlockingBehavior::applyMouseAvoidance(Boid* currBoid, sf::Vector2f mousePos) {
-
-    if (mouseAvoidanceEnable) {
+    if (!mouseAvoidanceEnabled) { return; }
         
-        if (currBoid->isWithinRadius(mousePos, BOID_DEFAULT_MOUSE_AVOIDANCE_RADIUS)) {
+    if (currBoid->isWithinRadius(mousePos, BOID_DEFAULT_MOUSE_AVOIDANCE_RADIUS)) {
 
-            float new_X = 0.f;
-            float new_Y = 0.f;
+        float new_X = 0.f;
+        float new_Y = 0.f;
 
-            new_X = currBoid->getVelocity().x;
-            new_Y = currBoid->getVelocity().y;
+        new_X = currBoid->getVelocity().x;
+        new_Y = currBoid->getVelocity().y;
 
-            applyMouseAvoidanceLogic(currBoid, mousePos, new_X, new_Y);
+        applyMouseAvoidanceLogic(currBoid, mousePos, new_X, new_Y);
 
-            currBoid->setVelocity(sf::Vector2(new_X, new_Y));
-        }
+        currBoid->setVelocity(sf::Vector2(new_X, new_Y));
     }
+    
 }
