@@ -45,11 +45,13 @@ void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Time& dT) {
     sf::Vector2f wanderForce = circleCenter + displacement;
 
     boid->setWanderAngle(wanderAngle);
+    if (rand() % 2) {
+        wanderForce = -wanderForce;
+    }
     boid->setVelocity(vel + wanderForce * this->wanderFactor * dT.asSeconds());
 }
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids, const sf::Time& dT) {
-    // TODO: Fix wander logic
     applyWanderLogic(currBoid, dT);
 
     int nborCount = 0;
