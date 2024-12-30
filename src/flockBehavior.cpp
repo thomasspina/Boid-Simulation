@@ -44,6 +44,7 @@ void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Time& dT) {
     // Combine circle center and displacement to get final wander force
     sf::Vector2f wanderForce = circleCenter + displacement;
 
+    boid->setWanderAngle(wanderAngle);
     boid->setVelocity(vel + wanderForce * this->wanderFactor * dT.asSeconds());
 }
 
