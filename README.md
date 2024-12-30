@@ -44,7 +44,10 @@ To be written
 
 ## Features
 
-To be Written
+The project has many adjustable parameters as seen from the boid menu.
+
+![performance](https://github.com/user-attachments/assets/c78c6ce8-c562-409c-b8ec-0e5523724cfd)
+
 
 
 ## Technology
