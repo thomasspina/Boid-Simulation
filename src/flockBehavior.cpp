@@ -48,6 +48,7 @@ void FlockingBehavior::applyWanderLogic(Boid* boid, const sf::Time& dT) {
 }
 
 void FlockingBehavior::applyFlockingLogic(Boid* currBoid, const std::vector<Boid*>& boids, const sf::Time& dT) {
+    // TODO: Fix wander logic
     applyWanderLogic(currBoid, dT);
 
     int nborCount = 0;
