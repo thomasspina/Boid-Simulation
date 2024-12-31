@@ -58,7 +58,11 @@ Boids get warped to the other side of the screen upon reaching the edge of the s
 #### Avoid mouse
 The `Enable Mouse Avoidance (Hold L-click)` checkbox enables or disables mouse avoidance. The boids will avoid the mouse if its near them and the user is left-clicking.
 ![mouse](https://github.com/user-attachments/assets/800f8a67-2cb4-4f44-8f35-b70ad8ca5dcc)
-
+#### Rules 
+The three rules explained in the Cornell paper in the sources can be toyed with using the three sliders and corresponding checkboxes in the menu. Very briefly the rules are:
+* Separation: the boids avoid eachother
+* Alignment: the boids head towards the same direction when in the same flock
+* Cohesion: the boids move towards the center of the flock
 
 
 ## Technology
