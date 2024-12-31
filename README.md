@@ -16,7 +16,7 @@ Through our simulation, users can experiment with and adjust the boids' behavior
   - [Windows](#windows)
     - [MinGW](#for-mingw)
     - [Visual Studio](#for-visual-studio)
-    - [Ninja](#for-ninja)
+    <!-- - [Ninja](#for-ninja) -->
 - [Technology](#technology)
 - [Optimization](#optimization)
 - [Future Improvements](#future-improvements)
@@ -89,7 +89,7 @@ git clone https://github.com/thomasspina/Boid-Simulation.git
 #### Choose one of the following toolchains:
   - **MinGW**: Install via [MSYS2](https://www.msys2.org/) or the standalone MinGW installer.
   - **Visual Studio**: Install Visual Studio 2019+ with "Desktop Development with C++" workload.
-  - **Ninja**: Download Ninja from [ninja-build.org](https://ninja-build.org/).
+  <!-- - **Ninja**: Download Ninja from [ninja-build.org](https://ninja-build.org/). -->
 
 Within the root directory, run the following commands based on the chosen toolchain:
 
@@ -102,14 +102,14 @@ mingw32-make -C build
 #### For Visual Studio
 ~~~
 cmake -S . -B build -G "Visual Studio 17 2022"
-msbuild build/YourProject.sln /p:Configuration=Release
+msbuild build/Boid-Simulation.sln /p:Configuration=Release
 ~~~
 
-#### For Ninja
+<!-- #### For Ninja
 ~~~
 cmake -S . -B build -G "Ninja"
 ninja -C build
-~~~
+~~~ -->
 
 #### Lastly
 
