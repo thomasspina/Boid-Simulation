@@ -4,6 +4,28 @@ This project showcases a boid simulation that reproduces the flocking behavior o
 
 Through our simulation, users can experiment with and adjust the boids' behaviors to observe how these changes may affect the way flocks behave.
 
+## Features
+
+The project has many adjustable parameters as seen from the boid menu.
+<img width="1719" alt="Screenshot 2024-12-30 at 4 17 39 PM" src="https://github.com/user-attachments/assets/9a366667-e419-49c8-8e25-a17abad6ac5c" />
+There are performance trackers at the very top, a configuration menu which handles basic simulation settings, and a rules menu which handles the weights attributed to each boid rule from the Cornell paper in the sources section. Most settings are self explanatory, for example there is a `Number of Boids` slider which adjusts the number of boids in the simulation (1000 boids should drop the framerate). Below are the less obvious settings.
+#### Neighbourhood
+You can show the neighbourhood in which the boids look for their flock neighbours using the `Show Boid Neighbourhood` checkbox. This neighbourhood radius is adjustable via the `Neighbourhood` slider.
+![neighbourhood](https://github.com/user-attachments/assets/74e32f1a-fcc0-4372-9a0c-49e503236bd5)
+#### Wandering
+For the boids to look more natural there is a wander factor in the boid movement calculation that is indepedent of its neighbours. This wander factor adds randomness to boid and flock movements. This factor can be adjusted using the `Wander Factor` slider and can be enabled or disabled with the `Enable Boid Wandering` checkbox.
+#### Grid and Screen Boundaries
+Boids get warped to the other side of the screen upon reaching the edge of the screen by default. This behaviour can be changed using the `Avoid Screen Boundary` checkbox. There is also a checkbox named `Grid` which is used to overlay a grid on the display. This grid is part of the optimization where boids will only look for boids in neighbouring grid cells to check if they are in their neighbourhood radius. 
+![avoid](https://github.com/user-attachments/assets/e2202adc-15b7-46e3-ac2c-d240da947dc2)
+#### Avoid mouse
+The `Enable Mouse Avoidance (Hold L-click)` checkbox enables or disables mouse avoidance. The boids will avoid the mouse if its near them and the user is left-clicking.
+![mouse](https://github.com/user-attachments/assets/800f8a67-2cb4-4f44-8f35-b70ad8ca5dcc)
+#### Rules 
+The three rules explained in the Cornell paper in the sources can be toyed with using the three sliders and corresponding checkboxes in the menu. Very briefly the rules are:
+* Separation: the boids avoid eachother
+* Alignment: the boids head towards the same direction when in the same flock
+* Cohesion: the boids move towards the center of the flock
+
 ## Install
 ### MacOS
 
@@ -46,43 +68,37 @@ Then clone the github repo onto your computer
 git clone https://github.com/thomasspina/Boid-Simulation.git
 ~~~
 
-In the repo make a build directory in which the project will be built and switch to that directory
+#### Choose one of the following toolchains:
+  - **MinGW**: Install via [MSYS2](https://www.msys2.org/) or the standalone MinGW installer.
+  - **Visual Studio**: Install Visual Studio 2019+ with "Desktop Development with C++" workload.
+  - **Ninja**: Download Ninja from [ninja-build.org](https://ninja-build.org/).
+
+Within the root directory, run the following commands based on the chosen toolchain:
+
+#### For MinGW
 ~~~
-mkdir build && cd ./build
+cmake -S . -B build -G "MinGW Makefiles"
+mingw32-make -C build
 ~~~
 
-From within this build directory you can build the project using cmake and make with the following command
+#### For Visual Studio
 ~~~
-cmake .. && cmake --build . --config Debug --target all -j 14
+cmake -S . -B build -G "Visual Studio 17 2022"
+msbuild build/YourProject.sln /p:Configuration=Release
 ~~~
 
-Then to run the project you have to run the generated binary in the bin directory within the build directory
+#### For Ninja
+~~~
+cmake -S . -B build -G "Ninja"
+ninja -C build
+~~~
+
+#### Lastly
+
+Run the generated binary in the bin directory within the build directory
 ~~~
 ./bin/Boid-Simulation
 ~~~
-
-## Features
-
-The project has many adjustable parameters as seen from the boid menu.
-<img width="1719" alt="Screenshot 2024-12-30 at 4 17 39 PM" src="https://github.com/user-attachments/assets/9a366667-e419-49c8-8e25-a17abad6ac5c" />
-There are performance trackers at the very top, a configuration menu which handles basic simulation settings, and a rules menu which handles the weights attributed to each boid rule from the Cornell paper in the sources section. Most settings are self explanatory, for example there is a `Number of Boids` slider which adjusts the number of boids in the simulation (1000 boids should drop the framerate). Below are the less obvious settings.
-#### Neighbourhood
-You can show the neighbourhood in which the boids look for their flock neighbours using the `Show Boid Neighbourhood` checkbox. This neighbourhood radius is adjustable via the `Neighbourhood` slider.
-![neighbourhood](https://github.com/user-attachments/assets/74e32f1a-fcc0-4372-9a0c-49e503236bd5)
-#### Wandering
-For the boids to look more natural there is a wander factor in the boid movement calculation that is indepedent of its neighbours. This wander factor adds randomness to boid and flock movements. This factor can be adjusted using the `Wander Factor` slider and can be enabled or disabled with the `Enable Boid Wandering` checkbox.
-#### Grid and Screen Boundaries
-Boids get warped to the other side of the screen upon reaching the edge of the screen by default. This behaviour can be changed using the `Avoid Screen Boundary` checkbox. There is also a checkbox named `Grid` which is used to overlay a grid on the display. This grid is part of the optimization where boids will only look for boids in neighbouring grid cells to check if they are in their neighbourhood radius. 
-![avoid](https://github.com/user-attachments/assets/e2202adc-15b7-46e3-ac2c-d240da947dc2)
-#### Avoid mouse
-The `Enable Mouse Avoidance (Hold L-click)` checkbox enables or disables mouse avoidance. The boids will avoid the mouse if its near them and the user is left-clicking.
-![mouse](https://github.com/user-attachments/assets/800f8a67-2cb4-4f44-8f35-b70ad8ca5dcc)
-#### Rules 
-The three rules explained in the Cornell paper in the sources can be toyed with using the three sliders and corresponding checkboxes in the menu. Very briefly the rules are:
-* Separation: the boids avoid eachother
-* Alignment: the boids head towards the same direction when in the same flock
-* Cohesion: the boids move towards the center of the flock
-
 
 ## Technology
 
