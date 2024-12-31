@@ -32,15 +32,34 @@ From within this build directory you can build the project using cmake and make 
 cmake .. && make -j 4
 ~~~
 
-Then to run the project you have to run the generated binary in the bin directory in the build directory
+Then to run the project you have to run the generated binary in the bin directory within the build directory
 ~~~
 ./bin/Boid-Simulation
 ~~~
 
 ### Windows
 
-To be written
+Install Cmake (PATH recommended) (https://cmake.org/download/)
 
+Then clone the github repo onto your computer
+~~~
+git clone https://github.com/thomasspina/Boid-Simulation.git
+~~~
+
+In the repo make a build directory in which the project will be built and switch to that directory
+~~~
+mkdir build && cd ./build
+~~~
+
+From within this build directory you can build the project using cmake and make with the following command
+~~~
+cmake .. && cmake --build . --config Debug --target all -j 14
+~~~
+
+Then to run the project you have to run the generated binary in the bin directory within the build directory
+~~~
+./bin/Boid-Simulation
+~~~
 
 ## Features
 
