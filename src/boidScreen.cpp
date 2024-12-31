@@ -87,6 +87,9 @@ void BoidScreen::setRandomBoidVelocity(Boid* boid) {
     boid->setSpeed(BOID_DEFAULT_SPEED);
 
     sf::Vector2f random_dir = vec2::vecFromDegree(rand() % 360);
+
+    // Set wander angle aligned to current boid direction
+    boid->setWanderAngle(std::atan2(random_dir.y, random_dir.x));
     boid->setVelocity(random_dir * boid->getSpeed());
 }
 
