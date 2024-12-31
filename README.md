@@ -89,4 +89,8 @@ Potential future improvements will still focus on optimization. Although grids r
 
 To address this, a more complex spatial partitioning method may be required: quadtrees. By recursively creating smaller cells, each boid can find much closer neighbors without suffering from extensive checks. In this case, we can modify each boid to check the 10 closest neighbors to itself instead of every boid within its vicinity. Since, in real life, birds only check their closest neighbors, this improvement would enhance both the behavioral accuracy relative to real-life agents and vastly improve our simulation performance.
 
+## Sources
+https://www.red3d.com/cwr/boids/ - Our project is based on the boids written within Craig Reynolds's article.
+
+https://people.ece.cornell.edu/land/courses/ece4760/labs/f2021/lab2boids/Boids-predator.html#Speed-limits - Our boids' logic is inspired by the implementations detailed in the Cornell ECE 4760 course resources.
 
