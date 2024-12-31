@@ -4,6 +4,24 @@ This project showcases a boid simulation that reproduces the flocking behavior o
 
 Through our simulation, users can experiment with and adjust the boids' behaviors to observe how these changes may affect the way flocks behave.
 
+## Navigation
+- [Features](#features)
+  - [Neighbourhood](#neighbourhood)
+  - [Wandering](#wandering)
+  - [Grid and Screen Boundaries](#grid-and-screen-boundaries)
+  - [Avoid Mouse](#avoid-mouse)
+  - [Rules](#rules)
+- [Installation](#installation)
+  - [MacOS](#macos)
+  - [Windows](#windows)
+    - [MinGW](#for-mingw)
+    - [Visual Studio](#for-visual-studio)
+    - [Ninja](#for-ninja)
+- [Technology](#technology)
+- [Optimization](#optimization)
+- [Future Improvements](#future-improvements)
+- [Sources](#sources)
+
 ## Features
 
 The project has many adjustable parameters as seen from the boid menu.
@@ -26,7 +44,7 @@ The three rules explained in the Cornell paper in the sources can be toyed with 
 * Alignment: the boids head towards the same direction when in the same flock
 * Cohesion: the boids move towards the center of the flock
 
-## Install
+## Installation
 ### MacOS
 
 To run this program on MacOS you need to have XCode Command line tools installed
