@@ -55,6 +55,9 @@ For the boids to look more natural there is a wander factor in the boid movement
 #### Grid and Screen Boundaries
 Boids get warped to the other side of the screen upon reaching the edge of the screen by default. This behaviour can be changed using the `Avoid Screen Boundary` checkbox. There is also a checkbox named `Grid` which is used to overlay a grid on the display. This grid is part of the optimization where boids will only look for boids in neighbouring grid cells to check if they are in their neighbourhood radius. 
 ![avoid](https://github.com/user-attachments/assets/e2202adc-15b7-46e3-ac2c-d240da947dc2)
+#### Avoid mouse
+The `Enable Mouse Avoidance (Hold L-click)` checkbox enables or disables mouse avoidance. The boids will avoid the mouse if its near them and the user is left-clicking.
+![mouse](https://github.com/user-attachments/assets/800f8a67-2cb4-4f44-8f35-b70ad8ca5dcc)
 
 
 
