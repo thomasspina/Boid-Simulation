@@ -4,6 +4,8 @@ This project showcases a boid simulation that reproduces the flocking behavior o
 
 Through our simulation, users can experiment with and adjust the boids' behaviors to observe how these changes may affect the way flocks behave.
 
+[Watch the Boid Simulation on YouTube](https://www.youtube.com/watch?v=DOgMToYF_0U&ab_channel=YchengLi)
+
 ## Navigation
 - [Features](#features)
   - [Neighbourhood](#neighbourhood)
