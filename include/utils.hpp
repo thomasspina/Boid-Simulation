@@ -6,8 +6,9 @@
 #include <cmath>
 
 namespace vec2 {
-    constexpr float RAD_TO_DEG = 180.f / M_PI;
-    constexpr float DEG_TO_RAD = M_PI / 180.f;
+    constexpr float pi = 3.14159265358979323846f;
+    constexpr float RAD_TO_DEG = 180.f / pi;
+    constexpr float DEG_TO_RAD = pi / 180.f;
 
     float angleRadians(const sf::Vector2f& vec);
 
