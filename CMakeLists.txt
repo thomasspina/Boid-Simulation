@@ -9,13 +9,11 @@ FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 2.6.x
     GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
     SYSTEM)
 FetchContent_Declare(imgui
     GIT_REPOSITORY https://github.com/ocornut/imgui.git
     GIT_TAG master
     GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
     SYSTEM)
 
 FetchContent_MakeAvailable(SFML imgui)
@@ -26,7 +24,6 @@ FetchContent_Declare(ImGui-SFML
     GIT_REPOSITORY https://github.com/SFML/imgui-sfml.git
     GIT_TAG 2.6.x
     GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
     SYSTEM)
 FetchContent_MakeAvailable(ImGui-SFML)
 
