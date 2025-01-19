@@ -54,7 +54,7 @@ To run this program on MacOS you need to have XCode Command line tools installed
 xcode-select --install
 ~~~
 
-Then install CMake using Homebrew (https://brew.sh)
+Then install CMake using [Homebrew](https://brew.sh)
 ~~~
 brew install cmake
 ~~~
@@ -123,6 +123,8 @@ Run the generated binary in the bin directory within the build directory
 ## Technology
 
 C++ was chosen to be the building blocks for the project because of the importance of performance within the simulation. To ensure we can display as many boids as possible while maintaining graphic fluidity, we aimed to make every single line of code in our project minimal and optimized. Likewise, C++ offers both performance and readibility, making it the perfect language for this project.
+#### SFML and ImGui
+Both [SFML](https://github.com/SFML/SFML) and [ImGui](https://github.com/ocornut/imgui) were used for the graphics part of the project. SFML is lightweight and fast, which is needed for performance and was adequate since the graphics for the project weren't too complicated. ImGui offers an easy to create and use menu that is popular for debugging and was perfect for this usecase.
 
 ## Optimization
 
