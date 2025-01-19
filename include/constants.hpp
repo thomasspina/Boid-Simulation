@@ -1,58 +1,51 @@
 #pragma once
 
-// test
+#include <unordered_map>
 
-#define SCREEN_WIDTH 1920u
-#define SCREEN_HEIGHT 1080u
-#define SCREEN_TITLE "Boid Simulator"
-#define SCREEN_FPS 60u
-#define SCREEN_GRID_CELL_SIZE 100u
-
-#define BOID_SCREEN_DEVIATION_MARGIN 100.f
-#define BOID_SCREEN_DEVIATION_TURN_FACTOR 0.1f
-
-#define AVG_MEMORY_USAGE 50.0f
-
-#define DEFAULT_NUM_BOIDS 60
-#define MAX_NUM_BOIDS 1000
-
-#define BOID_DEFAULT_RADIUS 5.f // Radius to create boid shape
-#define BOID_DEFAULT_COLOR sf::Color::Green
-#define BOID_DEFAULT_SPEED 100.f
-#define BOID_DEFAULT_MAX_SPEED 150.f
-#define BOID_MAXIMUM_MAX_SPEED 400.f
-#define BOID_DEFAULT_MIN_SPEED 50.f
-
-#define BOID_DEFAULT_NEIGHBOURHOOD_RADIUS 50.f
-#define BOID_MAXIMUM_NEIGHBOURHOOD_RADIUS 200.f
-#define BOID_DEFAULT_NEIGHBOURHOOD_COLOR sf::Color(0, 0, 0, 0)
-#define BOID_DEFAULT_NEIGHBOURHOOD_OUTLINE_COLOR sf::Color(255, 0, 0, 255)
-#define BOID_DEFAULT_NEIGHBOURHOOD_OUTLINE_THICKNESS 1.f
-
-#define FLOCK_DEFAULT_SEPARATION_RADIUS (BOID_DEFAULT_RADIUS + 10.f)
-#define FLOCK_MAXIMUM_SEPARATION_RADIUS (BOID_DEFAULT_RADIUS + 30.f)
-#define FLOCK_DEFAULT_AVOID_FACTOR 0.1f
-#define FLOCK_MAXIMUM_AVOID_FACTOR 1.0f
-#define FLOCK_DEFAULT_MATCHING_FACTOR 0.5f
-#define FLOCK_MAXIMUM_MATCHING_FACTOR 1.0f
-#define FLOCK_DEFAULT_CENTERING_FACTOR 0.1f
-#define FLOCK_MAXIMUM_CENTERING_FACTOR 1.0f
-
-#define BOID_DEFAULT_MOUSE_AVOIDANCE_FACTOR 5.0f
-#define BOID_DEFAULT_MOUSE_AVOIDANCE_RADIUS (BOID_DEFAULT_NEIGHBOURHOOD_RADIUS * 1.5f)
-
-#define BOID_WANDER_CIRCLE_DISTANCE 50.0f
-#define BOID_WANDER_CIRCLE_RADIUS 25.0f
-#define BOID_WANDER_ANGLE_CHANGE 0.3f
-#define BOID_WANDER_FORCE_FACTOR 1.0f
-#define BOID_WANDER_FORCE_FACTOR_MAX 5.0f
-
-#define BOID_DISTANCE_CALCULATION_SCALER 0.01f // Constant used to scale distance influence on boid behavior
+/* MODIFY CONSTANT BELOW TO CHANGE GAMES */
+#define GAME "tetris"
 
 
+#define C8_SCREEN_WIDTH 64
+#define C8_SCREEN_HEIGHT 32
+#define C8_SCREEN_SCALE 20
 
+#define KEY_WAIT_BUFFER_EMPTY 0x10
 
+#define AUDIO_FREQ 440.f
+#define AUDIO_DESIRED_FREQ 44100
+#define AUDIO_SAMPLES 2048
+#define AUDIO_VOLUME .2f
 
+namespace c8const {
+    constexpr float TIMER_FREQ = 1 / 60.0;
+    constexpr float EMULATOR_FREQ = 1 / 500.0;
+    constexpr int PROGRAM_START_ADDR = 512;
 
-
-
+    constexpr unsigned char chip8_fontset[80] = 
+    { 
+        0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+        0x20, 0x60, 0x20, 0x20, 0x70, // 1
+        0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+        0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+        0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+        0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+        0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+        0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+        0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+        0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+        0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+        0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+        0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+        0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+        0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+        0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+    };
+    
+    const std::unordered_map<char, unsigned char> key_map = {
+        {'1', 0x1}, {'2', 0x2}, {'3', 0x3}, {'4', 0xC}, 
+        {'Q', 0x4}, {'W', 0x5}, {'E', 0x6}, {'R', 0xD},
+        {'A', 0x7}, {'S', 0x8}, {'D', 0x9}, {'F', 0xE},
+        {'Z', 0xA}, {'X', 0x0}, {'C', 0xB}, {'V', 0xF}
+    };
+}
