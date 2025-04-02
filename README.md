@@ -1,5 +1,4 @@
-# Boid simulation
-
+# Boid simulation [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) ![C++](https://img.shields.io/badge/C++-17-blue.svg) ![SFML](https://img.shields.io/badge/SFML-2.5-brightgreen.svg) ![ImGui](https://img.shields.io/badge/ImGui-1.89-orange.svg) 
 This project showcases a boid simulation that reproduces the flocking behavior of groups of independent agents, similar to how birds behave in groups. Based on the paper written by Craig Reynolds, each individual agent, or "boid," is influenced by three main principles: separation, alignment, and cohesion. By adhering to these principles, the behavior of every individual boid can build up to form realistic and fluid flock behavior.
 
 Through our simulation, users can experiment with and adjust the boids' behaviors to observe how these changes may affect the way flocks behave.
